@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web;
+using System.Web.Script.Serialization;
 
 /// <summary>
 /// Summary description for WebService
@@ -22,9 +24,19 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public string HelloWorld()
+    public string Login(string userName, string password)
     {
-        return "Hello World";
+        User user_login = DB_Handler.Login(uesrName , password);
+        return new JavaScriptSerializer().Serialize(user_login);
     }
+
+
+    [WebMethod]
+    public string Register(string userName, string pass, string firstName, string lastName, string email,  string tel)
+    {
+        User user_login = DB_Handler.Register(userName , pass,firstName,  lastName,  email,   tel );
+        return new JavaScriptSerializer().Serialize(user_login);
+    }
+
 
 }

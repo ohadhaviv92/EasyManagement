@@ -20,7 +20,7 @@ static public class DB_Hanlder
 
 
 
-    static public User Login(string email, string password)
+    static public User Login(string userName, string password)
     {
         User login_user = null;
         try
@@ -28,8 +28,8 @@ static public class DB_Hanlder
             con.Open();
             cmd = new SqlCommand($"Login", con);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("email", password));
-            cmd.Parameters.Add(new SqlParameter("password", email));
+            cmd.Parameters.Add(new SqlParameter("userName", userName));
+            cmd.Parameters.Add(new SqlParameter("password", password));
             reader = cmd.ExecuteReader();
 
             if (reader.Read())
