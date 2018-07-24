@@ -100,11 +100,26 @@ CREATE TABLE TbFaultInSite (
 	 PRIMARY KEY(faultID,roomID,faultType) 
 );
 
+------------------------הכנסת נתונים--------------------------------
+
+
+insert [dbo].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
+insert [dbo].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
 
 
 
---------------------------------------------------------------------------
 
+
+
+----------------------פרוצדורות----------------------------------------------------
+
+
+create proc Login
+@userName varchar(30),
+@pass varchar(30)
+as
+select * from [dbo].[TbUsers] where [userName]=@userName and [pass]=@pass
+go 
 
 alter proc Register (
 @userName varchar(30),
@@ -124,10 +139,16 @@ declare @USER table(
 	email varchar(50),
 	tel varchar(10)
 )
+ if not exists(select * from [dbo].[TbUsers] where [userName]=@userName )
+ begin
+ if not exists(select * from [dbo].[TbUsers] where [email]=@email )
+ begin 
 insert into TbUsers(userName, pass, firstName, lastName, email, tel)
 output inserted.* into @USER
 values (@userName,@pass,@firstName,@lastName,@email,@tel)
 select * from @USER
+end
+end
 go 
 
 
