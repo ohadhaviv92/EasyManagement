@@ -1,28 +1,35 @@
-.App {
-  text-align: center;
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+:root{
+  --backgroundColor: #fc3768;
+  --tint: rgba(146, 135, 187, 0.8);
+  --color: white;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+
+html, body {
+  font-size: 62.5%;
+  height: 100%;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  html, body {
+    font-size: 50%;
+  }
 }
 
-.App-title {
-  font-size: 1.5em;
-}
 
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.cont {
+  position: relative;
+  height: 100vh;
+  background-image: url('https://i.imgur.com/VQaJKNO.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: auto;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
