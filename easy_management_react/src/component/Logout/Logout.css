@@ -14,12 +14,11 @@ svg {
     stroke-width: 1;
   }
   .app__logout {
-    position: absolute;
+    position: fixed;
     bottom: 3.3rem;
     right: 3.3rem;
     width: 4.6rem;
     height: 4.6rem;
-    margin-right: -2.3rem;
     margin-bottom: -2.3rem;
     background: var(--backgroundColor);
     color: var(--color);
