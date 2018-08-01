@@ -15,6 +15,7 @@
   background: var(--backgroundColor);
   -webkit-touch-callout: none;
   user-select: none;
+  cursor: pointer;
 }
 .path-burger {
   position: absolute;

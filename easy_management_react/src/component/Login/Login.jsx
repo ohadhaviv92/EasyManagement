@@ -32,7 +32,7 @@ _Register = () => this.props.history.push('/register');
                 <input type="password" className="login__input pass" placeholder="Password"/>
               </div>
               <SmartButton Async={this.Async} Action={this.Action}>Login</SmartButton>
-              <p className="login__signup">Don't have an account?. &nbsp;<a onClick={_Register}>Register</a></p>
+              <p className="login__signup">Don't have an account?. &nbsp;<a onClick={this._Register}>Register</a></p>
             </div>
           </div>
     )
