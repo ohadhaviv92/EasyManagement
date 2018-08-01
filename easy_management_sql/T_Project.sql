@@ -59,7 +59,7 @@ CREATE TABLE TbBuildingSite (
 	siteName nvarchar(100) NOT NULL ,
 	siteAddress nvarchar(100) NOT NULL ,
 	siteStatus bit,
-	siteOwner int  FOREIGN KEY REFERENCES TbUsers(userID) ,
+	
 );
 
 
@@ -157,24 +157,21 @@ go
 
 create proc AddNewSite
 @userID int,
-@siteID int, 
 @siteName nvarchar(100),
-@siteAddress nvarchar(100),
-@siteOwner int
-
+@siteAddress nvarchar(100)
 as
 
 declare @site table(
 siteID int NOT NULL PRIMARY KEY,
 	siteName nvarchar(100) NOT NULL ,
 	siteAddress nvarchar(100) NOT NULL ,
-	siteStatus bit,
-	siteOwner int 
+	siteStatus bit
+	
 )
 
-insert [dbo].[TbBuildingSite] (siteName, siteAddress, siteOwner)
+insert [dbo].[TbBuildingSite] (siteName, siteAddress,siteStatus)
 output inserted.* into @site
- values (@siteName,@siteAddress,@siteOwner)
+ values (@siteName,@siteAddress,1)
 
 if(exists(select * from @site))
 begin 
@@ -184,7 +181,6 @@ insert [dbo].[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
 end
 
 go
-
 
 
 
