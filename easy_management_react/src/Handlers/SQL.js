@@ -2,7 +2,7 @@
 const URL = 'http://localhost:61559/WebService.asmx';
 export default class SQL {
 
-    static Login(userName: String, password: String){
+    static Login(userName, password){
         return new Promise( async (resolve , reject)=>{
             try {
                 let res = await fetch(`${URL}/Login` ,{
@@ -26,12 +26,12 @@ export default class SQL {
 
 
 
-    static Register(userName: String,
-                    pass: String,
-                    firstName: String,
-                    lastName: String,
-                    email: String,
-                    tel: String){
+    static Register(userName,
+                    pass,
+                    firstName,
+                    lastName,
+                    email,
+                    tel){
         return new Promise( async (resolve , reject)=>{
             try {
                 let res = await fetch(`${URL}/Register` ,{

@@ -13,8 +13,10 @@ export default class SmartButton extends Component {
         if (this.state.animating) return;
 
         this.setState({activeClass: "login__submit processing", animating: true});
+
         const result = await this.props.Async();
-          this.setState({activeClass: "login__submit processing success"});
+        this.setState({activeClass: "login__submit processing success"});
+       
         setTimeout( ()=> {
             this.setState({activeClass: "login__submit", animating: false});
             this.props.Action(result);
