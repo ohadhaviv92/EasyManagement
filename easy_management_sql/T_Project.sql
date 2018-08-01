@@ -46,7 +46,8 @@ create TABLE TbUsers (
 	firstName nvarchar(50),
 	lastName nvarchar(50),
 	email varchar(50),
-	tel varchar(10)
+	tel varchar(10),
+	img nvarchar (max)
     
 );
 
@@ -130,7 +131,8 @@ create proc Register (
 @firstName nvarchar(50),
 @lastName nvarchar(50),
 @email varchar(50),
-@tel  varchar(10)
+@tel  varchar(10),
+@img nvarchar (max)
 )
 as 
 declare @USER table(
@@ -140,15 +142,17 @@ declare @USER table(
 	firstName nvarchar(50),
 	lastName nvarchar(50),
 	email varchar(50),
-	tel varchar(10)
+	tel varchar(10),
+	img nvarchar (max)
+
 )
  if not exists(select * from [dbo].[TbUsers] where [userName]=@userName )
  begin
  if not exists(select * from [dbo].[TbUsers] where [email]=@email )
  begin 
-insert into TbUsers(userName, pass, firstName, lastName, email, tel)
+insert into TbUsers(userName, pass, firstName, lastName, email, tel,img)
 output inserted.* into @USER
-values (@userName,@pass,@firstName,@lastName,@email,@tel)
+values (@userName,@pass,@firstName,@lastName,@email,@tel,@img)
 select * from @USER
 end
 end

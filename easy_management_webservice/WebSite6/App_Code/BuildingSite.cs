@@ -8,6 +8,15 @@ using System.Web;
 /// </summary>
 public class BuildingSite
 {
+
+    
+    public string userName { get; set; }
+    public string pass { get; set; }
+    public string firstName { get; set; }
+    public string lastName { get; set; }
+    public string email { get; set; }
+    public string tel { get; set; }
+
     public BuildingSite()
     {
         //

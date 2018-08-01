@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import SmartButton from '../SmartButton/SmartButton';
-import SQL from '../../Handlers/SQL';
+import SQL from '../../Handlers/SQL.ts';
 import './Login.css';
 
 export default class Login extends Component {

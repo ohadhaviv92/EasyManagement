@@ -16,8 +16,9 @@ public class User
     public string lastName { get; set; }
     public string email { get; set; }
     public string tel { get; set; }
+    public string img { get; set; }
 
-    public User(int userID , string userName , string password , string firstName , string lastName , string email , string tel)
+    public User(int userID , string userName , string password , string firstName , string lastName , string email , string tel, string img)
     {
         this.userID = userID;
         this.userName = userName;
@@ -26,5 +27,6 @@ public class User
         this.lastName = lastName;
         this.email = email;
         this.tel = tel;
+        this.img = img;
     }
 }
