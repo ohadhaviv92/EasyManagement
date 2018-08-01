@@ -81,7 +81,7 @@ static public class DB_Handler
             cmd = new SqlCommand($"Register", con);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("userName", userName));
-            cmd.Parameters.Add(new SqlParameter("password", pass));
+            cmd.Parameters.Add(new SqlParameter("pass", pass));
             cmd.Parameters.Add(new SqlParameter("firstName", firstName));
             cmd.Parameters.Add(new SqlParameter("lastName", lastName));
             cmd.Parameters.Add(new SqlParameter("email", email));
@@ -94,7 +94,7 @@ static public class DB_Handler
                 login_user = new User(
                                       int.Parse(reader["userID"].ToString()),
                                       reader["userName"].ToString(),
-                                      reader["password"].ToString(),
+                                      reader["pass"].ToString(),
                                       reader["firstName"].ToString(),
                                       reader["lastName"].ToString(),
                                       reader["email"].ToString(),
