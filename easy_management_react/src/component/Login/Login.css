@@ -54,8 +54,6 @@ svg {
   .login {
     position: relative;
     height: 100%;
-    background: linear-gradient(to bottom, var(--tint) 0%, rgba(0, 0, 0, 0.6) 100%);
-    transition: opacity 0.1s, transform 0.3s cubic-bezier(0.17, -0.65, 0.665, 1.25);
     transform: scale(1);
   
   }

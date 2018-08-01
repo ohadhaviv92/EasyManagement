@@ -1,4 +1,4 @@
-
+/*E6E2AF   A7A37E   EFECCA    046380    002F2F */
 *, *:before, *:after {
   box-sizing: border-box;
   margin: 0;
@@ -6,9 +6,20 @@
 }
 
 :root{
-  --backgroundColor: #fc3768;
-  --tint: rgba(146, 135, 187, 0.8);
-  --color: white;
+  --backgroundColor: #046380;
+  --tint: rgba(167, 163, 126, 0.8);
+  --color: #EFECCA;
+}
+
+
+.tint {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom, var(--tint) 0%, rgba(0, 0, 0, 0.4) 100%);
+  transition: opacity 0.1s, transform 0.3s cubic-bezier(0.17, -0.65, 0.665, 1.25);
+  transform: scale(1);
+
 }
 
 
@@ -27,7 +38,7 @@ html, body {
 .cont {
   position: relative;
   height: 100vh;
-  background-image: url('https://i.imgur.com/VQaJKNO.png');
+  background-image: url(/bg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   overflow: auto;
