@@ -123,4 +123,44 @@ static public class DB_Handler
     }
 
 
+
+    static public BuildingSite AddNewSite(int userID, string siteName, string siteAddress)
+    {
+
+
+        BuildingSite new_Site = null;
+        try
+        {
+            con.Open();
+            cmd = new SqlCommand($"AddNewSite", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@userID", userID));
+            cmd.Parameters.Add(new SqlParameter("@siteName", siteName));
+            cmd.Parameters.Add(new SqlParameter("siteAddress", siteAddress));
+            
+
+            reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                new_Site= new BuildingSite(
+                                      int.Parse(reader["siteID"].ToString()),
+                                      reader["siteName"].ToString(),
+                                      reader["siteAddress"].ToString(),
+                                      true
+                                     );
+                    
+            }
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        finally
+        {
+            con.Close();
+        }
+        return new_Site;
+    }
+
 }

@@ -37,5 +37,12 @@ public class WebService : System.Web.Services.WebService
         return new JavaScriptSerializer().Serialize(user_login);
     }
 
+    [WebMethod]
+    public string AddNewSite(int userID, string siteName, string siteAddress)
+    {
+        BuildingSite new_Site = DB_Handler.AddNewSite(userID,  siteName,  siteAddress);
+        return new JavaScriptSerializer().Serialize(new_Site);
+    }
+
 
 }

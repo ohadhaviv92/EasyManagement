@@ -14,7 +14,7 @@ public class BuildingSite
     public string siteName { get; set; }
     public string siteAddress { get; set; }
     public bool siteStatus { get; set; }
-
+    
 
     public BuildingSite(int siteID, string siteName, string siteAddress, bool siteStatus)
     {
