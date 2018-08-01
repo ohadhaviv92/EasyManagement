@@ -131,8 +131,7 @@ create proc Register (
 @firstName nvarchar(50),
 @lastName nvarchar(50),
 @email varchar(50),
-@tel  varchar(10),
-@img nvarchar (max)
+@tel  varchar(10)
 )
 as 
 declare @USER table(
@@ -150,9 +149,9 @@ declare @USER table(
  begin
  if not exists(select * from [dbo].[TbUsers] where [email]=@email )
  begin 
-insert into TbUsers(userName, pass, firstName, lastName, email, tel,img)
+insert into TbUsers(userName, pass, firstName, lastName, email, tel)
 output inserted.* into @USER
-values (@userName,@pass,@firstName,@lastName,@email,@tel,@img)
+values (@userName,@pass,@firstName,@lastName,@email,@tel)
 select * from @USER
 end
 end

@@ -10,17 +10,17 @@ public class BuildingSite
 {
 
     
-    public string userName { get; set; }
-    public string pass { get; set; }
-    public string firstName { get; set; }
-    public string lastName { get; set; }
-    public string email { get; set; }
-    public string tel { get; set; }
+    public int siteID { get; set; }
+    public string siteName { get; set; }
+    public string siteAddress { get; set; }
+    public bool siteStatus { get; set; }
 
-    public BuildingSite()
+
+    public BuildingSite(int siteID, string siteName, string siteAddress, bool siteStatus)
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        this.siteID = siteID;
+        this.siteName = siteName;
+        this.siteAddress = siteAddress;
+        this.siteStatus = siteStatus;
     }
 }
