@@ -56,7 +56,9 @@ create TABLE TbUsers (
 
 CREATE TABLE TbBuildingSite (
 	siteID int identity(1,1) NOT NULL PRIMARY KEY,
+	siteName nvarchar(100) NOT NULL ,
 	siteAddress nvarchar(100) NOT NULL ,
+	siteStatus bit,
 	siteOwner int  FOREIGN KEY REFERENCES TbUsers(userID) ,
 );
 
@@ -106,8 +108,9 @@ CREATE TABLE TbFaultInSite (
 insert [dbo].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
 insert [dbo].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
 
-
-
+insert [dbo].[TbUsersType] (userTypName) values ('מנהל עבודה')
+insert [dbo].[TbUsersType] (userTypName) values ('בעל האתר')
+insert [dbo].[TbUsersType] (userTypName) values ('בעל מקצוע')
 
 
 
@@ -121,7 +124,7 @@ as
 select * from [dbo].[TbUsers] where [userName]=@userName and [pass]=@pass
 go 
 
-alter proc Register (
+create proc Register (
 @userName varchar(30),
 @pass varchar(30),
 @firstName nvarchar(50),
@@ -150,6 +153,39 @@ select * from @USER
 end
 end
 go 
+
+
+create proc AddNewSite
+@userID int,
+@siteID int, 
+@siteName nvarchar(100),
+@siteAddress nvarchar(100),
+@siteOwner int
+
+as
+
+declare @site table(
+siteID int NOT NULL PRIMARY KEY,
+	siteName nvarchar(100) NOT NULL ,
+	siteAddress nvarchar(100) NOT NULL ,
+	siteStatus bit,
+	siteOwner int 
+)
+
+insert [dbo].[TbBuildingSite] (siteName, siteAddress, siteOwner)
+output inserted.* into @site
+ values (@siteName,@siteAddress,@siteOwner)
+
+if(exists(select * from @site))
+begin 
+declare @ID int
+set @ID = (select siteID from @site)
+insert [dbo].[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
+end
+
+go
+
+
 
 
 
