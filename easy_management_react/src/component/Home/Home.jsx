@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
+import Modal from '../SmartModal/Modal';
 
 export default class Home extends Component {
 
   render() {
     return (
       <div>
-        
-        Home
-        <br/>
-        <button>Open Modal</button>
-       
-
+        <Modal>
+          
+        </Modal>
      </div>
     )
   }
