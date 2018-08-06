@@ -158,7 +158,7 @@ end
 go 
 
 
-create proc AddNewSite
+alter proc AddNewSite
 @userID int,
 @siteName nvarchar(100),
 @siteAddress nvarchar(100)
@@ -175,7 +175,7 @@ siteID int NOT NULL PRIMARY KEY,
 insert [dbo].[TbBuildingSite] (siteName, siteAddress,siteStatus)
 output inserted.* into @site
  values (@siteName,@siteAddress,1)
-
+ select * from @site
 if(exists(select * from @site))
 begin 
 declare @ID int
