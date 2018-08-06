@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="WebSite6" t="IncludeRecursive">
+        <e p="App_Code" t="Include">
+          <e p="BuildingSite.cs" t="Include" />
+          <e p="DB_Handler.cs" t="Include" />
+          <e p="User.cs" t="Include" />
+          <e p="WebService.cs" t="Include" />
+        </e>
+        <e p="Web.Debug.config" t="Include" />
+        <e p="Web.config" t="Include" />
+        <e p="WebService.asmx" t="Include" />
+        <e p="packages.config" t="Include" />
+      </e>
+      <e p="WebSite6.sln" t="IncludeFlat" />
+    </e>
+    <e p="$USER_HOME$/.Rider2017.3/system/resharper-host/local/Transient/ReSharperHost/v11/SolutionCaches/_WebSite6.1722280768.00" t="ExcludeRecursive" />
+  </component>
+</project>
