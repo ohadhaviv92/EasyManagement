@@ -13,13 +13,13 @@ using System.Web.Script.Serialization;
 static public class DB_Handler
 {
     private static string connectionStr = ConfigurationManager.ConnectionStrings["LIVEDNS"].ConnectionString;
-    private static SqlConnection con = new SqlConnection(connectionStr);
+    private static SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-I84F5L4\SQLEXPRESS;Initial Catalog=EasyManagement;Integrated Security=True");
     private static SqlDataAdapter adtr = null;
     private static SqlCommand cmd = null;
     private static SqlDataReader reader = null;
 
 
-http://localhost:61559/App_Code/WebService.cs
+
     static public User Login(string userName, string password)
     {
         User login_user = null;
@@ -29,7 +29,7 @@ http://localhost:61559/App_Code/WebService.cs
             cmd = new SqlCommand($"Login", con);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("userName", userName));
-            cmd.Parameters.Add(new SqlParameter("password", password));
+            cmd.Parameters.Add(new SqlParameter("pass", password));
             reader = cmd.ExecuteReader();
 
             if (reader.Read())
@@ -37,7 +37,7 @@ http://localhost:61559/App_Code/WebService.cs
                 login_user = new User(
                                       int.Parse(reader["userID"].ToString()),
                                       reader["userName"].ToString(),
-                                      reader["password"].ToString(),
+                                      reader["pass"].ToString(),
                                       reader["firstName"].ToString(),
                                       reader["lastName"].ToString(),
                                       reader["email"].ToString(),

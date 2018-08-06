@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SmartButton from '../SmartButton/SmartButton';
 import './Login.css';
+import SQL from '../../Handlers/SQL';
 
 export default class Login extends Component {
 
@@ -10,13 +11,11 @@ export default class Login extends Component {
   }
 
 Async = () => {
- return new Promise(function(resolve, reject) {
-  setTimeout(resolve, 100, 'foo');
-});
+ return SQL.Login(this.state.userName, this.state.password);
 }
 
 
-Action = res => this.props.history.replace('/app');
+Action = () => {this.props.history.replace('/app')};
 _Register = () => this.props.history.push('/register');
 
   render() {
