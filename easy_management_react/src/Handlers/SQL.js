@@ -3,9 +3,10 @@ const URL = 'http://localhost:61559/WebService.asmx';
 export default class SQL {
 
     static Login(userName, password){
+        
         return new Promise( async (resolve , reject)=>{
             try {
-                let res = await fetch(`${URL}/Login` ,{
+                const res = await fetch(`${URL}/Login` ,{
                     body: JSON.stringify({
                         userName,
                         password
@@ -15,8 +16,13 @@ export default class SQL {
                       },
                       method: 'POST'
                 })
-                let json = await res.json();
+
+                const json = await res.json();
+                if(json.d.length === 0)
+                    reject("invalid email or password");
+                
                 resolve(JSON.parse(json.d));
+                
             } catch (error) {
                 reject(error);
             }
