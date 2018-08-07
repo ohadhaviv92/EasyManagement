@@ -18,10 +18,11 @@ export default class SQL {
                 })
 
                 const json = await res.json();
-                if(json.d.length === 0)
+                const data = JSON.parse(json.d);
+                if(data === null)
                     reject("invalid email or password");
                 
-                resolve(JSON.parse(json.d));
+                resolve(data);
                 
             } catch (error) {
                 reject(error);
@@ -40,7 +41,7 @@ export default class SQL {
                     tel){
         return new Promise( async (resolve , reject)=>{
             try {
-                let res = await fetch(`${URL}/Register` ,{
+                const res = await fetch(`${URL}/Register` ,{
                     body: JSON.stringify({
                         userName,
                         pass,
@@ -54,8 +55,12 @@ export default class SQL {
                       },
                       method: 'POST'
                 })
-                let json = await res.json();
-                resolve(JSON.parse(json.d));
+                const json = await res.json();
+                const data = JSON.parse(json.d);
+                if(data === null)
+                    reject("invalid email or password");
+                
+                resolve(data);
             } catch (error) {
                 reject(error);
             }

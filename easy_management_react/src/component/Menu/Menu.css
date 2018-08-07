@@ -10,6 +10,7 @@ text-decoration: none;
     left: 0;
     height: 100vh;
     background: var(--tint);
+    opacity: 0.9;
     color: var(--color);
     font-size: 36px;
     transition: width 0.4s 0.1s;

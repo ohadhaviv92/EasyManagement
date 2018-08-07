@@ -15,6 +15,8 @@ namespace _BAL
         static public User Login(string userName, string password)
         {
             DataTable results = DAL.Login(userName , password);
+            if (results == null)
+                return null;
             User user = new User(
                                          int.Parse(results.Rows[0]["userID"].ToString()),
                                          results.Rows[0]["userName"].ToString(),
@@ -30,6 +32,8 @@ namespace _BAL
         static public User Register(string userName, string pass, string firstName, string lastName, string email, string tel)
         {
             DataTable results = DAL.Register(userName, pass, firstName, lastName, email, tel);
+            if (results == null)
+                return null;
             User user = new User(
                                          int.Parse(results.Rows[0]["userID"].ToString()),
                                          results.Rows[0]["userName"].ToString(),
@@ -46,6 +50,8 @@ namespace _BAL
         {
 
             DataTable results = DAL.AddNewSite(userID, siteName, siteAddress);
+            if (results == null)
+                return null;
             BuildingSite site = new BuildingSite(
                                      int.Parse(results.Rows[0]["siteID"].ToString()),
                                      results.Rows[0]["siteName"].ToString(),
