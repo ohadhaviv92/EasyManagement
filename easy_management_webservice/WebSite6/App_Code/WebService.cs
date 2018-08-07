@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Web.Script.Serialization;
+using _BAL;
 
 /// <summary>
 /// Summary description for WebService
@@ -23,34 +24,25 @@ public class WebService : System.Web.Services.WebService
     }
 
 
-    [WebMethod]
-    public string Test()
-    {
-        return "test";
-    }
-
 
 
     [WebMethod]
     public string Login(string userName, string password)
     {
-        User user_login = DB_Handler.Login(userName, password);
-        return new JavaScriptSerializer().Serialize(user_login);
+        return new JavaScriptSerializer().Serialize(BAL.Login(userName, password));
     }
 
 
     [WebMethod]
     public string Register(string userName, string pass, string firstName, string lastName, string email,  string tel)
     {
-        User user_login = DB_Handler.Register(userName , pass,firstName,  lastName,  email,   tel );
-        return new JavaScriptSerializer().Serialize(user_login);
+        return new JavaScriptSerializer().Serialize(BAL.Register(userName, pass, firstName, lastName, email, tel));
     }
 
     [WebMethod]
     public string AddNewSite(int userID, string siteName, string siteAddress)
     {
-        BuildingSite new_Site = DB_Handler.AddNewSite(userID,  siteName,  siteAddress);
-        return new JavaScriptSerializer().Serialize(new_Site);
+        return new JavaScriptSerializer().Serialize(BAL.AddNewSite(userID, siteName, siteAddress));
     }
 
 

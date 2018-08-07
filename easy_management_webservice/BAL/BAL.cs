@@ -2,6 +2,7 @@
 using _DAL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -13,17 +14,46 @@ namespace _BAL
     {
         static public User Login(string userName, string password)
         {
-            SqlDataReader results = DAL.Login(userName , password);
-            User login_user = new User(
-                                         int.Parse(results["userID"].ToString()),
-                                         results["userName"].ToString(),
-                                         results["pass"].ToString(),
-                                         results["firstName"].ToString(),
-                                         results["lastName"].ToString(),
-                                         results["email"].ToString(),
-                                         results["tel"].ToString()
+            DataTable results = DAL.Login(userName , password);
+            User user = new User(
+                                         int.Parse(results.Rows[0]["userID"].ToString()),
+                                         results.Rows[0]["userName"].ToString(),
+                                         results.Rows[0]["pass"].ToString(),
+                                         results.Rows[0]["firstName"].ToString(),
+                                         results.Rows[0]["lastName"].ToString(),
+                                         results.Rows[0]["email"].ToString(),
+                                         results.Rows[0]["tel"].ToString()
                                         );
-            return login_user;
+            return user;
+        }
+
+        static public User Register(string userName, string pass, string firstName, string lastName, string email, string tel)
+        {
+            DataTable results = DAL.Register(userName, pass, firstName, lastName, email, tel);
+            User user = new User(
+                                         int.Parse(results.Rows[0]["userID"].ToString()),
+                                         results.Rows[0]["userName"].ToString(),
+                                         results.Rows[0]["pass"].ToString(),
+                                         results.Rows[0]["firstName"].ToString(),
+                                         results.Rows[0]["lastName"].ToString(),
+                                         results.Rows[0]["email"].ToString(),
+                                         results.Rows[0]["tel"].ToString()
+                                        );
+            return user;
+        }
+
+        static public BuildingSite AddNewSite(int userID, string siteName, string siteAddress)
+        {
+
+            DataTable results = DAL.AddNewSite(userID, siteName, siteAddress);
+            BuildingSite site = new BuildingSite(
+                                     int.Parse(results.Rows[0]["siteID"].ToString()),
+                                     results.Rows[0]["siteName"].ToString(),
+                                     results.Rows[0]["siteAddress"].ToString(),
+                                     true
+                                    );
+            return site;
+
         }
     }
 }

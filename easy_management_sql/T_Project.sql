@@ -158,7 +158,7 @@ end
 go 
 
 
-alter proc AddNewSite
+create proc AddNewSite
 @userID int,
 @siteName nvarchar(100),
 @siteAddress nvarchar(100)

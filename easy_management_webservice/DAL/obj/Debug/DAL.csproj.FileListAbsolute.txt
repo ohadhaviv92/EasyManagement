@@ -1,0 +1,6 @@
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webservice\DAL\bin\Debug\DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webservice\DAL\bin\Debug\DAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webservice\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webservice\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webservice\DAL\obj\Debug\DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webservice\DAL\obj\Debug\DAL.pdb
