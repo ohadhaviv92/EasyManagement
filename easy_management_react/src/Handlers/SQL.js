@@ -58,7 +58,7 @@ export default class SQL {
                 const json = await res.json();
                 const data = JSON.parse(json.d);
                 
-                if(typeof data === 'string')
+                if(typeof data === 'string') // if a JSON was not returned from SQL, its a custom error message
                     reject(data);
                 
                 resolve(data);
