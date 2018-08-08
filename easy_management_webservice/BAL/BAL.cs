@@ -7,12 +7,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace _BAL
 {
     public static class BAL
     {
-        static public User Login(string userName, string password)
+        static public string Login(string userName, string password)
         {
             DataTable results = DAL.Login(userName , password);
             if (results == null)
@@ -26,27 +27,33 @@ namespace _BAL
                                          results.Rows[0]["email"].ToString(),
                                          results.Rows[0]["tel"].ToString()
                                         );
-            return user;
+            return new JavaScriptSerializer().Serialize(user);
         }
 
-        static public User Register(string userName, string pass, string firstName, string lastName, string email, string tel)
+        static public string Register(string userName, string pass, string firstName, string lastName, string email, string tel)
         {
             DataTable results = DAL.Register(userName, pass, firstName, lastName, email, tel);
             if (results == null)
                 return null;
-            User user = new User(
-                                         int.Parse(results.Rows[0]["userID"].ToString()),
-                                         results.Rows[0]["userName"].ToString(),
-                                         results.Rows[0]["pass"].ToString(),
-                                         results.Rows[0]["firstName"].ToString(),
-                                         results.Rows[0]["lastName"].ToString(),
-                                         results.Rows[0]["email"].ToString(),
-                                         results.Rows[0]["tel"].ToString()
-                                        );
-            return user;
+
+            if (results.Columns.Count > 1)
+            {
+                User user = new User(
+                                     int.Parse(results.Rows[0]["userID"].ToString()),
+                                     results.Rows[0]["userName"].ToString(),
+                                     results.Rows[0]["pass"].ToString(),
+                                     results.Rows[0]["firstName"].ToString(),
+                                     results.Rows[0]["lastName"].ToString(),
+                                     results.Rows[0]["email"].ToString(),
+                                     results.Rows[0]["tel"].ToString()
+                                     );
+                return new JavaScriptSerializer().Serialize(user);
+            }
+            return new JavaScriptSerializer().Serialize(results.Rows[0][0].ToString());
+            
         }
 
-        static public BuildingSite AddNewSite(int userID, string siteName, string siteAddress)
+        static public string AddNewSite(int userID, string siteName, string siteAddress)
         {
 
             DataTable results = DAL.AddNewSite(userID, siteName, siteAddress);
@@ -58,7 +65,7 @@ namespace _BAL
                                      results.Rows[0]["siteAddress"].ToString(),
                                      true
                                     );
-            return site;
+            return new JavaScriptSerializer().Serialize(site);
 
         }
     }

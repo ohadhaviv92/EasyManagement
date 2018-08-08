@@ -57,8 +57,9 @@ export default class SQL {
                 })
                 const json = await res.json();
                 const data = JSON.parse(json.d);
-                if(data === null)
-                    reject("invalid email or password");
+                
+                if(typeof data === 'string')
+                    reject(data);
                 
                 resolve(data);
             } catch (error) {

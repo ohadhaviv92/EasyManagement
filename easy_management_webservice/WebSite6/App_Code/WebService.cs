@@ -29,20 +29,20 @@ public class WebService : System.Web.Services.WebService
     [WebMethod]
     public string Login(string userName, string password)
     {
-        return new JavaScriptSerializer().Serialize(BAL.Login(userName, password));
+        return BAL.Login(userName, password);
     }
 
 
     [WebMethod]
     public string Register(string userName, string pass, string firstName, string lastName, string email,  string tel)
     {
-        return new JavaScriptSerializer().Serialize(BAL.Register(userName, pass, firstName, lastName, email, tel));
+        return BAL.Register(userName, pass, firstName, lastName, email, tel);
     }
 
     [WebMethod]
     public string AddNewSite(int userID, string siteName, string siteAddress)
     {
-        return new JavaScriptSerializer().Serialize(BAL.AddNewSite(userID, siteName, siteAddress));
+        return BAL.AddNewSite(userID, siteName, siteAddress);
     }
 
 

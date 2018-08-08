@@ -125,7 +125,7 @@ as
 select * from [dbo].[TbUsers] where [userName]=@userName and [pass]=@pass
 go 
 
-create proc Register (
+alter proc Register (
 @userName varchar(30),
 @pass varchar(30),
 @firstName nvarchar(50),
@@ -145,16 +145,24 @@ declare @USER table(
 	img nvarchar (max)
 
 )
+delete from @USER
  if not exists(select * from [dbo].[TbUsers] where [userName]=@userName )
  begin
- if not exists(select * from [dbo].[TbUsers] where [email]=@email )
- begin 
-insert into TbUsers(userName, pass, firstName, lastName, email, tel)
-output inserted.* into @USER
-values (@userName,@pass,@firstName,@lastName,@email,@tel)
-select * from @USER
+	if not exists(select * from [dbo].[TbUsers] where [email]=@email )
+	 begin 
+		insert into TbUsers(userName, pass, firstName, lastName, email, tel)
+		output inserted.* into @USER
+		values (@userName,@pass,@firstName,@lastName,@email,@tel)
+		select * from @USER
+	end
+	else begin
+		select 'email taken'
+	end
 end
+else begin
+	select 'user name taken'
 end
+
 go 
 
 
@@ -184,12 +192,3 @@ insert [dbo].[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
 end
 
 go
-
-
-
-
-
-
-
-
-

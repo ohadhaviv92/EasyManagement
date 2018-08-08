@@ -67,7 +67,7 @@ namespace _DAL
                 DataSet ds = new DataSet();
                 adtr.Fill(ds, "User");
 
-                if (ds.Tables["User"].Rows.Count != 0)
+                if (ds.Tables["User"] != null)
                     return ds.Tables["User"];
             }
             catch (Exception e)
