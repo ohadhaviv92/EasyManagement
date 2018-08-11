@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Script.Serialization;
 using _BAL;
+using System.Net;
+using System.Text;
+using System.IO;
 
 /// <summary>
 /// Summary description for WebService
@@ -25,13 +28,17 @@ public class WebService : System.Web.Services.WebService
 
 
 
-
     [WebMethod]
     public string Login(string userName, string password)
     {
         return BAL.Login(userName, password);
     }
 
+    [WebMethod]
+    public void _REGISTER(string email, string token)
+    {
+        BAL.AddNotification(email, token);
+    }
 
     [WebMethod]
     public string Register(string userName, string pass, string firstName, string lastName, string email,  string tel)
