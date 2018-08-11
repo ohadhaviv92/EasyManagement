@@ -1,50 +1,49 @@
 
+let register;
 
-
-export default async function register() {
+export default async function Register() {
   if ("serviceWorker" in navigator) {
 
-    const register = await navigator.serviceWorker.register("/push-worker.js", {
+    register = await navigator.serviceWorker.register("/push-worker.js", {
       scope: "/"
     });
-
-    // Register Push
-    try {
-      const res = await fetch("http://localhost:5001/getKey", {
-        headers: {
-          'content-type': 'application/json; charset=UTF-8'
-        },
-        method: 'GET'
-      })
-      const publicVapidKey = await res.text();
-
-      const subscription = await register.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-      });
-
-      fetch("http://localhost:61559/WebService.asmx/_REGISTER", {
-        body: JSON.stringify({
-          email: "orhay@gmail.com",
-          token: JSON.stringify(subscription)
-        }),
-        headers: {
-          'content-type': 'application/json; charset=UTF-8'
-        },
-        method: 'POST'
-      })
-    } catch (error) {
-      console.log(error);
-      
-    }
-
-
 
   }
 
 }
 
+export async function Subscribe(email){
+  if(register === undefined)
+    return;
+  try {
+    const res = await fetch("http://localhost:5001/getKey", {
+      headers: {
+        'content-type': 'application/json; charset=UTF-8'
+      },
+      method: 'GET'
+    })
+    const publicVapidKey = await res.text();
+    
+    const subscription = await register.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    });
 
+    fetch("http://localhost:61559/WebService.asmx/_REGISTER", {
+      body: JSON.stringify({
+        email,
+        token: JSON.stringify(subscription)
+      }),
+      headers: {
+        'content-type': 'application/json; charset=UTF-8'
+      },
+      method: 'POST'
+    })
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
 
 
 function urlBase64ToUint8Array(base64String) {

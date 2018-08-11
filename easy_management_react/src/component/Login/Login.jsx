@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import SmartButton from '../SmartButton/SmartButton';
 import './Login.css';
 import SQL from '../../Handlers/SQL';
-
+import {Subscribe} from '../../registerServiceWorker';
 export default class Login extends Component {
 
   state = {
@@ -15,7 +15,7 @@ Async = () => {
 }
 
 
-Action = () => {this.props.history.replace('/app')};
+Action = () => {this.props.history.replace('/app'); Subscribe("orhay@gmail.com");};
 _Register = () => this.props.history.push('/register');
 
   render() {
