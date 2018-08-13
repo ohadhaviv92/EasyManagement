@@ -35,7 +35,7 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public void _REGISTER(string email, string token)
+    public void UpdateNotification(string email, string token)
     {
         BAL.AddNotification(email, token);
     }
@@ -44,6 +44,12 @@ public class WebService : System.Web.Services.WebService
     public string Register(string userName, string pass, string firstName, string lastName, string email,  string tel)
     {
         return BAL.Register(userName, pass, firstName, lastName, email, tel);
+    }
+
+    [WebMethod]
+    public string GetKey()
+    {
+        return BAL.GetKey();
     }
 
     [WebMethod]

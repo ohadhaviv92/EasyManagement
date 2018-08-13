@@ -1,11 +1,16 @@
-
+import SQL from './Handlers/SQL';
 let register;
 
-export default async function Register() {
+export default function Register() {
   if ("serviceWorker" in navigator) {
-
-    register = await navigator.serviceWorker.register("/push-worker.js", {
-      scope: "/"
+    window.addEventListener('load', async ()=> {
+      try {
+        register = await navigator.serviceWorker.register("/push-worker.js");
+      } catch (error) {
+        console.log(error);
+        
+      }
+      
     });
 
   }
@@ -16,29 +21,16 @@ export async function Subscribe(email){
   if(register === undefined)
     return;
   try {
-    const res = await fetch("http://localhost:5001/getKey", {
-      headers: {
-        'content-type': 'application/json; charset=UTF-8'
-      },
-      method: 'GET'
-    })
-    const publicVapidKey = await res.text();
+    
+    const publicVapidKey = await SQL.GetKey();
     
     const subscription = await register.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
     });
+    
 
-    fetch("http://localhost:61559/WebService.asmx/_REGISTER", {
-      body: JSON.stringify({
-        email,
-        token: JSON.stringify(subscription)
-      }),
-      headers: {
-        'content-type': 'application/json; charset=UTF-8'
-      },
-      method: 'POST'
-    })
+    SQL.UpdateNotification(email, subscription);
   } catch (error) {
     console.log(error);
     

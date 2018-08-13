@@ -11,12 +11,13 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using WebPush;
 
 namespace _BAL
 {
     public static class BAL
     {
-        static Dictionary<string, string> Notifications = new Dictionary<string, string>();
+        static VapidDetails Keys = null;
 
         static public string Login(string userName, string password)
         {
@@ -74,40 +75,65 @@ namespace _BAL
 
         }
 
+        static public string GetKey()
+        {
+            if(Keys == null)
+            {
+                Keys = VapidHelper.GenerateVapidKeys();
+            }
+            return Keys.PublicKey;
+        }
+
         static public void AddNotification(string email, string token)
         {
-            if (Notifications.ContainsKey(email))
-            {
-                Notifications[email] = token;
-            }
-            else
-            {
-                Notifications.Add(email, token);
-            }
+            Dictionary<string, object> userDetails = new JavaScriptSerializer().DeserializeObject(token) as Dictionary<string, object>;
+            Dictionary<string, object> userKeys = userDetails["keys"] as Dictionary<string, object>;
+            DAL.UpdateNotificationKey(email,userDetails["endpoint"].ToString(), userKeys["p256dh"].ToString(), userKeys["auth"].ToString());
 
-            Notify(email,"title test", "This is a test message");
+            Notify(email, "test", "test of this notification");
         }
 
         static private void Notify(string email, string title, string message)
         {
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5001/notify");
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
+            DataTable details = DAL.GetNotificationKeys(email);
+            if (details == null)
+                return;
 
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+
+            var pushSubscription = new PushSubscription(details.Rows[0]["_endpoint"].ToString(), details.Rows[0]["p256dh"].ToString(), details.Rows[0]["auth"].ToString());
+            var vapidDetails = new VapidDetails("mailto:example@example.com", Keys.PublicKey, Keys.PrivateKey);
+
+            string payload = new JavaScriptSerializer().Serialize(new {title = title, msg = message });
+            var webPushClient = new WebPushClient();
+            try
             {
-                string json = new JavaScriptSerializer().Serialize(new
-                {
-                    token = Notifications[email],
-                    title = title,
-                    msg = message
-                });
+                webPushClient.SendNotification(pushSubscription, payload, vapidDetails);
+            }
+            catch (Exception e)
+            {
 
-                streamWriter.Write(json);
+                throw new Exception(e.Message);
             }
 
-            httpWebRequest.GetResponse();
+
+            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5001/notify");
+            //httpWebRequest.ContentType = "application/json";
+            //httpWebRequest.Method = "POST";
+
+            //using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            //{
+            //    string json = new JavaScriptSerializer().Serialize(new
+            //    {
+            //        token = Notifications[email],
+            //        title = title,
+            //        msg = message
+            //    });
+
+            //    streamWriter.Write(json);
+            //}
+
+            //httpWebRequest.GetResponse();
 
 
 

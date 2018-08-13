@@ -11,11 +11,12 @@ export default class Login extends Component {
   }
 
 Async = () => {
+  Subscribe("orhay92@gmail.com");
  return SQL.Login(this.state.userName, this.state.password);
 }
 
 
-Action = () => {this.props.history.replace('/app'); Subscribe("orhay@gmail.com");};
+Action = () => {this.props.history.replace('/app');};
 _Register = () => this.props.history.push('/register');
 
   render() {

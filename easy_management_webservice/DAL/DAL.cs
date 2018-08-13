@@ -115,5 +115,57 @@ namespace _DAL
 
         }
 
+        static public void UpdateNotificationKey(string email , string endpoint, string p256dh, string auth)
+        {
+
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand($"Update TbUsers set _endpoint = @endpoint, p256dh = @p256dh, auth = @auth where email = @email", con);
+                cmd.Parameters.Add(new SqlParameter("@endpoint", endpoint));
+                cmd.Parameters.Add(new SqlParameter("@p256dh", p256dh));
+                cmd.Parameters.Add(new SqlParameter("@auth", auth));
+                cmd.Parameters.Add(new SqlParameter("@email", email));
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+        }
+
+        static public DataTable GetNotificationKeys(string email)
+        {
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand($"Select _endpoint , p256dh , auth from TbUsers where email = @email", con);
+                cmd.Parameters.Add(new SqlParameter("@email", email));
+                adtr = new SqlDataAdapter(cmd);
+
+                DataSet ds = new DataSet();
+                adtr.Fill(ds, "User");
+
+                if (ds.Tables["User"].Columns.Count != 0)
+                    return ds.Tables["User"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+
+            return null;
+
+        }
     }
 }

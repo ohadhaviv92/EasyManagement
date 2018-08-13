@@ -2,7 +2,7 @@
 /*
 Use Master
 GO
-Drop Database Project
+Drop Database EasyManagement
 GO
 */
 
@@ -37,8 +37,6 @@ create table TbUsersType (
 
 
 
-
-
 create TABLE TbUsers (
     userID int identity (1,1) PRIMARY KEY,
 	userName varchar(30) NOT NULL ,
@@ -47,7 +45,10 @@ create TABLE TbUsers (
 	lastName nvarchar(50),
 	email varchar(50),
 	tel varchar(10),
-	img nvarchar (max)
+	img nvarchar (max),
+	_endpoint nvarchar(max),
+	p256dh nvarchar(max),
+	auth nvarchar(max)
     
 );
 
@@ -125,7 +126,7 @@ as
 select * from [dbo].[TbUsers] where [userName]=@userName and [pass]=@pass
 go 
 
-alter proc Register (
+create proc Register (
 @userName varchar(30),
 @pass varchar(30),
 @firstName nvarchar(50),
@@ -142,7 +143,10 @@ declare @USER table(
 	lastName nvarchar(50),
 	email varchar(50),
 	tel varchar(10),
-	img nvarchar (max)
+	img nvarchar (max),
+	_endpoint nvarchar(max),
+	p256dh nvarchar(max),
+	auth nvarchar(max)
 
 )
 delete from @USER
