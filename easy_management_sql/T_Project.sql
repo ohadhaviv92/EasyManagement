@@ -95,10 +95,13 @@ CREATE TABLE TbRoomsInSite (
 
 create TABLE TbFaultInSite (
      faultID  int identity(1,1) NOT NULL ,
+	 userID int  FOREIGN KEY REFERENCES TbUsers(userID),
      roomID  int FOREIGN KEY REFERENCES TbRoomsInSite(roomID),
 	 faultType int  FOREIGN KEY REFERENCES TbfaultType(faultID),
 	 info nvarchar(max),
 	 faultStatus bit not null,
+	 openDate date ,
+	 closeDate date,
 	 PRIMARY KEY(faultID) 
 );
 
@@ -106,7 +109,7 @@ create table TbFaultPicture
 (
 faultID int FOREIGN KEY REFERENCES TbFaultInSite(faultID),
 faultPicture nvarchar(max)
- PRIMARY KEY(faultID)
+ 
  );
 
 
@@ -120,6 +123,10 @@ insert dbo.[TbUsersType] (userTypName) values ('מנהל עבודה')
 insert dbo.[TbUsersType] (userTypName) values ('בעל האתר')
 insert dbo.[TbUsersType] (userTypName) values ('בעל מקצוע')
 
+
+insert [dbo].[TbFaultType] (faultName) values ('נזילה')
+insert [dbo].[TbFaultType] (faultName) values ('שבר')
+insert [dbo].[TbFaultType] (faultName) values ('דלת לא תקינה')
 
 insert dbo.[TbRoomsType] (roomTypeName) values ('אמבטיה')
 insert dbo.[TbRoomsType] (roomTypeName) values ('חצר')
@@ -200,7 +207,6 @@ siteID int NOT NULL PRIMARY KEY,
 	siteName nvarchar(100) NOT NULL ,
 	siteAddress nvarchar(100) NOT NULL ,
 	siteStatus bit
-	
 )
 
 insert dbo.[TbBuildingSite] (siteName, siteAddress,siteStatus)
@@ -237,6 +243,9 @@ create proc AddRoomInSite
 @roomPicture nvarchar(max)
 as
 insert [dbo].[TbRoomsInSite] (siteID, roomTypeID, roomName, floorNumber,roomPicture)  values (@siteID,@roomTypeID,@roomName,@floorNumber,@roomPicture)
+
+
+
 go 
 
 create proc GetAllRoomsInSite
@@ -248,3 +257,46 @@ FROM            dbo.TbBuildingSite INNER JOIN
                          dbo.TbRoomsType ON TbRoomsInSite_1.roomTypeID = dbo.TbRoomsType.roomTypeID
 WHERE        (dbo.TbBuildingSite.siteID = @siteID)
 go
+
+
+create proc AddFault
+@userID int,
+@roomID int ,
+@faultType int,
+@info nvarchar(max)
+as
+insert [dbo].[TbFaultInSite] (userID, roomID, faultType, info, faultStatus, openDate) values (@userID,@roomID,@faultType,@info,1,GETDATE())
+go
+
+create proc GetAllFaultsInRoom
+@roomID int
+as
+SELECT        dbo.TbRoomsInSite.roomID, dbo.TbFaultInSite.faultID, dbo.TbUsers.userID, dbo.TbUsers.userName, dbo.TbUsers.firstName, dbo.TbUsers.lastName, dbo.TbUsers.tel, dbo.TbUsers.email, dbo.TbUsers.img, 
+                         dbo.TbFaultType.faultName, dbo.TbFaultInSite.faultType, dbo.TbFaultInSite.info, dbo.TbFaultInSite.faultStatus, dbo.TbFaultInSite.openDate, dbo.TbFaultInSite.closeDate, dbo.TbUsersType.userTypName, 
+                         dbo.TbUsersInSite.siteID
+FROM            dbo.TbFaultInSite INNER JOIN
+                         dbo.TbFaultType ON dbo.TbFaultInSite.faultType = dbo.TbFaultType.faultID INNER JOIN
+                         dbo.TbRoomsInSite ON dbo.TbFaultInSite.roomID = dbo.TbRoomsInSite.roomID INNER JOIN
+                         dbo.TbUsers ON dbo.TbFaultInSite.userID = dbo.TbUsers.userID INNER JOIN
+                         dbo.TbUsersInSite ON dbo.TbUsers.userID = dbo.TbUsersInSite.userID INNER JOIN
+                         dbo.TbUsersType ON dbo.TbUsersInSite.userTypeID = dbo.TbUsersType.userTypeID
+						 WHERE        (dbo.TbRoomsInSite.roomID = @roomID)
+go
+
+
+
+create proc AddFaultPicture
+@faultID int,
+@faultPicture nvarchar(max)
+as
+insert [dbo].[TbFaultPicture] (faultID, faultPicture) values (@faultID,@faultPicture)
+go
+
+create proc GetFaultPicture
+@faultID int
+AS
+SELECT        faultID, faultPicture
+FROM            dbo.TbFaultPicture
+WHERE        (faultID = @faultID)
+
+GO
