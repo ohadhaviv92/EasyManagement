@@ -4932,23 +4932,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Orhay\\.nuget\\packages\\": {},
+    "C:\\Users\\ohad\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_BAL\\_BAL.csproj",
+      "projectUniqueName": "C:\\EasyManagement\\EasyManagement\\easy_management_webapi\\_BAL\\_BAL.csproj",
       "projectName": "_BAL",
-      "projectPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_BAL\\_BAL.csproj",
-      "packagesPath": "C:\\Users\\Orhay\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_BAL\\obj\\",
+      "projectPath": "C:\\EasyManagement\\EasyManagement\\easy_management_webapi\\_BAL\\_BAL.csproj",
+      "packagesPath": "C:\\Users\\ohad\\.nuget\\packages\\",
+      "outputPath": "C:\\EasyManagement\\EasyManagement\\easy_management_webapi\\_BAL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Orhay\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ohad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4961,8 +4961,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_DAL\\_DAL.csproj": {
-              "projectPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_DAL\\_DAL.csproj"
+            "C:\\EasyManagement\\EasyManagement\\easy_management_webapi\\_DAL\\_DAL.csproj": {
+              "projectPath": "C:\\EasyManagement\\EasyManagement\\easy_management_webapi\\_DAL\\_DAL.csproj"
             }
           }
         }

@@ -10,6 +10,7 @@ namespace _BAL
         public int roomTypeID { get; set; }
         public string roomName { get; set; }
         public int floorNumber { get; set; }
+        public string roomPicture { get; set; }
 
         public List<Fault> Faults { get; set; }
 
