@@ -27,9 +27,6 @@ Use EasyManagement
 GO
 
 
-
-
-
 create table TbUsersType (
 	userTypeID int identity(1,1) PRIMARY KEY,
 	userTypName nvarchar(50) ,
@@ -107,12 +104,12 @@ CREATE TABLE TbFaultInSite (
 ------------------------הכנסת נתונים--------------------------------
 
 
-insert [dbo].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
-insert [dbo].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
+insert [site04].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
+insert [site04].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
 
-insert [dbo].[TbUsersType] (userTypName) values ('מנהל עבודה')
-insert [dbo].[TbUsersType] (userTypName) values ('בעל האתר')
-insert [dbo].[TbUsersType] (userTypName) values ('בעל מקצוע')
+insert [site04].[TbUsersType] (userTypName) values ('מנהל עבודה')
+insert [site04].[TbUsersType] (userTypName) values ('בעל האתר')
+insert [site04].[TbUsersType] (userTypName) values ('בעל מקצוע')
 
 
 
@@ -123,7 +120,7 @@ create proc Login
 @userName varchar(30),
 @pass varchar(30)
 as
-select * from [dbo].[TbUsers] where [userName]=@userName and [pass]=@pass
+select * from [site04].[TbUsers] where [userName]=@userName and [pass]=@pass
 go 
 
 create proc Register (
@@ -150,9 +147,9 @@ declare @USER table(
 
 )
 delete from @USER
- if not exists(select * from [dbo].[TbUsers] where [userName]=@userName )
+ if not exists(select * from [site04].[TbUsers] where [userName]=@userName )
  begin
-	if not exists(select * from [dbo].[TbUsers] where [email]=@email )
+	if not exists(select * from [site04].[TbUsers] where [email]=@email )
 	 begin 
 		insert into TbUsers(userName, pass, firstName, lastName, email, tel)
 		output inserted.* into @USER
@@ -184,7 +181,7 @@ siteID int NOT NULL PRIMARY KEY,
 	
 )
 
-insert [dbo].[TbBuildingSite] (siteName, siteAddress,siteStatus)
+insert [site04].[TbBuildingSite] (siteName, siteAddress,siteStatus)
 output inserted.* into @site
  values (@siteName,@siteAddress,1)
  select * from @site
@@ -192,7 +189,7 @@ if(exists(select * from @site))
 begin 
 declare @ID int
 set @ID = (select siteID from @site)
-insert [dbo].[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
+insert [site04].[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
 end
 
 go

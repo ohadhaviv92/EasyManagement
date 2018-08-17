@@ -30,6 +30,7 @@ export async function Subscribe(email){
     });
     
 
+    
     SQL.UpdateNotification(email, subscription);
   } catch (error) {
     console.log(error);

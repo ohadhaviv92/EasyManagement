@@ -117,26 +117,6 @@ namespace _BAL
             }
 
 
-            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5001/notify");
-            //httpWebRequest.ContentType = "application/json";
-            //httpWebRequest.Method = "POST";
-
-            //using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            //{
-            //    string json = new JavaScriptSerializer().Serialize(new
-            //    {
-            //        token = Notifications[email],
-            //        title = title,
-            //        msg = message
-            //    });
-
-            //    streamWriter.Write(json);
-            //}
-
-            //httpWebRequest.GetResponse();
-
-
-
         }
 
     }

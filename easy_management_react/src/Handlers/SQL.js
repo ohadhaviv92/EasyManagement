@@ -1,21 +1,21 @@
-const URL = "http://localhost:61559/WebService.asmx";
+const URL = "http://localhost:51950";
 export default class SQL {
-  static Login(userName, password) {
+  static Login(userName, pass) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/Login`, {
           body: JSON.stringify({
             userName,
-            password
+            pass
           }),
           headers: {
-            "content-type": "application/json; charset=UTF-8"
+            "content-type": "application/json"
           },
           method: "POST"
         });
 
-        const json = await res.json();
-        const data = JSON.parse(json.d);
+        const data = await res.json();
+       
         if (data === null) reject("invalid email or password");
 
         resolve(data);
@@ -38,16 +38,17 @@ export default class SQL {
             tel
           }),
           headers: {
-            "content-type": "application/json; charset=UTF-8"
+            "content-type": "application/json"
           },
           method: "POST"
         });
-        const json = await res.json();
-        const data = JSON.parse(json.d);
 
-        if (typeof data === "string")
+        const data = await res.json();
+        console.log(data);
+        
+        if (data.error !== undefined)
           // if a JSON was not returned from SQL, its a custom error message
-          reject(data);
+          reject(data.error);
 
         resolve(data);
       } catch (error) {
@@ -59,19 +60,20 @@ export default class SQL {
   static GetKey() {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(
-          "http://localhost:61559/WebService.asmx/GetKey",
+        const res = await fetch(`${URL}/GetKey`,
           {
             headers: {
-              "content-type": "application/json; charset=UTF-8"
+              "content-type": "application/json"
             },
-            method: "POST"
+            method: "GET"
           }
         );
 
+
         const data = await res.json();
-        if (data.d.length > 0) {
-          resolve(data.d);
+
+        if (data.length > 0) {
+          resolve(data);
         }
         reject("No Key was fetched");
       } catch (error) {
@@ -81,13 +83,20 @@ export default class SQL {
   }
 
   static UpdateNotification(email, subscription) {
-    fetch(`${URL}/UpdateNotification`, {
+
+    fetch(`${URL}/notify`, {
       body: JSON.stringify({
-        email,
-        token: JSON.stringify(subscription)
-      }),
+        user:{
+          email
+        },
+        token:{
+          endpoint: subscription.toJSON().endpoint,
+          p256dh: subscription.toJSON().keys.p256dh,
+          auth: subscription.toJSON().keys.auth
+        }
+        }),
       headers: {
-        "content-type": "application/json; charset=UTF-8"
+        "content-type": "application/json"
       },
       method: "POST"
     });
