@@ -43,6 +43,126 @@ namespace _DAL
             return null;
 
         }
+        
+        static public DataTable GetUserSites(int userID)
+        {
+
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand($"GetSitesForUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@userID", userID));
+                adtr = new SqlDataAdapter(cmd);
+
+                DataSet ds = new DataSet();
+                adtr.Fill(ds, "UserSites");
+
+                if (ds.Tables["UserSites"].Rows.Count != 0)
+                    return ds.Tables["UserSites"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+            return null;
+
+        }
+
+        static public DataTable GetAllRoomsInSite(int siteID)
+        {
+
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand($"GetAllRoomsInSite", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@siteID", siteID));
+                adtr = new SqlDataAdapter(cmd);
+
+                DataSet ds = new DataSet();
+                adtr.Fill(ds, "SiteRooms");
+
+                if (ds.Tables["SiteRooms"].Rows.Count != 0)
+                    return ds.Tables["SiteRooms"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+            return null;
+
+        }
+
+        static public DataTable GetAllFaultsInRoom(int roomID)
+        {
+
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand($"GetAllFaultsInRoom", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@roomID", roomID));
+                adtr = new SqlDataAdapter(cmd);
+
+                DataSet ds = new DataSet();
+                adtr.Fill(ds, "RoomFaults");
+
+                if (ds.Tables["RoomFaults"].Rows.Count != 0)
+                    return ds.Tables["RoomFaults"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+            return null;
+
+        }
+
+        static public DataTable GetFaultPictures(int faultID)
+        {
+
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand($"GetFaultPicture", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@faultID", faultID));
+                adtr = new SqlDataAdapter(cmd);
+
+                DataSet ds = new DataSet();
+                adtr.Fill(ds, "FaultPictures");
+
+                if (ds.Tables["FaultPictures"].Rows.Count != 0)
+                    return ds.Tables["FaultPictures"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+            return null;
+
+        }
 
         static public DataTable Register(string userName, string pass, string firstName, string lastName, string email, string tel)
         {

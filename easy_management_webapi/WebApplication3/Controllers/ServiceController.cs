@@ -20,7 +20,7 @@ namespace WebApplication3.Controllers
         }
 
         [Route("/login")]
-        public User PostLogin([FromBody]User user)
+        public UserInSites PostLogin([FromBody]User user)
         {
             return BAL.Instance.Login(user.userName, user.pass);
         }
