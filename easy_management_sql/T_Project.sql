@@ -82,6 +82,7 @@ CREATE TABLE TbRoomsInSite (
 	roomTypeID int FOREIGN KEY REFERENCES TbRoomsType(roomTypeID),
 	roomName nvarchar(50),
 	floorNumber int NOT NULL,
+	roomPicture nvarchar(max),
 	PRIMARY KEY(roomID)
 	);
 	
@@ -92,24 +93,45 @@ CREATE TABLE TbRoomsInSite (
 	faultName nvarchar(50) NOT NULL,
 	);
 
-CREATE TABLE TbFaultInSite (
+create TABLE TbFaultInSite (
      faultID  int identity(1,1) NOT NULL ,
      roomID  int FOREIGN KEY REFERENCES TbRoomsInSite(roomID),
 	 faultType int  FOREIGN KEY REFERENCES TbfaultType(faultID),
 	 info nvarchar(max),
 	 faultStatus bit not null,
-	 PRIMARY KEY(faultID,roomID,faultType) 
+	 PRIMARY KEY(faultID) 
 );
+
+create table TbFaultPicture 
+(
+faultID int FOREIGN KEY REFERENCES TbFaultInSite(faultID),
+faultPicture nvarchar(max)
+ PRIMARY KEY(faultID)
+ );
+
 
 ------------------------הכנסת נתונים--------------------------------
 
 
-insert [site04].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
-insert [site04].[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
+insert dbo.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
+insert dbo.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
 
-insert [site04].[TbUsersType] (userTypName) values ('מנהל עבודה')
-insert [site04].[TbUsersType] (userTypName) values ('בעל האתר')
-insert [site04].[TbUsersType] (userTypName) values ('בעל מקצוע')
+insert dbo.[TbUsersType] (userTypName) values ('מנהל עבודה')
+insert dbo.[TbUsersType] (userTypName) values ('בעל האתר')
+insert dbo.[TbUsersType] (userTypName) values ('בעל מקצוע')
+
+
+insert dbo.[TbRoomsType] (roomTypeName) values ('אמבטיה')
+insert dbo.[TbRoomsType] (roomTypeName) values ('חצר')
+insert dbo.[TbRoomsType] (roomTypeName) values ('חדר שינה')
+insert dbo.[TbRoomsType] (roomTypeName) values ('מרתף')
+insert dbo.[TbRoomsType] (roomTypeName) values ('חדר משחקים')
+insert dbo.[TbRoomsType] (roomTypeName) values ('מרתף')
+insert dbo.[TbRoomsType] (roomTypeName) values ('שירותים')
+insert dbo.[TbRoomsType] (roomTypeName) values ('ממ"ד')
+insert dbo.[TbRoomsType] (roomTypeName) values ('חדר ארונות')
+insert dbo.[TbRoomsType] (roomTypeName) values ('מטבח')
+insert dbo.[TbRoomsType] (roomTypeName) values ('סלון')
 
 
 
@@ -120,7 +142,7 @@ create proc Login
 @userName varchar(30),
 @pass varchar(30)
 as
-select * from [site04].[TbUsers] where [userName]=@userName and [pass]=@pass
+select * from dbo.[TbUsers] where [userName]=@userName and [pass]=@pass
 go 
 
 create proc Register (
@@ -147,9 +169,9 @@ declare @USER table(
 
 )
 delete from @USER
- if not exists(select * from [site04].[TbUsers] where [userName]=@userName )
+ if not exists(select * from dbo.[TbUsers] where [userName]=@userName )
  begin
-	if not exists(select * from [site04].[TbUsers] where [email]=@email )
+	if not exists(select * from dbo.[TbUsers] where [email]=@email )
 	 begin 
 		insert into TbUsers(userName, pass, firstName, lastName, email, tel)
 		output inserted.* into @USER
@@ -181,7 +203,7 @@ siteID int NOT NULL PRIMARY KEY,
 	
 )
 
-insert [site04].[TbBuildingSite] (siteName, siteAddress,siteStatus)
+insert dbo.[TbBuildingSite] (siteName, siteAddress,siteStatus)
 output inserted.* into @site
  values (@siteName,@siteAddress,1)
  select * from @site
@@ -189,7 +211,40 @@ if(exists(select * from @site))
 begin 
 declare @ID int
 set @ID = (select siteID from @site)
-insert [site04].[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
+insert dbo.[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
 end
 
+go
+
+
+
+create proc GetSitesForUser 
+@userID int
+as
+SELECT        dbo.TbBuildingSite.siteID, dbo.TbBuildingSite.siteName, dbo.TbBuildingSite.siteAddress, dbo.TbBuildingSite.siteStatus, dbo.TbUsersType.userTypName, dbo.TbUsersInSite.userID, dbo.TbUsersType.userTypeID
+FROM            dbo.TbBuildingSite INNER JOIN
+                         dbo.TbUsersInSite ON dbo.TbBuildingSite.siteID = dbo.TbUsersInSite.siteID INNER JOIN
+                         dbo.TbUsersType ON dbo.TbUsersInSite.userTypeID = dbo.TbUsersType.userTypeID
+WHERE        (dbo.TbUsersInSite.userID = @userID)
+go
+
+
+create proc AddRoomInSite
+@siteID int,
+@roomTypeID int,
+@roomName nvarchar(50),
+@floorNumber int,
+@roomPicture nvarchar(max)
+as
+insert [dbo].[TbRoomsInSite] (siteID, roomTypeID, roomName, floorNumber,roomPicture)  values (@siteID,@roomTypeID,@roomName,@floorNumber,@roomPicture)
+go 
+
+create proc GetAllRoomsInSite
+@siteID int
+as
+SELECT        dbo.TbBuildingSite.siteID, dbo.TbRoomsType.roomTypeName, dbo.TbRoomsType.roomTypeID, TbRoomsInSite_1.roomID, TbRoomsInSite_1.roomName, TbRoomsInSite_1.floorNumber, TbRoomsInSite_1.roomPicture
+FROM            dbo.TbBuildingSite INNER JOIN
+                         dbo.TbRoomsInSite AS TbRoomsInSite_1 ON dbo.TbBuildingSite.siteID = TbRoomsInSite_1.siteID INNER JOIN
+                         dbo.TbRoomsType ON TbRoomsInSite_1.roomTypeID = dbo.TbRoomsType.roomTypeID
+WHERE        (dbo.TbBuildingSite.siteID = @siteID)
 go
