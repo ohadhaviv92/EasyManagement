@@ -6,7 +6,7 @@ namespace _DAL
 {
     public static class DAL
     {
-        private static string connectionStr = @"Data Source=185.60.170.14;Initial Catalog=site04;User ID=SITE04;Password=R47qqx#8";
+        private static string connectionStr = @"Data Source=DESKTOP-OA12SFD\SQLEXPRESS;Initial Catalog=EasyManagement;Integrated Security=True";
         private static SqlConnection con = new SqlConnection(connectionStr);
         private static SqlDataAdapter adtr = null;
         private static SqlCommand cmd = null;
@@ -134,6 +134,37 @@ namespace _DAL
 
         }
 
+        static public DataTable GetUserInSite(int userID, int siteID)
+        {
+
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand($"GetUserInSite", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@userID", userID));
+                cmd.Parameters.Add(new SqlParameter("@siteID", siteID));
+                adtr = new SqlDataAdapter(cmd);
+
+                DataSet ds = new DataSet();
+                adtr.Fill(ds, "User");
+
+                if (ds.Tables["User"].Rows.Count != 0)
+                    return ds.Tables["User"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+            return null;
+
+
+        }
         static public DataTable GetFaultPictures(int faultID)
         {
 

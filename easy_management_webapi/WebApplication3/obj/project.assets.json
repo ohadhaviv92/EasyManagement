@@ -13389,11 +13389,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\WebApplication3\\WebApplication3.csproj",
+      "projectUniqueName": "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\WebApplication3\\WebApplication3.csproj",
       "projectName": "WebApplication3",
-      "projectPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\WebApplication3\\WebApplication3.csproj",
+      "projectPath": "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\WebApplication3\\WebApplication3.csproj",
       "packagesPath": "C:\\Users\\Orhay\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\WebApplication3\\obj\\",
+      "outputPath": "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\WebApplication3\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13412,8 +13412,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_BAL\\_BAL.csproj": {
-              "projectPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_BAL\\_BAL.csproj"
+            "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\_BAL\\_BAL.csproj": {
+              "projectPath": "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\_BAL\\_BAL.csproj"
             }
           }
         }

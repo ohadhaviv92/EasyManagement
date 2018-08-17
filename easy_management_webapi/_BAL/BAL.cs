@@ -95,30 +95,57 @@ namespace _BAL
                             roomPicture = roomsResults.Rows[j]["roomPicture"].ToString()
                         };
                         List<Fault> faults = new List<Fault>();
-                        DataTable faultsResults = DAL.GetAllRoomsInSite(_site.siteID);
+                        DataTable faultsResults = DAL.GetAllFaultsInRoom(room.roomID);
                         if (faultsResults != null)
                         {
-                            for (int k = 0; k < roomsResults.Rows.Count; k++)
+                            for (int k = 0; k < faultsResults.Rows.Count; k++)
                             {
                                 Fault fault = new Fault
                                 {
                                     Owner = new User
                                     {
-                                        userID = int.Parse(roomsResults.Rows[k]["roomsResults"].ToString()),
-                                        userName = roomsResults.Rows[k]["userName"].ToString(),
-                                        firstName = roomsResults.Rows[k]["firstName"].ToString(),
-                                        lastName = roomsResults.Rows[k]["lastName"].ToString(),
-                                        tel = roomsResults.Rows[k]["tel"].ToString(),
-                                        email = roomsResults.Rows[k]["email"].ToString(),
-                                        img = roomsResults.Rows[k]["img"].ToString(),
+                                        userID = int.Parse(faultsResults.Rows[k]["ownerID"].ToString())
                                     },
-                                    faultID = int.Parse(roomsResults.Rows[k]["faultID"].ToString()),
-                                    faultName = roomsResults.Rows[k]["faultName"].ToString(),
-                                    faultStatus = bool.Parse(roomsResults.Rows[k]["faultStatus"].ToString()),
-                                    info = roomsResults.Rows[k]["info"].ToString(),
-                                    openDate = DateTime.Parse(roomsResults.Rows[k]["openDate"].ToString()),
-                                    closeDate = DateTime.Parse(roomsResults.Rows[k]["closeDate"].ToString()),
+                                    Worker = new User
+                                    {
+                                        userID = int.Parse(faultsResults.Rows[k]["workerID"].ToString())
+                                    },
+                                    faultID = int.Parse(faultsResults.Rows[k]["faultID"].ToString()),
+                                    faultTypeID = int.Parse(faultsResults.Rows[k]["faultType"].ToString()),
+                                    faultName = faultsResults.Rows[k]["faultName"].ToString(),
+                                    faultStatus = bool.Parse(faultsResults.Rows[k]["faultStatus"].ToString()),
+                                    info = faultsResults.Rows[k]["info"].ToString(),
+                                    openDate = DateTime.Parse(faultsResults.Rows[k]["openDate"].ToString()),
                                 };
+                                if (faultsResults.Rows[k]["closeDate"].ToString() != "")
+                                    fault.closeDate = DateTime.Parse(faultsResults.Rows[k]["closeDate"].ToString());
+
+                                DataTable OwnerReuslts = DAL.GetUserInSite(fault.Owner.userID , _site.siteID);
+                                if (OwnerReuslts != null)
+                                {
+                                    fault.Owner.JobID = int.Parse(OwnerReuslts.Rows[0]["userTypeID"].ToString());
+                                    fault.Owner.JobName = OwnerReuslts.Rows[0]["userTypName"].ToString();
+                                    fault.Owner.userName = OwnerReuslts.Rows[0]["userName"].ToString();
+                                    fault.Owner.firstName = OwnerReuslts.Rows[0]["firstName"].ToString();
+                                    fault.Owner.lastName = OwnerReuslts.Rows[0]["lastName"].ToString();
+                                    fault.Owner.email = OwnerReuslts.Rows[0]["email"].ToString();
+                                    fault.Owner.tel = OwnerReuslts.Rows[0]["tel"].ToString();
+                                    fault.Owner.img = OwnerReuslts.Rows[0]["img"].ToString();
+                                }
+
+                                DataTable WorkerReuslts = DAL.GetUserInSite(fault.Worker.userID, _site.siteID);
+                                if (WorkerReuslts != null)
+                                {
+                                    fault.Worker.JobID = int.Parse(WorkerReuslts.Rows[0]["userTypeID"].ToString());
+                                    fault.Worker.JobName = WorkerReuslts.Rows[0]["userTypName"].ToString();
+                                    fault.Worker.userName = WorkerReuslts.Rows[0]["userName"].ToString();
+                                    fault.Worker.firstName = WorkerReuslts.Rows[0]["firstName"].ToString();
+                                    fault.Worker.lastName = WorkerReuslts.Rows[0]["lastName"].ToString();
+                                    fault.Worker.email = WorkerReuslts.Rows[0]["email"].ToString();
+                                    fault.Worker.tel = WorkerReuslts.Rows[0]["tel"].ToString();
+                                    fault.Worker.img = WorkerReuslts.Rows[0]["img"].ToString();
+                                }
+
 
                                 faults.Add(fault);
                             }
@@ -127,7 +154,7 @@ namespace _BAL
                         rooms.Add(room);
                     }
                 }
-
+                _site.Rooms = rooms;
 
                 Sites.Add(_site);
             }

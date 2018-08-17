@@ -10,3 +10,15 @@ C:\Users\Orhay\source\repos\WebApplication3\_BAL\obj\Debug\netcoreapp2.0\_BAL.pd
 C:\Users\Orhay\source\repos\WebApplication3\_BAL\bin\Debug\netcoreapp2.0\_DAL.dll
 C:\Users\Orhay\source\repos\WebApplication3\_BAL\bin\Debug\netcoreapp2.0\_DAL.pdb
 C:\Users\Orhay\source\repos\WebApplication3\_BAL\obj\Debug\netcoreapp2.0\_BAL.csproj.CopyComplete
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\bin\Debug\netcoreapp2.0\_BAL.deps.json
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\bin\Debug\netcoreapp2.0\_BAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\bin\Debug\netcoreapp2.0\_BAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\bin\Debug\netcoreapp2.0\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\bin\Debug\netcoreapp2.0\_DAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\obj\Debug\netcoreapp2.0\_BAL.csprojAssemblyReference.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\obj\Debug\netcoreapp2.0\_BAL.csproj.CoreCompileInputs.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\obj\Debug\netcoreapp2.0\_BAL.AssemblyInfoInputs.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\obj\Debug\netcoreapp2.0\_BAL.AssemblyInfo.cs
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\obj\Debug\netcoreapp2.0\_BAL.csproj.CopyComplete
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\obj\Debug\netcoreapp2.0\_BAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_BAL\obj\Debug\netcoreapp2.0\_BAL.pdb

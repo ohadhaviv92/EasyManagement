@@ -10,3 +10,15 @@ C:\Users\Orhay\source\repos\WebApplication3\_DAL\obj\Debug\netcoreapp2.0\_DAL.cs
 C:\Users\Orhay\source\repos\WebApplication3\_DAL\obj\Debug\netcoreapp2.0\_DAL.dll
 C:\Users\Orhay\source\repos\WebApplication3\_DAL\obj\Debug\netcoreapp2.0\_DAL.pdb
 C:\Users\Orhay\source\repos\WebApplication3\_DAL\obj\Debug\netcoreapp2.0\_DAL.csprojAssemblyReference.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\bin\Debug\netcoreapp2.0\_DAL.deps.json
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\bin\Debug\netcoreapp2.0\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\bin\Debug\netcoreapp2.0\_DAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\bin\Debug\netcoreapp2.0\System.Data.SqlClient.dll
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\bin\Debug\netcoreapp2.0\System.Data.SqlClient.xml
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\obj\Debug\netcoreapp2.0\_DAL.csprojAssemblyReference.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\obj\Debug\netcoreapp2.0\_DAL.csproj.CoreCompileInputs.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\obj\Debug\netcoreapp2.0\_DAL.AssemblyInfoInputs.cache
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\obj\Debug\netcoreapp2.0\_DAL.AssemblyInfo.cs
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\obj\Debug\netcoreapp2.0\_DAL.csproj.CopyComplete
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\obj\Debug\netcoreapp2.0\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\easy_management_webapi\_DAL\obj\Debug\netcoreapp2.0\_DAL.pdb

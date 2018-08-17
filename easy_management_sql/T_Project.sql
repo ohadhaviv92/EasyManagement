@@ -95,7 +95,8 @@ CREATE TABLE TbRoomsInSite (
 
 create TABLE TbFaultInSite (
      faultID  int identity(1,1) NOT NULL ,
-	 userID int  FOREIGN KEY REFERENCES TbUsers(userID),
+	 ownerID int  FOREIGN KEY REFERENCES TbUsers(userID),
+	 workerID int  FOREIGN KEY REFERENCES TbUsers(userID),
      roomID  int FOREIGN KEY REFERENCES TbRoomsInSite(roomID),
 	 faultType int  FOREIGN KEY REFERENCES TbfaultType(faultID),
 	 info nvarchar(max),
@@ -258,31 +259,55 @@ FROM            dbo.TbBuildingSite INNER JOIN
 WHERE        (dbo.TbBuildingSite.siteID = @siteID)
 go
 
+create proc UpdateWorkerInSite
+@workerID int, 
+@workerType int,
+@siteID int
+as
+if not exists(select * from [dbo].[TbUsersInSite] where [siteID] = @siteID and [userID] = @workerID) begin 
+	insert into [dbo].[TbUsersInSite](siteID, userID, userTypeID) values(@siteID, @workerID, @workerType)
+end
+else begin
+	update [dbo].[TbUsersInSite] set [userTypeID] = @workerType where [siteID] = @siteID and [userID] = @workerID
+end
 
 create proc AddFault
-@userID int,
+@ownerID int,
+@workerID int,
 @roomID int ,
 @faultType int,
 @info nvarchar(max)
 as
-insert [dbo].[TbFaultInSite] (userID, roomID, faultType, info, faultStatus, openDate) values (@userID,@roomID,@faultType,@info,1,GETDATE())
+if exists (select [userID] from [dbo].[TbUsersInSite] where [userID] = @workerID and [siteID] = (select [siteID] from [dbo].[TbRoomsInSite] where [roomID] = @roomID)) 
+begin
+	insert [dbo].[TbFaultInSite] (ownerID,workerID, roomID, faultType, info, faultStatus, openDate) values (@ownerID,@workerID,@roomID,@faultType,@info,1,GETDATE())
+end
 go
 
 create proc GetAllFaultsInRoom
 @roomID int
 as
-SELECT        dbo.TbRoomsInSite.roomID, dbo.TbFaultInSite.faultID, dbo.TbUsers.userID, dbo.TbUsers.userName, dbo.TbUsers.firstName, dbo.TbUsers.lastName, dbo.TbUsers.tel, dbo.TbUsers.email, dbo.TbUsers.img, 
-                         dbo.TbFaultType.faultName, dbo.TbFaultInSite.faultType, dbo.TbFaultInSite.info, dbo.TbFaultInSite.faultStatus, dbo.TbFaultInSite.openDate, dbo.TbFaultInSite.closeDate, dbo.TbUsersType.userTypName, 
-                         dbo.TbUsersInSite.siteID
+SELECT        dbo.TbFaultInSite.faultID, dbo.TbFaultInSite.ownerID, dbo.TbFaultInSite.workerID, dbo.TbFaultType.faultName, dbo.TbFaultInSite.info, dbo.TbFaultInSite.faultStatus, dbo.TbFaultInSite.openDate, dbo.TbFaultInSite.closeDate, 
+                         dbo.TbRoomsInSite.roomID, dbo.TbFaultInSite.faultType
 FROM            dbo.TbFaultInSite INNER JOIN
                          dbo.TbFaultType ON dbo.TbFaultInSite.faultType = dbo.TbFaultType.faultID INNER JOIN
-                         dbo.TbRoomsInSite ON dbo.TbFaultInSite.roomID = dbo.TbRoomsInSite.roomID INNER JOIN
-                         dbo.TbUsers ON dbo.TbFaultInSite.userID = dbo.TbUsers.userID INNER JOIN
-                         dbo.TbUsersInSite ON dbo.TbUsers.userID = dbo.TbUsersInSite.userID INNER JOIN
-                         dbo.TbUsersType ON dbo.TbUsersInSite.userTypeID = dbo.TbUsersType.userTypeID
-						 WHERE        (dbo.TbRoomsInSite.roomID = @roomID)
+                         dbo.TbRoomsInSite ON dbo.TbFaultInSite.roomID = dbo.TbRoomsInSite.roomID
+WHERE        (dbo.TbRoomsInSite.roomID = @roomID)
 go
 
+
+create proc GetUserInSite
+@userID int,
+@siteID int
+as
+SELECT        dbo.TbUsers.userID, dbo.TbUsersInSite.siteID, dbo.TbUsersType.userTypeID, dbo.TbUsersType.userTypName, dbo.TbUsers.userName, dbo.TbUsers.firstName, dbo.TbUsers.lastName, dbo.TbUsers.email, dbo.TbUsers.tel, 
+                         dbo.TbUsers.img
+FROM            dbo.TbUsers INNER JOIN
+                         dbo.TbUsersInSite ON dbo.TbUsers.userID = dbo.TbUsersInSite.userID INNER JOIN
+                         dbo.TbUsersType ON dbo.TbUsersInSite.userTypeID = dbo.TbUsersType.userTypeID
+WHERE        (dbo.TbUsers.userID = @userID) AND (dbo.TbUsersInSite.siteID = @siteID)
+
+go
 
 
 create proc AddFaultPicture
@@ -300,3 +325,4 @@ FROM            dbo.TbFaultPicture
 WHERE        (faultID = @faultID)
 
 GO
+

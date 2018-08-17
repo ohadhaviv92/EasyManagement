@@ -4938,11 +4938,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_BAL\\_BAL.csproj",
+      "projectUniqueName": "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\_BAL\\_BAL.csproj",
       "projectName": "_BAL",
-      "projectPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_BAL\\_BAL.csproj",
+      "projectPath": "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\_BAL\\_BAL.csproj",
       "packagesPath": "C:\\Users\\Orhay\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_BAL\\obj\\",
+      "outputPath": "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\_BAL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -4961,8 +4961,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_DAL\\_DAL.csproj": {
-              "projectPath": "C:\\Users\\Orhay\\source\\repos\\WebApplication3\\_DAL\\_DAL.csproj"
+            "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\_DAL\\_DAL.csproj": {
+              "projectPath": "C:\\Users\\Orhay\\Desktop\\EasyManagement\\easy_management_webapi\\_DAL\\_DAL.csproj"
             }
           }
         }
