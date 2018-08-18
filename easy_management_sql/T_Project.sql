@@ -119,6 +119,8 @@ faultPicture nvarchar(max)
 
 insert dbo.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
 insert dbo.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
+insert dbo.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('kevesh',123,'kevsh','haviv','kevesh92@gmail.com','055333333')
+
 
 insert dbo.[TbUsersType] (userTypName) values ('מנהל עבודה')
 insert dbo.[TbUsersType] (userTypName) values ('בעל האתר')
@@ -162,29 +164,14 @@ create proc Register (
 @tel  varchar(10)
 )
 as 
-declare @USER table(
-	 userID int,
-	userName varchar(30) NOT NULL ,
-	pass varchar(30) NOT NULL,
-	firstName nvarchar(50),
-	lastName nvarchar(50),
-	email varchar(50),
-	tel varchar(10),
-	img nvarchar (max),
-	_endpoint nvarchar(max),
-	p256dh nvarchar(max),
-	auth nvarchar(max)
 
-)
-delete from @USER
  if not exists(select * from dbo.[TbUsers] where [userName]=@userName )
  begin
 	if not exists(select * from dbo.[TbUsers] where [email]=@email )
 	 begin 
 		insert into TbUsers(userName, pass, firstName, lastName, email, tel)
-		output inserted.* into @USER
 		values (@userName,@pass,@firstName,@lastName,@email,@tel)
-		select * from @USER
+		select * from TbUsers where userID = @@IDENTITY
 	end
 	else begin
 		select 'email taken'
@@ -209,15 +196,13 @@ siteID int NOT NULL PRIMARY KEY,
 	siteAddress nvarchar(100) NOT NULL ,
 	siteStatus bit
 )
-
-insert dbo.[TbBuildingSite] (siteName, siteAddress,siteStatus)
-output inserted.* into @site
- values (@siteName,@siteAddress,1)
- select * from @site
-if(exists(select * from @site))
-begin 
 declare @ID int
-set @ID = (select siteID from @site)
+
+insert into dbo.[TbBuildingSite] (siteName, siteAddress,siteStatus) values (@siteName,@siteAddress,1)
+ set @ID = @@IDENTITY
+ select * from [dbo].[TbBuildingSite] where [siteID] = @ID
+if(exists(select * from [dbo].[TbBuildingSite] where [siteID] = @ID))
+begin 
 insert dbo.[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
 end
 
@@ -236,15 +221,15 @@ WHERE        (dbo.TbUsersInSite.userID = @userID)
 go
 
 
-create proc AddRoomInSite
+alter proc AddRoomInSite
 @siteID int,
 @roomTypeID int,
 @roomName nvarchar(50),
 @floorNumber int,
 @roomPicture nvarchar(max)
 as
-insert [dbo].[TbRoomsInSite] (siteID, roomTypeID, roomName, floorNumber,roomPicture)  values (@siteID,@roomTypeID,@roomName,@floorNumber,@roomPicture)
-
+insert into [dbo].[TbRoomsInSite] (siteID, roomTypeID, roomName, floorNumber,roomPicture)  values (@siteID,@roomTypeID,@roomName,@floorNumber,@roomPicture)
+select * from [dbo].[TbRoomsInSite] where roomID = @@IDENTITY
 
 
 go 
@@ -280,7 +265,8 @@ create proc AddFault
 as
 if exists (select [userID] from [dbo].[TbUsersInSite] where [userID] = @workerID and [siteID] = (select [siteID] from [dbo].[TbRoomsInSite] where [roomID] = @roomID)) 
 begin
-	insert [dbo].[TbFaultInSite] (ownerID,workerID, roomID, faultType, info, faultStatus, openDate) values (@ownerID,@workerID,@roomID,@faultType,@info,1,GETDATE())
+	insert into [dbo].[TbFaultInSite] (ownerID,workerID, roomID, faultType, info, faultStatus, openDate) values (@ownerID,@workerID,@roomID,@faultType,@info,1,GETDATE())
+	select * from [dbo].[TbFaultInSite] where faultID = @@IDENTITY
 end
 go
 
