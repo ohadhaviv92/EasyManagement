@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace _BAL
 {
@@ -8,13 +7,13 @@ namespace _BAL
     {
         public User Owner { get; set; }
         public User Worker { get; set; }
-        public int faultID { get; set; }
-        public int faultTypeID { get; set; }
-        public string faultName { get; set; }
-        public string info { get; set; }
-        public bool faultStatus { get; set; }
-        public DateTime openDate { get; set; }
-        public DateTime closeDate { get; set; }
-        public List<string> faultPictures { get; set; }
+        public int FaultId { get; set; }
+        public int FaultTypeId { get; set; }
+        public string FaultName { get; set; }
+        public string Info { get; set; }
+        public bool FaultStatus { get; set; }
+        public DateTime OpenDate { get; set; }
+        public DateTime CloseDate { get; set; }
+        public List<string> FaultPictures { get; set; }
     }
 }

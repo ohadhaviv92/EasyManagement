@@ -1,12 +1,12 @@
 const URL = "http://localhost:51950";
 export default class SQL {
-  static Login(userName, pass) {
+  static Login(UserName, Pass) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/Login`, {
           body: JSON.stringify({
-            userName,
-            pass
+            UserName,
+            Pass
           }),
           headers: {
             "content-type": "application/json"
@@ -25,17 +25,17 @@ export default class SQL {
     });
   }
 
-  static Register(userName, pass, firstName, lastName, email, tel) {
+  static Register(UserName, Pass, FirstName, LastName, Email, Tel) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/Register`, {
           body: JSON.stringify({
-            userName,
-            pass,
-            firstName,
-            lastName,
-            email,
-            tel
+            UserName,
+            Pass,
+            FirstName,
+            LastName,
+            Email,
+            Tel
           }),
           headers: {
             "content-type": "application/json"
@@ -82,18 +82,14 @@ export default class SQL {
     });
   }
 
-  static UpdateNotification(email, subscription) {
+  static UpdateNotification(Email, subscription) {
 
     fetch(`${URL}/notify`, {
       body: JSON.stringify({
-        user:{
-          email
-        },
-        token:{
-          endpoint: subscription.toJSON().endpoint,
-          p256dh: subscription.toJSON().keys.p256dh,
-          auth: subscription.toJSON().keys.auth
-        }
+        Email,
+        Endpoint: subscription.toJSON().endpoint,
+        P256Dh: subscription.toJSON().keys.p256dh,
+        Auth: subscription.toJSON().keys.auth
         }),
       headers: {
         "content-type": "application/json"

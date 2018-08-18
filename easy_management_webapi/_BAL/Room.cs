@@ -6,12 +6,12 @@ namespace _BAL
 {
     public class Room
     {
-        public int roomID { get; set; }
-        public int roomTypeID { get; set; }
-        public string roomTypeName { get; set; }
-        public string roomName { get; set; }
-        public int floorNumber { get; set; }
-        public string roomPicture { get; set; }
+        public int RoomId { get; set; }
+        public int RoomTypeId { get; set; }
+        public string RoomTypeName { get; set; }
+        public string RoomName { get; set; }
+        public int FloorNumber { get; set; }
+        public string RoomPicture { get; set; }
         public List<Fault> Faults { get; set; }
 
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using _BAL;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
@@ -16,28 +17,26 @@ namespace WebApplication3.Controllers
         [Route("/getkey")]
         public string GetKey()
         {
-            return BAL.Instance.GetKey();
+            return Bal.Instance.GetKey();
         }
 
         [Route("/login")]
         public UserInSites PostLogin([FromBody]User user)
         {
-            return BAL.Instance.Login(user.userName, user.pass);
+            return Bal.Instance.Login(user.UserName, user.Pass);
         }
 
         [Route("/register")]
         public object PostRegister([FromBody]User user)
         {
-            object res = BAL.Instance.Register(user.userName, user.pass, user.firstName, user.lastName, user.email, user.tel);
+            var res = Bal.Instance.Register(user.UserName, user.Pass, user.FirstName, user.LastName, user.Email, user.Tel);
             return res;
         }
 
         [Route("/notify")]
-        public void UpdateNotification([FromBody]JObject UserToken)
+        public void UpdateNotification([FromBody]User userData)
         {
-            User user = UserToken["user"].ToObject<User>();
-            Token token = UserToken["token"].ToObject<Token>();
-            BAL.Instance.AddNotification(user.email, token);
+            Bal.Instance.AddNotification(userData.Email, userData.Endpoint, userData.P256Dh, userData.Auth);
         }
     }
 }
