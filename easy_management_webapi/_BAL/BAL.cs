@@ -61,11 +61,39 @@ namespace _BAL
 
             userWithSites.User = user;
 
-            results = Dal.GetUserSites(user.UserId);
-            if (results == null)
-                return userWithSites;
+            userWithSites.Sites = GetUserSites(user.UserId);
 
+            for (int i = 0; i < userWithSites.Sites.Count; i++)
+            {
+                var site = userWithSites.Sites[i];
+                userWithSites.Sites[i].Rooms = GetRoomsInSite(site.SiteId);
+
+                for (int j = 0; j < userWithSites.Sites[i].Rooms.Count; j++)
+                {
+                    var room = userWithSites.Sites[i].Rooms[j];
+                    userWithSites.Sites[i].Rooms[j].Faults = GetRoomFaults(room.RoomId);
+
+                    for (int k = 0; k < userWithSites.Sites[i].Rooms[j].Faults.Count; k++)
+                    {
+                        var owner = userWithSites.Sites[i].Rooms[j].Faults[k].Owner;
+                        var worker = userWithSites.Sites[i].Rooms[j].Faults[k].Worker;
+                        userWithSites.Sites[i].Rooms[j].Faults[k].Owner = GetUserInSite(owner.UserId, site.SiteId);
+                        userWithSites.Sites[i].Rooms[j].Faults[k].Worker = GetUserInSite(worker.UserId, site.SiteId);
+
+                    }
+                }
+            }
+            return userWithSites;
+
+        }
+
+        public List<BuildingSite> GetUserSites(int userId)
+        {
+            var results = Dal.GetUserSites(userId);
             var sites = new List<BuildingSite>();
+            if (results == null)
+                return sites;
+
             for (var i = 0; i < results.Rows.Count; i++)
             {
 
@@ -78,89 +106,83 @@ namespace _BAL
                     UserTypeId = int.Parse(results.Rows[i]["userTypeID"].ToString()),
                     UserTypeName = results.Rows[i]["userTypName"].ToString()
                 };
-
-                var rooms = new List<Room>();
-                var roomsResults = Dal.GetAllRoomsInSite(site.SiteId);
-                if (roomsResults != null)
-                {
-                    for (var j = 0; j < roomsResults.Rows.Count; j++)
-                    {
-                        var room = new Room
-                        {
-                            RoomId = int.Parse(roomsResults.Rows[j]["roomID"].ToString()),
-                            RoomName = roomsResults.Rows[j]["roomName"].ToString(),
-                            FloorNumber = int.Parse(roomsResults.Rows[j]["floorNumber"].ToString()),
-                            RoomTypeId = int.Parse(roomsResults.Rows[j]["roomTypeID"].ToString()),
-                            RoomTypeName = roomsResults.Rows[j]["roomTypeName"].ToString(),
-                            RoomPicture = roomsResults.Rows[j]["roomPicture"].ToString()
-                        };
-                        var faults = new List<Fault>();
-                        var faultsResults = Dal.GetAllFaultsInRoom(room.RoomId);
-                        if (faultsResults != null)
-                        {
-                            for (var k = 0; k < faultsResults.Rows.Count; k++)
-                            {
-                                var fault = new Fault
-                                {
-                                    Owner = new User
-                                    {
-                                        UserId = int.Parse(faultsResults.Rows[k]["ownerID"].ToString())
-                                    },
-                                    Worker = new User
-                                    {
-                                        UserId = int.Parse(faultsResults.Rows[k]["workerID"].ToString())
-                                    },
-                                    FaultId = int.Parse(faultsResults.Rows[k]["faultID"].ToString()),
-                                    FaultTypeId = int.Parse(faultsResults.Rows[k]["faultType"].ToString()),
-                                    FaultName = faultsResults.Rows[k]["faultName"].ToString(),
-                                    FaultStatus = bool.Parse(faultsResults.Rows[k]["faultStatus"].ToString()),
-                                    Info = faultsResults.Rows[k]["info"].ToString(),
-                                    OpenDate = DateTime.Parse(faultsResults.Rows[k]["openDate"].ToString()),
-                                };
-                                if (faultsResults.Rows[k]["closeDate"].ToString() != "")
-                                    fault.CloseDate = DateTime.Parse(faultsResults.Rows[k]["closeDate"].ToString());
-
-                                DataTable ownerReuslts = Dal.GetUserInSite(fault.Owner.UserId , site.SiteId);
-                                if (ownerReuslts != null)
-                                {
-                                    fault.Owner.JobId = int.Parse(ownerReuslts.Rows[0]["userTypeID"].ToString());
-                                    fault.Owner.JobName = ownerReuslts.Rows[0]["userTypName"].ToString();
-                                    fault.Owner.UserName = ownerReuslts.Rows[0]["userName"].ToString();
-                                    fault.Owner.FirstName = ownerReuslts.Rows[0]["firstName"].ToString();
-                                    fault.Owner.LastName = ownerReuslts.Rows[0]["lastName"].ToString();
-                                    fault.Owner.Email = ownerReuslts.Rows[0]["email"].ToString();
-                                    fault.Owner.Tel = ownerReuslts.Rows[0]["tel"].ToString();
-                                    fault.Owner.Img = ownerReuslts.Rows[0]["img"].ToString();
-                                }
-
-                                DataTable workerReuslts = Dal.GetUserInSite(fault.Worker.UserId, site.SiteId);
-                                if (workerReuslts != null)
-                                {
-                                    fault.Worker.JobId = int.Parse(workerReuslts.Rows[0]["userTypeID"].ToString());
-                                    fault.Worker.JobName = workerReuslts.Rows[0]["userTypName"].ToString();
-                                    fault.Worker.UserName = workerReuslts.Rows[0]["userName"].ToString();
-                                    fault.Worker.FirstName = workerReuslts.Rows[0]["firstName"].ToString();
-                                    fault.Worker.LastName = workerReuslts.Rows[0]["lastName"].ToString();
-                                    fault.Worker.Email = workerReuslts.Rows[0]["email"].ToString();
-                                    fault.Worker.Tel = workerReuslts.Rows[0]["tel"].ToString();
-                                    fault.Worker.Img = workerReuslts.Rows[0]["img"].ToString();
-                                }
-
-
-                                faults.Add(fault);
-                            }
-                        }
-                        room.Faults = faults;
-                        rooms.Add(room);
-                    }
-                }
-                site.Rooms = rooms;
-
                 sites.Add(site);
             }
-            userWithSites.Sites = sites;
+            return sites;
+        }
 
-            return userWithSites;
+        public List<Room> GetRoomsInSite(int siteId)
+        {
+            var rooms = new List<Room>();
+            var results = Dal.GetAllRoomsInSite(siteId);
+            if (results == null)
+                return rooms;
+
+            for (var i = 0; i < results.Rows.Count; i++)
+            {
+                var room = new Room
+                {
+                    RoomId = int.Parse(results.Rows[i]["roomID"].ToString()),
+                    RoomName = results.Rows[i]["roomName"].ToString(),
+                    FloorNumber = int.Parse(results.Rows[i]["floorNumber"].ToString()),
+                    RoomTypeId = int.Parse(results.Rows[i]["roomTypeID"].ToString()),
+                    RoomTypeName = results.Rows[i]["roomTypeName"].ToString(),
+                    RoomPicture = results.Rows[i]["roomPicture"].ToString()
+                };
+                rooms.Add(room);
+            }
+            return rooms;
+        }
+
+        public User GetUserInSite(int userId, int siteId)
+        {
+            DataTable results = Dal.GetUserInSite(userId, siteId);
+            var user = new User();
+            if (results != null)
+            {
+                user.JobId = int.Parse(results.Rows[0]["userTypeID"].ToString());
+                user.JobName = results.Rows[0]["userTypName"].ToString();
+                user.UserName = results.Rows[0]["userName"].ToString();
+                user.FirstName = results.Rows[0]["firstName"].ToString();
+                user.LastName = results.Rows[0]["lastName"].ToString();
+                user.Email = results.Rows[0]["email"].ToString();
+                user.Tel = results.Rows[0]["tel"].ToString();
+                user.Img = results.Rows[0]["img"].ToString();
+            }
+            return user;
+        }
+
+        public List<Fault> GetRoomFaults(int roomId)
+        {
+            var faults = new List<Fault>();
+            var faultsResults = Dal.GetAllFaultsInRoom(roomId);
+            if (faultsResults != null)
+            {
+                for (var k = 0; k < faultsResults.Rows.Count; k++)
+                {
+                    var fault = new Fault
+                    {
+                        Owner = new User
+                        {
+                            UserId = int.Parse(faultsResults.Rows[k]["ownerID"].ToString())
+                        },
+                        Worker = new User
+                        {
+                            UserId = int.Parse(faultsResults.Rows[k]["workerID"].ToString())
+                        },
+                        FaultId = int.Parse(faultsResults.Rows[k]["faultID"].ToString()),
+                        FaultTypeId = int.Parse(faultsResults.Rows[k]["faultType"].ToString()),
+                        FaultName = faultsResults.Rows[k]["faultName"].ToString(),
+                        FaultStatus = bool.Parse(faultsResults.Rows[k]["faultStatus"].ToString()),
+                        Info = faultsResults.Rows[k]["info"].ToString(),
+                        OpenDate = DateTime.Parse(faultsResults.Rows[k]["openDate"].ToString()),
+                    };
+                    if (faultsResults.Rows[k]["closeDate"].ToString() != "")
+                        fault.CloseDate = DateTime.Parse(faultsResults.Rows[k]["closeDate"].ToString());
+                    faults.Add(fault);
+                }
+            }
+            return faults;
         }
 
         public object Register(string userName, string pass, string firstName, string lastName, string email, string tel)
@@ -207,7 +229,7 @@ namespace _BAL
             var pushSubscription = new PushSubscription(details.Rows[0]["_endpoint"].ToString(), details.Rows[0]["p256dh"].ToString(), details.Rows[0]["auth"].ToString());
             var vapidDetails = new VapidDetails("mailto:example@example.com", _keys.PublicKey, _keys.PrivateKey);
 
-            string payload = JsonConvert.SerializeObject(new {title, msg = message });
+            string payload = JsonConvert.SerializeObject(new { title, msg = message });
             var webPushClient = new WebPushClient();
             try
             {
