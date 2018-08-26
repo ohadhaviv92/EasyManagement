@@ -1,4 +1,4 @@
-const URL = "http://localhost:51950";
+const URL = "http://localhost:51950"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
 export default class SQL {
   static Login(UserName, Pass) {
     return new Promise(async (resolve, reject) => {
