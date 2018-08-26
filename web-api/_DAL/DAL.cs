@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace _DAL
 {
     public static class Dal
     {
-        private static string _connectionStr = @"Data Source=185.60.170.14;Initial Catalog=site04;Persist Security Info=True;User ID=SITE04;Password=R47qqx#8";
+        private static readonly string  _connectionStr = ConfigurationManager.ConnectionStrings["LIVEDNS"].ConnectionString;
         private static readonly SqlConnection Con = new SqlConnection(_connectionStr);
         private static SqlDataAdapter _adtr;
         private static SqlCommand _cmd;
@@ -41,7 +46,7 @@ namespace _DAL
             return null;
 
         }
-        
+
         public static DataTable GetUserSites(int userId)
         {
 
