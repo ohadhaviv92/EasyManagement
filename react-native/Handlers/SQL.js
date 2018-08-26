@@ -1,4 +1,4 @@
-const URL = "http://localhost:51950"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
+const URL = "http://ruppinmobile.tempdomain.co.il/site04/api/service"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
 export default class SQL {
   static Login(UserName, Pass) {
     return new Promise(async (resolve, reject) => {
@@ -82,19 +82,25 @@ export default class SQL {
     });
   }
 
-  static UpdateNotification(Email, subscription) {
-
-    fetch(`${URL}/notify`, {
-      body: JSON.stringify({
-        Email,
-        Endpoint: subscription.toJSON().endpoint,
-        P256Dh: subscription.toJSON().keys.p256dh,
-        Auth: subscription.toJSON().keys.auth
+  static async UpdateNotification(Email, Token) {
+    
+    try {
+      await fetch(`${URL}/Notify`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Email,
+          Token
         }),
-      headers: {
-        "content-type": "application/json"
-      },
-      method: "POST"
-    });
+      });
+    } catch (error) {
+      console.log(error);
+      
+    }
+  
+
   }
 }

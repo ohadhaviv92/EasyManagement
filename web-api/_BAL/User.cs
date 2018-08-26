@@ -15,9 +15,7 @@ namespace _BAL
         public string Img { get; set; }
         public int JobId { get; set; }
         public string JobName { get; set; }
-        public string Endpoint { get; set; }
-        public string P256Dh { get; set; }
-        public string Auth { get; set; }
+        public string Token { get; set; }
        
     }
 

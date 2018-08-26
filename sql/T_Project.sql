@@ -27,6 +27,8 @@ Use EasyManagement
 GO
 
 
+
+
 create table TbUsersType (
 	userTypeID int identity(1,1) PRIMARY KEY,
 	userTypName nvarchar(50) ,
@@ -43,9 +45,7 @@ create TABLE TbUsers (
 	email varchar(50),
 	tel varchar(10),
 	img nvarchar (max),
-	_endpoint nvarchar(max),
-	p256dh nvarchar(max),
-	auth nvarchar(max)
+	Token nvarchar(max),
     
 );
 

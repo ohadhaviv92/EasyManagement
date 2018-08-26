@@ -2,8 +2,10 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using WebPush;
@@ -214,9 +216,9 @@ namespace _BAL
 
         }
 
-        public void AddNotification(string email, string endpoint, string p256dh, string auth)
+        public void AddNotification(string email, string Token)
         {
-            Dal.UpdateNotificationKey(email, endpoint, p256dh, auth);
+            Dal.UpdateNotificationKey(email, Token);
 
             Notify(email, "test", "test of this notification");
         }
@@ -229,21 +231,17 @@ namespace _BAL
                 return;
 
 
-            var pushSubscription = new PushSubscription(details.Rows[0]["_endpoint"].ToString(), details.Rows[0]["p256dh"].ToString(), details.Rows[0]["auth"].ToString());
-            var vapidDetails = new VapidDetails("mailto:example@example.com", _keys.PublicKey, _keys.PrivateKey);
-
-            string payload = JsonConvert.SerializeObject(new { title, msg = message });
-            var webPushClient = new WebPushClient();
-            try
-            {
-                webPushClient.SendNotification(pushSubscription, payload, vapidDetails);
-            }
-            catch (Exception e)
+            string token = details.Rows[0]["Token"].ToString();
+            using (var client = new WebClient())
             {
 
-                throw new Exception(e.Message);
-            }
+                var values = new NameValueCollection();
+                values["to"] = token;
+                values["title"] = title;
+                values["body"] = message;
+                var response = client.UploadValues("https://exp.host/--/api/v2/push/send", values);
 
+            }
 
         }
 
