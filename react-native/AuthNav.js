@@ -4,6 +4,7 @@ import {createMaterialTopTabNavigator} from 'react-navigation';
 import {Constants} from 'expo';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import Notification from './Handlers/Notification';
 
 
 const AuthNav = createMaterialTopTabNavigator({
@@ -27,23 +28,25 @@ export default class AuthScreen extends Component {
 
     componentDidMount() {
 
-        Animated.timing(             
-          this.state.loginAnimation,            
-          {
-            toValue: height,                   
-            duration: 700,
-            easing: Easing.linear,
-          }
-        ).start();                      
+      Notification.Register("orhay92@gmail.com");
+        // Animated.timing(             
+        //   this.state.loginAnimation,            
+        //   {
+        //     toValue: height,                   
+        //     duration: 700,
+        //     easing: Easing.linear,
+        //   }
+        // ).start();                      
 
-        Animated.timing(             
-          this.state.logoAnimation,            
-          {
-            toValue: 200,                   
-            duration: 1700,
-            easing: Easing.linear,
-          }
-        ).start();  
+        // Animated.timing(             
+        //   this.state.logoAnimation,            
+        //   {
+        //     toValue: 200,                   
+        //     duration: 1700,
+        //     easing: Easing.linear,
+        //   }
+        // ).start();  
+  
     }
 
     Submit = () => {

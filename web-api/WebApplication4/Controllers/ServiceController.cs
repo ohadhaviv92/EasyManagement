@@ -36,7 +36,7 @@ namespace WebApplication2.Controllers
         [ActionName("Notify")]
         public void PostNotify([FromBody]User userData)
         {
-            Bal.Instance.AddNotification(userData.Email, userData.Endpoint, userData.P256Dh, userData.Auth);
+            Bal.Instance.AddNotification(userData.Email, userData.Token);
         }
     }
 }

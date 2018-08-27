@@ -233,16 +233,14 @@ namespace _DAL
             return null;
         }
 
-        public static void UpdateNotificationKey(string email, string endpoint, string p256Dh, string auth)
+        public static void UpdateNotificationKey(string email, string Token)
         {
 
             try
             {
                 Con.Open();
-                _cmd = new SqlCommand($"Update TbUsers set _endpoint = @endpoint, p256dh = @p256dh, auth = @auth where email = @email", Con);
-                _cmd.Parameters.Add(new SqlParameter("@endpoint", endpoint));
-                _cmd.Parameters.Add(new SqlParameter("@p256dh", p256Dh));
-                _cmd.Parameters.Add(new SqlParameter("@auth", auth));
+                _cmd = new SqlCommand($"Update TbUsers set Token = @token where email = @email", Con);
+                _cmd.Parameters.Add(new SqlParameter("@token", Token));
                 _cmd.Parameters.Add(new SqlParameter("@email", email));
                 _cmd.ExecuteNonQuery();
             }
@@ -262,7 +260,7 @@ namespace _DAL
             try
             {
                 Con.Open();
-                _cmd = new SqlCommand($"Select _endpoint , p256dh , auth from TbUsers where email = @email", Con);
+                _cmd = new SqlCommand($"Select Token from TbUsers where email = @email", Con);
                 _cmd.Parameters.Add(new SqlParameter("@email", email));
                 _adtr = new SqlDataAdapter(_cmd);
 
