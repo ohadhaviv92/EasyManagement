@@ -4,6 +4,11 @@ import { Icon } from 'react-native-elements'
 
 export default class Login extends Component {
 
+state = {
+  userName: '',
+  Password: ''
+}
+
   render() {
     return (
       <View style={{marginTop: height*0.2}}>
@@ -21,6 +26,7 @@ export default class Login extends Component {
             keyboardType='email-address'
             placeholderTextColor="white"
             underlineColorAndroid="transparent"
+            onChangeText= {(text)=>{this.setState({userName: text})}}
           />
 
           <TextInput
@@ -29,6 +35,7 @@ export default class Login extends Component {
             secureTextEntry={true}
             placeholderTextColor="white"
             underlineColorAndroid="transparent"
+            onChangeText= {(text)=>{this.setState({Password: text})}}
           />
 
         </View>

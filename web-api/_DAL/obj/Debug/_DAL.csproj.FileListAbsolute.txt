@@ -3,3 +3,9 @@ C:\Users\Orhay\source\repos\WebApplication4\_DAL\bin\Debug\_DAL.pdb
 C:\Users\Orhay\source\repos\WebApplication4\_DAL\obj\Debug\_DAL.csproj.CoreCompileInputs.cache
 C:\Users\Orhay\source\repos\WebApplication4\_DAL\obj\Debug\_DAL.dll
 C:\Users\Orhay\source\repos\WebApplication4\_DAL\obj\Debug\_DAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\bin\Debug\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\bin\Debug\_DAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\obj\Debug\_DAL.csprojAssemblyReference.cache
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\obj\Debug\_DAL.csproj.CoreCompileInputs.cache
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\obj\Debug\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\obj\Debug\_DAL.pdb
