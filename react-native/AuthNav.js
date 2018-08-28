@@ -28,7 +28,7 @@ export default class AuthScreen extends Component {
 
     componentDidMount() {
 
-      Notification.Register("orhay92@gmail.com");
+      //Notification.Register("orhay92@gmail.com");
         // Animated.timing(             
         //   this.state.loginAnimation,            
         //   {
@@ -49,9 +49,7 @@ export default class AuthScreen extends Component {
   
     }
 
-    Submit = () => {
 
-    }
     
   render() {
     const {loginAnimation, logoAnimation} = this.state;
