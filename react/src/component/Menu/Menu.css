@@ -1,0 +1,46 @@
+a:link, a:visited, a:hover, a:active{
+color: var(--color);
+text-decoration: none;
+}
+
+
+.nav__container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: var(--tint);
+    opacity: 0.9;
+    color: var(--color);
+    font-size: 36px;
+    transition: width 0.4s 0.1s;
+    overflow: hidden;
+}
+
+.links__container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 15vh;
+    margin-left: 2vh;
+    height: auto;
+}
+
+.links__container * {
+   margin-bottom: 2vh;
+}
+
+.nav__container.open{
+    width: 20%;
+}
+
+.nav__container.close{
+    width: 0;
+}
+
+
+@media only screen and (max-device-width: 780px) {
+    .nav__container.open{
+        width: 66%;
+    }
+}
