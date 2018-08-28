@@ -40,12 +40,7 @@ export default class Register extends Component {
   render() {
     return (
       <View style={{ marginTop: height * 0.05, height: height * 0.7 }}>
-        <TouchableOpacity onPress={this.onRegister}>
-          <Image
-            source={require("../../assets/Confirm.png")}
-            style={styles.confirm}
-          />
-        </TouchableOpacity>
+    
         <View style={styles.title}>
           <Text style={styles.text_big}>Sign up</Text>
           <Text style={styles.text_small}>/ LOGIN</Text>
@@ -113,6 +108,12 @@ export default class Register extends Component {
             onPress={() => this.props.navigation.navigate("Login")}
           />
         </View>
+        <TouchableOpacity onPress={this.onRegister} style={styles.confirm}>
+          <Image
+            source={require("../../assets/Confirm.png")}
+            
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -120,7 +121,9 @@ export default class Register extends Component {
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   confirm: {
-    marginLeft: 30
+    position: 'absolute',
+    right: 30,
+    bottom: 30
   },
   input: {
     backgroundColor: "rgba(255, 255, 255, 0.4)",
@@ -133,14 +136,13 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   title: {
-    marginBottom: 50,
     flexDirection: "row",
     marginLeft: 30
   },
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "center",
+    marginTop: 30,
     alignItems: "center"
   },
   text_small: {

@@ -7,10 +7,12 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  AsyncStorage
+  Alert,
+  AsyncStorage,
+  KeyboardAvoidingView
 } from "react-native";
 import { Icon } from "react-native-elements";
-import SQL from '../../Handlers/SQL';
+import SQL from "../../Handlers/SQL";
 
 export default class Login extends Component {
   state = {
@@ -18,36 +20,34 @@ export default class Login extends Component {
     Password: ""
   };
 
-  onLogin = async() => {
+  onLogin = async () => {
     try {
-      console.log(this.state.userName, this.state.Password);
-      
       const user = await SQL.Login(this.state.userName, this.state.Password);
       await AsyncStorage.setItem("user", JSON.stringify(user));
-      this.props.navigation.navigate('Home');
-      
+      this.props.navigation.navigate("Home");
     } catch (error) {
       console.log(error);
-      
+      Alert.alert(error, "", [{ text: "OK" }]);
     }
-
   };
+
+  async componentDidMount(){
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+    if(user != undefined){
+      this.props.navigation.navigate("Home");
+    }
+  }
 
   render() {
     return (
-      <View style={{ marginTop: height * 0.05,height: height*0.7 }}>
-      <TouchableOpacity onPress={this.onLogin} >
-          <Image
-            source={require("../../assets/Confirm.png")}
-            style={styles.confirm}
-          />
-       </TouchableOpacity>
+      <View style={{ marginTop: height * 0.05, height: height * 0.7 }}>
         <View style={styles.title}>
           <Text style={styles.text_big}>LOGIN</Text>
           <Text style={styles.text_small}>/ Sign up</Text>
         </View>
 
-        <View style={styles.container}>
+<KeyboardAvoidingView enabled behavior ='position' style={styles.container}>
+
           <TextInput
             style={styles.input}
             placeholder="User name"
@@ -69,8 +69,8 @@ export default class Login extends Component {
               this.setState({ Password: text });
             }}
           />
-        </View>
 
+        </KeyboardAvoidingView>
         <View style={styles.Arrow}>
           <Icon
             type="ionicon"
@@ -81,6 +81,12 @@ export default class Login extends Component {
             onPress={() => this.props.navigation.navigate("Register")}
           />
         </View>
+
+        <TouchableOpacity onPress={this.onLogin}  style={styles.confirm}>
+          <Image
+            source={require("../../assets/Confirm.png")}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -89,7 +95,9 @@ export default class Login extends Component {
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   confirm: {
-    marginLeft: 30
+    position: 'absolute',
+    right: 30,
+    bottom: 30
   },
   input: {
     backgroundColor: "rgba(255, 255, 255, 0.4)",
@@ -106,10 +114,9 @@ const styles = StyleSheet.create({
     marginLeft: 30
   },
   container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
+   flexDirection: "column",
+    marginTop: 30,
+    alignItems: "center",
   },
   text_small: {
     color: "white",
@@ -123,16 +130,5 @@ const styles = StyleSheet.create({
   Arrow: {
     position: "absolute",
     right: 10,
-    top: height / 2.5
   },
-
-  hexagon: {
-    width: 100,
-    height: 55
-  },
-  hexagonInner: {
-    width: 100,
-    height: 55,
-    backgroundColor: "#ffdd00"
-  }
 });
