@@ -1,0 +1,48 @@
+.modal{
+    background: var(--tint);
+    height: 80vh;
+    opacity: 0.9;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.4s 0.1s;
+}
+.modal.opened{
+    position: absolute;
+    transform: translate(-50% , -50%);
+    width: 100vh;
+    left: 50%;
+    top: 50%
+}
+
+.modal.closed{
+    position: absolute;
+    transform: translate(0 , -50%);
+    width: 0;
+    left: 100%;
+    top: 50%;
+    visibility: hidden;
+}
+
+
+@media only screen and (max-device-width: 680px) {
+
+    .modal.opened{
+        position: absolute;
+        transform: translate(-50% , -50%);
+        height: 80vh;
+        width: 40vh;
+        left: 50%;
+        top: 50%
+    }
+    
+    .modal.closed{
+        position: absolute;
+        transform: translate(-50% , 0);
+        height: 0;
+        left: 50%;
+        width: 40vh;
+        top: 0;
+        visibility: hidden;
+    }
+    
+}

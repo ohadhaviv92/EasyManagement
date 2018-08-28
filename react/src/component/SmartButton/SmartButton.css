@@ -1,0 +1,48 @@
+
+  .login__submit {
+    position: relative;
+    width: 200px;
+    height: 4rem;
+    margin: 5rem 0 2.2rem;
+    color: var(--color);
+    background: var(--backgroundColor);
+    font-size: 1.5rem;
+    border-radius: 3rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: width 0.3s 0.15s, font-size 0.1s 0.15s;
+  }
+  .login__submit:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -1.5rem;
+    margin-top: -1.5rem;
+    width: 3rem;
+    height: 3rem;
+    border: 2px dotted var(--color);
+    border-radius: 50%;
+    border-left: none;
+    border-bottom: none;
+    transition: opacity 0.1s 0.4s;
+    opacity: 0;
+  }
+  .login__submit.processing {
+    width: 4rem;
+    font-size: 0;
+  }
+  .login__submit.processing:after {
+    opacity: 1;
+    animation: rotate 0.5s 0.4s infinite linear;
+  }
+  .login__submit.success {
+    transition: transform 0.3s 0.1s ease-out, opacity 0.1s 0.3s, background-color 0.1s 0.3s;
+    transform: scale(40);
+    opacity: 0.9;
+  }
+  .login__submit.success:after {
+    transition: opacity 0.1s 0s;
+    opacity: 0;
+    animation: none;
+  }

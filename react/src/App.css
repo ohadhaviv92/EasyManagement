@@ -1,0 +1,47 @@
+/*E6E2AF   A7A37E   EFECCA    046380    002F2F */
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root{
+  --backgroundColor: #046380;
+  --tint: rgb(167, 163, 126);
+  --tintA: rgba(167, 163, 126, 0.6);
+  --color: #EFECCA;
+}
+
+
+.tint {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom, var(--tintA) 0%, rgba(0, 0, 0, 0.4) 100%);
+  transition: opacity 0.1s, transform 0.3s cubic-bezier(0.17, -0.65, 0.665, 1.25);
+  transform: scale(1);
+
+}
+
+
+html, body {
+  font-size: 62.5%;
+  height: 100%;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  html, body {
+    font-size: 50%;
+  }
+}
+
+
+.cont {
+  position: relative;
+  height: 100vh;
+  background-image: url(/bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: auto;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}

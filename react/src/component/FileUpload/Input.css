@@ -1,0 +1,10 @@
+.inputfile{
+    visibility: hidden;
+    overflow: hidden;
+}
+
+.inputfile--btn{
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
