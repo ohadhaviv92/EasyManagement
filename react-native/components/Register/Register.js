@@ -8,6 +8,10 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
+
+const regexEmail = /^(([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}))$/;
+const regexAZ = /^[A-Z]*$/;
+const regexNum = /^[0-9]*$/;
 export default class Register extends Component {
 
   state = {
@@ -20,18 +24,27 @@ export default class Register extends Component {
   }
 
   onRegister = async () => {
-    try {
-      const { userName, password, firstName, lastName, email, tel } = this.state;
-      const user = await SQL.Register(userName, password, firstName, lastName, email, tel)
-      await AsyncStorage.setItem("user", JSON.stringify(user));
-      console.log(user);
+    if (!((regexAZ.test(this.state.userName.toUpperCase()) && this.state.userName != '') &&
+      (this.state.password.length > 3 ) &&
+      (regexEmail.test(this.state.email.toUpperCase()) && this.state.email != '') &&
+      (regexAZ.test(this.state.firstName.toUpperCase()) && this.state.firstName != '') &&
+      (regexAZ.test(this.state.lastName.toUpperCase()) && this.state.lastName != '') &&
+      (regexAZ.test(this.state.lastName.toUpperCase()) && this.state.lastName != '') &&
+      (regexNum.test(this.state.tel) && this.state.tel != '')))
+        return;
 
-      this.props.navigation.navigate('HomeNav');
+      try {
+        const { userName, password, firstName, lastName, email, tel } = this.state;
+        const user = await SQL.Register(userName, password, firstName, lastName, email, tel)
+        await AsyncStorage.setItem("user", JSON.stringify(user));
+        console.log(user);
 
-    } catch (error) {
-      console.log(error);
+        this.props.navigation.navigate('HomeNav');
 
-    }
+      } catch (error) {
+        console.log(error);
+
+      }
 
   };
 
@@ -40,14 +53,14 @@ export default class Register extends Component {
       <View style={styles.container}>
 
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.userName.toUpperCase()) || this.state.userName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="User name"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ userName: text }) }}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderWidth: 1, borderColor: this.state.password.length > 3 || this.state.password == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="Password"
           secureTextEntry={true}
           placeholderTextColor="#ECF0F1"
@@ -55,7 +68,7 @@ export default class Register extends Component {
           onChangeText={(text) => { this.setState({ password: text }) }}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderWidth: 1, borderColor: regexEmail.test(this.state.email.toUpperCase()) || this.state.email == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="Email"
           keyboardType="email-address"
           placeholderTextColor="#ECF0F1"
@@ -63,7 +76,7 @@ export default class Register extends Component {
           onChangeText={(text) => { this.setState({ email: text }) }}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.firstName.toUpperCase()) || this.state.firstName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="First name"
           secureTextEntry={true}
           placeholderTextColor="#ECF0F1"
@@ -71,14 +84,14 @@ export default class Register extends Component {
           onChangeText={(text) => { this.setState({ firstName: text }) }}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.lastName.toUpperCase()) || this.state.lastName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="Last name"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ lastName: text }) }}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderWidth: 1, borderColor: regexNum.test(this.state.tel) || this.state.tel == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="Phone"
           keyboardType="phone-pad"
           placeholderTextColor="#ECF0F1"
@@ -86,7 +99,7 @@ export default class Register extends Component {
           onChangeText={(text) => { this.setState({ tel: text }) }}
         />
 
-        <Button title='Register' onPress={this.onRegister} color='#3498DB'/>
+        <Button title='Register' onPress={this.onRegister} color='#3498DB' />
 
         <View style={styles.Arrow}>
           <Icon
