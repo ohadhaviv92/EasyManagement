@@ -1,7 +1,7 @@
 import React from 'react';
 import {  createSwitchNavigator } from 'react-navigation';
 import AuthNav from './AuthNav';
-import Home from './components/Home/Home';
+import HomeNav from './HomeNav';
 
 export default class App extends React.Component {
 
@@ -14,5 +14,5 @@ export default class App extends React.Component {
 
 const AppNav = createSwitchNavigator({
   AuthNav,
-  Home
+  HomeNav
 });
