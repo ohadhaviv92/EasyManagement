@@ -8,10 +8,12 @@ import {
   Button,
   TextInput
 } from "react-native";
+import SQL from '../../Handlers/SQL';
 import { Icon } from "react-native-elements";
-import SQL from "../../Handlers/SQL";
+import { connect } from 'react-redux'
+import { onLogin } from '../../actions/auth';
 
-export default class Login extends Component {
+ class Login extends Component {
   state = {
     userName: "",
     Password: ""
@@ -19,8 +21,10 @@ export default class Login extends Component {
 
   onLogin = async () => {
     try {
-      const user = await SQL.Login(this.state.userName, this.state.Password);
-      await AsyncStorage.setItem("user", JSON.stringify(user));
+      const userDetails = await SQL.Login(this.state.userName, this.state.Password);
+      await this.props.onLogin(userDetails);
+      
+      await AsyncStorage.setItem("user", JSON.stringify(userDetails));
       this.props.navigation.navigate("HomeNav");
     } catch (error) {
       console.log(error);
@@ -30,7 +34,9 @@ export default class Login extends Component {
 
   async componentDidMount() {
     const user = JSON.parse(await AsyncStorage.getItem('user'));
+    
     if (user != undefined) {
+      await this.props.onLogin(user);
       this.props.navigation.navigate("HomeNav");
     }
   }
@@ -96,3 +102,10 @@ const styles = StyleSheet.create({
   },
 
 });
+
+const mapDispatchToProps = (dispatch) => ({
+  onLogin: (userDetails) => dispatch(onLogin(userDetails)),
+
+})
+
+export default connect(null, mapDispatchToProps)(Login);
