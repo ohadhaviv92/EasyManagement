@@ -11,7 +11,7 @@ import {
   import { Icon } from "react-native-elements";
   import { DrawerItems } from 'react-navigation';
   import { connect } from 'react-redux'
-  import { Logout } from './actions/auth';
+  import { Logout } from './actions/userAction';
 
 const DrawerWithLogoutButton = (props) => (
 

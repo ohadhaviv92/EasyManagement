@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, FlatList, View, AsyncStorage,RefreshControl, StyleSheet, Dimensions } from 'react-native'
+import { Text, FlatList, View ,RefreshControl, StyleSheet, Dimensions } from 'react-native'
 import PreviewSite from '../Site/PreviewSite';
 import {connect} from 'react-redux';
 class Home extends Component {
@@ -19,7 +19,7 @@ class Home extends Component {
     );
   }
   _keyExtractor = (site) => site.SiteId.toString();
-  _renderItem = (site) => <PreviewSite site={site.item} />
+  _renderItem = (site) => <PreviewSite site={site.item} navigation={this.props.navigation}/>
   render() {
     return (
       <View>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    Sites: state.auth.Sites
+    Sites: state.sites
   }
 }
 

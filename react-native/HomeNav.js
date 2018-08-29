@@ -5,6 +5,7 @@ import {
 } from "react-native";
 import Home from './components/Home/Home';
 import Settings from './components/General/Settings';
+import Site from './components/Site/Site';
 import { createDrawerNavigator } from 'react-navigation';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import DraweMenu from './DrawerMenu';
@@ -12,11 +13,16 @@ import DraweMenu from './DrawerMenu';
 
 
 
-
 const HomeNav = createDrawerNavigator(
   {
     Home,
-    Settings
+    Settings,
+    Site: {
+      screen: Site,
+      navigationOptions: {
+        drawerLabel: () => null,
+      }
+    },
   }, {
     contentComponent: DraweMenu,
   }
