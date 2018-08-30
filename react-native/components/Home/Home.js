@@ -1,20 +1,16 @@
 import React, { Component } from 'react'
 import { Text, FlatList, View, AsyncStorage,RefreshControl, StyleSheet, Dimensions } from 'react-native'
 import PreviewSite from '../Site/PreviewSite';
-
-export default class Home extends Component {
+import {connect} from 'react-redux';
+class Home extends Component {
   state = {
-    user: {},
     refreshing: false
   }
-  async componentDidMount() {
-    const user = JSON.parse(await AsyncStorage.getItem('user'));
-    this.setState({ user })
-
-  }
+ 
   _onRefresh = () => {
 
   }
+
   _ListEmptyComponent = () => {
     return(
       <View style={styles.container}>
@@ -35,7 +31,7 @@ export default class Home extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.state.user.Sites}
+          data={this.props.Sites}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
@@ -61,3 +57,11 @@ const styles = StyleSheet.create({
   }
 
 })
+
+const mapStateToProps = state => {
+  return {
+    Sites: state.auth.Sites
+  }
+}
+
+export default connect(mapStateToProps)(Home);
