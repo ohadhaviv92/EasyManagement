@@ -2,21 +2,21 @@ export default (state = [] , action) => {
 
     switch (action.type) {
 
-        case 'SET_ROOMS':
+        case 'SET_FAULTS':
             return(
                 {
-                    SiteID: action.SiteID,
+                    RoomID: action.RoomID,
                     details: [...action.payload]
           
                 }
             )
-        case 'ADD_ROOMS':
+        case 'ADD_FAULTS':
             return([...state].concat(action.payload))
-        case "REMOVE_ROOM":
-            roomIndex = state.filter((item, index)=> {return item.RoomId == action.payload.RoomId ? index : -1})
-            if(siteIndex == -1)
+        case "REMOVE_FAULT":
+            faultIndex = state.filter((item, index)=> {return item.RoomId == action.payload.RoomID ? index : -1})
+            if(faultIndex == -1)
                 return state;
-            return state.splice(siteIndex, 1);
+            return state.splice(faultIndex, 1);
         default:
             return state;
     }

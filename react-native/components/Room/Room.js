@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Text, FlatList, View ,RefreshControl, StyleSheet, Dimensions } from 'react-native'
 import {connect} from 'react-redux';
-import RoomPreview from '../Room/RoomPreview';
+import FaultPreview from '../Fault/FaultPreview';
 
-class Site extends Component {
+class Room extends Component {
     state = {
         refreshing: false
       }
@@ -20,8 +20,8 @@ class Site extends Component {
         );
       }
       _ItemSeparatorComponent = () => <View style={{width,height: 2, backgroundColor: '#E74C3C',marginVertical: 7 }}></View>
-      _keyExtractor = (room) => room.RoomId.toString();
-      _renderItem = (room) => <RoomPreview room={room.item} navigation={this.props.navigation}/>
+      _keyExtractor = (fault) => fault.FaultId.toString();
+      _renderItem = (fault) => <FaultPreview fault={fault.item} />
       render() {
         return (
           <View>
@@ -34,7 +34,7 @@ class Site extends Component {
                   onRefresh={this._onRefresh}
                 />
               }
-              data={this.props.Rooms}
+              data={this.props.Faults}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
             />
@@ -64,8 +64,9 @@ class Site extends Component {
 
 const mapStateToProps = state => {
     return {
-      Rooms: state.rooms.details
+      Faults: state.faults.details,
+      RoomID: state.faults.RoomID
     }
   }
   
-  export default connect(mapStateToProps)(Site);
+  export default connect(mapStateToProps)(Room);

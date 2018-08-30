@@ -7,7 +7,8 @@ class PreviewSite extends Component {
 
 
   onSiteClick = async() => {
-    await this.props.SetRooms(this.props.site.Rooms);
+    
+    await this.props.SetRooms(this.props.site.Rooms, this.props.site.SiteId);
     this.props.navigation.navigate("Site");
   }
 
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  SetRooms: (Rooms) => dispatch(SetRooms(Rooms))
+  SetRooms: (Rooms,SiteID) => dispatch(SetRooms(Rooms, SiteID))
 })
 
 export default connect(null, mapDispatchToProps)(PreviewSite);

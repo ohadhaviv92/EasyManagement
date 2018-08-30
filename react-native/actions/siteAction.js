@@ -1,3 +1,12 @@
+export const SetSites = (Sites) => (dispatch) => {
+
+    dispatch({
+        type: 'SET_SITES',
+        payload: Sites
+    });
+
+}
+
 export const addSites = (Sites) => (dispatch) => {
 
     dispatch({
