@@ -38,7 +38,6 @@ import { addSites } from '../../actions/siteAction';
   async componentDidMount() {
     const user = JSON.parse(await AsyncStorage.getItem('user'));
     const sites = JSON.parse(await AsyncStorage.getItem('sites'));
-    console.log(user , sites);
     
     if (user != undefined) {
       await this.props.onLogin(user);

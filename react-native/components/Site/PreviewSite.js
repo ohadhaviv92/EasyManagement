@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
-import { AddRooms } from '../../actions/roomAction';
+import { SetRooms } from '../../actions/roomAction';
 
 class PreviewSite extends Component {
 
 
   onSiteClick = async() => {
-    await this.props.AddRooms(this.props.site.Rooms)
+    await this.props.SetRooms(this.props.site.Rooms);
+    this.props.navigation.navigate("Site");
   }
 
   render() {    
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  AddRooms: (Rooms) => dispatch(AddRooms(Rooms))
+  SetRooms: (Rooms) => dispatch(SetRooms(Rooms))
 })
 
 export default connect(null, mapDispatchToProps)(PreviewSite);

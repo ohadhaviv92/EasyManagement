@@ -19,7 +19,7 @@ class Home extends Component {
     );
   }
   _keyExtractor = (site) => site.SiteId.toString();
-  _renderItem = (site) => <PreviewSite site={site.item} />
+  _renderItem = (site) => <PreviewSite site={site.item} navigation={this.props.navigation}/>
   render() {
     return (
       <View>
