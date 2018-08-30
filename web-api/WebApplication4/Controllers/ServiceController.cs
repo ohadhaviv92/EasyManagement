@@ -11,10 +11,19 @@ namespace WebApplication2.Controllers
 {
     public class ServiceController : ApiController
     {
-        
-       public string GetKey()
+
+        [HttpGet]
+        [ActionName("GetKey")]
+        public string GetKey()
         {
             return Bal.Instance.GetKey();
+        }
+
+        [HttpGet]
+        [ActionName("jobsDetails")]
+        public List<JobDetails> GetJobsDetails()
+        {
+            return Bal.Instance.GetJobs();
         }
 
         [HttpPost]

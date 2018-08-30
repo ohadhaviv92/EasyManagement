@@ -44,12 +44,11 @@ export default class SQL {
         });
 
         const data = await res.json();
-        console.log(data);
-        
-        if (data.error !== undefined)
-          // if a JSON was not returned from SQL, its a custom error message
-          reject(data.error);
 
+        if (data.Error !== undefined){
+          // if a JSON was not returned from SQL, its a custom error message
+          reject(data.Error);
+        }
         resolve(data);
       } catch (error) {
         reject(error);
@@ -100,7 +99,38 @@ export default class SQL {
       console.log(error);
       
     }
-  
 
   }
+
+
+
+  
+  static GetJobs() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/jobsDetails`,
+          {
+            headers: {
+              "content-type": "application/json"
+            },
+            method: "GET"
+          }
+        );
+
+
+        const data = await res.json();
+
+        if (data !== null) {
+          resolve(data);
+        }
+        reject("No Key was fetched");
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+
+
+
 }

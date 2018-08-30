@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-
+import {SetFaults} from '../../actions/faultAction';
+import {connect} from 'react-redux';
 class PreviewRoom extends Component {
 
 
   onSiteClick = async() => {
-    console.log(this.props.room);
-    
+    this.props.navigation.navigate('Room');
+    this.props.SetFaults(this.props.room.Faults , this.props.room.RoomId)
   }
 
   render() {    
@@ -38,4 +39,9 @@ const styles = StyleSheet.create({
 
 })
 
-export default PreviewRoom;
+
+const mapDispatchToProps = (dispatch) => ({
+  SetFaults: (Faults,RoomID) => dispatch(SetFaults(Faults, RoomID))
+})
+
+export default connect(null, mapDispatchToProps)(PreviewRoom);
