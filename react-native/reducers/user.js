@@ -3,10 +3,7 @@ export default (state = {} , action) => {
     switch (action.type) {
 
         case 'LOGIN_USER':
-            return({
-                User: action.payload.User,
-                Sites: action.payload.Sites,
-            })
+            return(action.payload)
         case "LOGOUT":
             return {};
         default:

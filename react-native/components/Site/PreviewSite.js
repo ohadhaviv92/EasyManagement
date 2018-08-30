@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux';
+import { AddRooms } from '../../actions/roomAction';
 
-export default class PreviewSite extends Component {
+class PreviewSite extends Component {
+
+
+  onSiteClick = async() => {
+    await this.props.AddRooms(this.props.site.Rooms)
+  }
 
   render() {    
     const site = this.props.site;
 
     return (
+      <TouchableOpacity onPress={this.onSiteClick}>
       <View style={styles.container}>
         <Text style={styles.text}>{site.SiteName}</Text>
         <Text style={styles.text}>{site.SiteAddress}</Text>
       </View>
+      </TouchableOpacity>
     )
   }
 }
@@ -28,3 +37,9 @@ const styles = StyleSheet.create({
   }
 
 })
+
+const mapDispatchToProps = (dispatch) => ({
+  AddRooms: (Rooms) => dispatch(AddRooms(Rooms))
+})
+
+export default connect(null, mapDispatchToProps)(PreviewSite);

@@ -1,6 +1,16 @@
 import {combineReducers} from 'redux';
-import auth from './auth';
+import user from './user';
+import sites from './sites';
+import rooms from './rooms';
 
-export default combineReducers({
-    auth
+const appReducer = combineReducers({
+    user,
+    sites,
+    rooms
 })
+
+export default (state , action) => {
+    if(action.type === 'LOGOUT')
+        state = {}
+    return appReducer(state , action);
+}

@@ -11,7 +11,8 @@ import {
 import SQL from '../../Handlers/SQL';
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux'
-import { onLogin } from '../../actions/auth';
+import { onLogin } from '../../actions/userAction';
+import { addSites } from '../../actions/siteAction';
 
  class Login extends Component {
   state = {
@@ -22,9 +23,11 @@ import { onLogin } from '../../actions/auth';
   onLogin = async () => {
     try {
       const userDetails = await SQL.Login(this.state.userName, this.state.Password);
-      await this.props.onLogin(userDetails);
-      
-      await AsyncStorage.setItem("user", JSON.stringify(userDetails));
+      await this.props.onLogin(userDetails.User);
+      await this.props.addSites(userDetails.Sites);
+
+      await AsyncStorage.setItem("user", JSON.stringify(userDetails.User));
+      await AsyncStorage.setItem("sites", JSON.stringify(userDetails.Sites));
       this.props.navigation.navigate("HomeNav");
     } catch (error) {
       console.log(error);
@@ -34,9 +37,12 @@ import { onLogin } from '../../actions/auth';
 
   async componentDidMount() {
     const user = JSON.parse(await AsyncStorage.getItem('user'));
+    const sites = JSON.parse(await AsyncStorage.getItem('sites'));
+    console.log(user , sites);
     
     if (user != undefined) {
       await this.props.onLogin(user);
+      await this.props.addSites(sites);
       this.props.navigation.navigate("HomeNav");
     }
   }
@@ -105,6 +111,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => ({
   onLogin: (userDetails) => dispatch(onLogin(userDetails)),
+  addSites: (Sites) => dispatch(addSites(Sites))
 
 })
 

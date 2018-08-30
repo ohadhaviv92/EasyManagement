@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, FlatList, View, AsyncStorage,RefreshControl, StyleSheet, Dimensions } from 'react-native'
+import { Text, FlatList, View ,RefreshControl, StyleSheet, Dimensions } from 'react-native'
 import PreviewSite from '../Site/PreviewSite';
 import {connect} from 'react-redux';
 class Home extends Component {
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    Sites: state.auth.Sites
+    Sites: state.sites
   }
 }
 
