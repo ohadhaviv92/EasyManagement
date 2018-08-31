@@ -31,7 +31,7 @@ import { SetSites } from '../../actions/siteAction';
       this.props.navigation.navigate("HomeNav");
     } catch (error) {
       console.log(error);
-      Alert.alert(error, "", [{ text: "OK" }]);
+      alert(error);
     }
   };
 

@@ -44,12 +44,11 @@ export default class SQL {
         });
 
         const data = await res.json();
-        console.log(data);
-        
-        if (data.error !== undefined)
-          // if a JSON was not returned from SQL, its a custom error message
-          reject(data.error);
 
+        if (data.Error !== undefined){
+          // if a JSON was not returned from SQL, its a custom error message
+          reject(data.Error);
+        }
         resolve(data);
       } catch (error) {
         reject(error);

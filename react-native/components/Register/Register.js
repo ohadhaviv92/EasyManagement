@@ -5,15 +5,17 @@ import {
   Dimensions,
   TextInput,
   Button,
-  Alert
+  AsyncStorage
 } from "react-native";
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
+import { onLogin } from '../../actions/userAction';
+import {connect} from 'react-redux';
 
 const regexEmail = /^(([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}))$/;
 const regexAZ = /^[A-Z0-9]*$/;
 const regexNum = /^[0-9]*$/;
-export default class Register extends Component {
+class Register extends Component {
 
   state = {
     userName: '',
@@ -31,20 +33,22 @@ export default class Register extends Component {
       (regexAZ.test(this.state.firstName.toUpperCase()) && this.state.firstName != '') &&
       (regexAZ.test(this.state.lastName.toUpperCase()) && this.state.lastName != '') &&
       (regexAZ.test(this.state.lastName.toUpperCase()) && this.state.lastName != '') &&
-      (regexNum.test(this.state.tel) && this.state.tel != '')))
+      (regexNum.test(this.state.tel) && this.state.tel != ''))){
+        alert('please fill every input and all inputs valid');
         return;
+      }
 
       try {
         const { userName, password, firstName, lastName, email, tel } = this.state;
         const user = await SQL.Register(userName, password, firstName, lastName, email, tel)
+        await this.props.onLogin(user.User);
         await AsyncStorage.setItem("user", JSON.stringify(user));
-        console.log(user);
 
         this.props.navigation.navigate('HomeNav');
 
       } catch (error) {
         console.log(error);
-        Alert.alert(error, "", [{ text: "OK" }]);
+        alert(error);
       }
 
   };
@@ -82,7 +86,6 @@ export default class Register extends Component {
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.firstName.toUpperCase()) || this.state.firstName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="First name"
-          secureTextEntry={true}
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           value={this.state.firstName}
@@ -145,3 +148,13 @@ const styles = StyleSheet.create({
     left: 10,
   }
 });
+
+
+
+const mapDispatchToProps = (dispatch) => ({
+  onLogin: (userDetails) => dispatch(onLogin(userDetails)),
+  SetSites: (Sites) => dispatch(SetSites(Sites))
+
+})
+
+export default connect(null, mapDispatchToProps)(Register);
