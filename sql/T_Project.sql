@@ -114,6 +114,24 @@ faultPicture nvarchar(max)
  );
 
 
+
+ create table TbInvaites 
+ (
+ siteID int FOREIGN KEY REFERENCES TbBuildingSite(siteID),
+ SenderID int FOREIGN KEY REFERENCES TbUsers(userID),
+ reciverID int FOREIGN KEY REFERENCES TbUsers(userID),
+ userTypeID int FOREIGN KEY REFERENCES TbUsersType(userTypeID)
+ )
+
+
+
+
+
+
+
+
+
+
 ------------------------הכנסת נתונים--------------------------------
 
 
@@ -221,7 +239,7 @@ WHERE        (dbo.TbUsersInSite.userID = @userID)
 go
 
 
-alter proc AddRoomInSite
+create proc AddRoomInSite
 @siteID int,
 @roomTypeID int,
 @roomName nvarchar(50),
@@ -311,4 +329,62 @@ FROM            dbo.TbFaultPicture
 WHERE        (faultID = @faultID)
 
 GO
+
+
+
+ alter  proc SendInvaite 
+ @siteID int , 
+ @senderID int ,
+ @reciverName nvarchar(max),
+ @UsersType int
+ as
+ declare @id int=(select [userID] from  [dbo].[TbUsers] where [userName]=@reciverName or [email]=@reciverName )
+  if(@id = @senderID)
+ begin
+  select 'its not posibale to sent invaite for self '
+ end
+ else 
+ begin
+   if (@id > 0)
+   begin 
+   
+ if not exists (select reciverID from [dbo].[TbInvaites] where siteID = @siteID and [reciverID]=@id  )
+ begin 
+ insert [dbo].[TbInvaites] (siteID, SenderID, reciverID,userTypeID ) values (@siteID,@senderID,@id,@UsersType)
+ select * from [dbo].[TbUsers] where [userID]=@id
+ end
+ else 
+ begin 
+ select 'this user is alredy invaite'
+ end
+ end
+ else
+ begin 
+ select 'user name or email incorrect'
+ end
+ end
+ go
+
+
+ create proc GetSendInvaite
+ @userID int 
+ as
+ SELECT        dbo.TbBuildingSite.siteName, dbo.TbBuildingSite.siteAddress, dbo.TbInvaites.SenderID, dbo.TbUsers.userName, dbo.TbUsers.firstName, dbo.TbUsers.lastName, dbo.TbUsers.tel, dbo.TbUsers.img, dbo.TbUsers.Token, 
+                         dbo.TbUsers.userID, dbo.TbUsers.email
+FROM            dbo.TbInvaites INNER JOIN
+                         dbo.TbBuildingSite ON dbo.TbInvaites.siteID = dbo.TbBuildingSite.siteID INNER JOIN
+                         dbo.TbUsers ON dbo.TbInvaites.reciverID = dbo.TbUsers.userID
+WHERE        (dbo.TbInvaites.SenderID =  @userID)
+go
+
+ create proc GetReciveInvaite
+  @userID int 
+ as
+ SELECT        dbo.TbBuildingSite.siteName, dbo.TbBuildingSite.siteAddress, dbo.TbInvaites.SenderID, dbo.TbUsers.userName, dbo.TbUsers.firstName, dbo.TbUsers.lastName, dbo.TbUsers.tel, dbo.TbUsers.img, dbo.TbUsers.Token, 
+                         dbo.TbUsers.userID, dbo.TbUsers.email
+FROM            dbo.TbInvaites INNER JOIN
+                         dbo.TbBuildingSite ON dbo.TbInvaites.siteID = dbo.TbBuildingSite.siteID INNER JOIN
+                         dbo.TbUsers ON dbo.TbInvaites.reciverID = dbo.TbUsers.userID
+WHERE        (dbo.TbInvaites.ReciverID =  @userID)
+go
 
