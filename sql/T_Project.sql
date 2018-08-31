@@ -389,3 +389,40 @@ FROM            site04.TbInvaites INNER JOIN
 WHERE        (site04.TbInvaites.ReciverID =  @userID)
 go
 
+
+create proc ConfirmInvaite
+@siteID int,
+@senderID int,
+@reciverID int
+as
+
+declare @userType int= (select [userTypeID] from [site04].[TbInvaites] where [siteID]=@siteID and [SenderID]=@senderID and [reciverID]=@reciverID)
+
+insert [site04].[TbUsersInSite] (siteID, userID, userTypeID) values (@siteID,@reciverID,@userType) 
+
+SELECT        site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteAddress, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.email, site04.TbUsers.tel, site04.TbUsers.img, 
+                         site04.TbUsers.Token, site04.TbUsers.userID
+FROM            site04.TbBuildingSite INNER JOIN
+                         site04.TbInvaites ON site04.TbBuildingSite.siteID = site04.TbInvaites.siteID INNER JOIN
+                         site04.TbUsers ON site04.TbInvaites.SenderID = site04.TbUsers.userID
+WHERE        (site04.TbBuildingSite.siteID = @siteID) AND (site04.TbUsers.userID = @senderID) AND (site04.TbInvaites.reciverID = @reciverID)
+
+DELETE FROM [site04].[TbInvaites] WHERE [siteID]=@siteID and [reciverID]=@reciverID;
+go 
+
+create proc RejectInvaite
+@siteID int,
+@senderID int,
+@reciverID int
+as
+SELECT        site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteAddress, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.email, site04.TbUsers.tel, site04.TbUsers.img, 
+                         site04.TbUsers.Token, site04.TbUsers.userID
+FROM            site04.TbBuildingSite INNER JOIN
+                         site04.TbInvaites ON site04.TbBuildingSite.siteID = site04.TbInvaites.siteID INNER JOIN
+                         site04.TbUsers ON site04.TbInvaites.SenderID = site04.TbUsers.userID
+WHERE        (site04.TbBuildingSite.siteID = @siteID) AND (site04.TbUsers.userID = @senderID) AND (site04.TbInvaites.reciverID = @reciverID)
+
+DELETE FROM [site04].[TbInvaites] WHERE [siteID]=@siteID and [reciverID]=@reciverID;
+go 
+
+
