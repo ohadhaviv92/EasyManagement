@@ -135,31 +135,31 @@ faultPicture nvarchar(max)
 ------------------------הכנסת נתונים--------------------------------
 
 
-insert dbo.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
-insert dbo.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
-insert dbo.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('kevesh',123,'kevsh','haviv','kevesh92@gmail.com','055333333')
+insert site04.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('ohad92',123,'ohad','haviv','ohadhaviv92@gmail.com','0506595178')
+insert site04.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('orhay92',123,'orhay','benaim','orhay92@gmail.com','055333333')
+insert site04.[TbUsers] (userName, pass, firstName, lastName, email, tel) values ('kevesh',123,'kevsh','haviv','kevesh92@gmail.com','055333333')
 
 
-insert dbo.[TbUsersType] (userTypName) values ('מנהל עבודה')
-insert dbo.[TbUsersType] (userTypName) values ('בעל האתר')
-insert dbo.[TbUsersType] (userTypName) values ('בעל מקצוע')
+insert site04.[TbUsersType] (userTypName) values ('מנהל עבודה')
+insert site04.[TbUsersType] (userTypName) values ('בעל האתר')
+insert site04.[TbUsersType] (userTypName) values ('בעל מקצוע')
 
 
-insert [dbo].[TbFaultType] (faultName) values ('נזילה')
-insert [dbo].[TbFaultType] (faultName) values ('שבר')
-insert [dbo].[TbFaultType] (faultName) values ('דלת לא תקינה')
+insert [site04].[TbFaultType] (faultName) values ('נזילה')
+insert [site04].[TbFaultType] (faultName) values ('שבר')
+insert [site04].[TbFaultType] (faultName) values ('דלת לא תקינה')
 
-insert dbo.[TbRoomsType] (roomTypeName) values ('אמבטיה')
-insert dbo.[TbRoomsType] (roomTypeName) values ('חצר')
-insert dbo.[TbRoomsType] (roomTypeName) values ('חדר שינה')
-insert dbo.[TbRoomsType] (roomTypeName) values ('מרתף')
-insert dbo.[TbRoomsType] (roomTypeName) values ('חדר משחקים')
-insert dbo.[TbRoomsType] (roomTypeName) values ('מרתף')
-insert dbo.[TbRoomsType] (roomTypeName) values ('שירותים')
-insert dbo.[TbRoomsType] (roomTypeName) values ('ממ"ד')
-insert dbo.[TbRoomsType] (roomTypeName) values ('חדר ארונות')
-insert dbo.[TbRoomsType] (roomTypeName) values ('מטבח')
-insert dbo.[TbRoomsType] (roomTypeName) values ('סלון')
+insert site04.[TbRoomsType] (roomTypeName) values ('אמבטיה')
+insert site04.[TbRoomsType] (roomTypeName) values ('חצר')
+insert site04.[TbRoomsType] (roomTypeName) values ('חדר שינה')
+insert site04.[TbRoomsType] (roomTypeName) values ('מרתף')
+insert site04.[TbRoomsType] (roomTypeName) values ('חדר משחקים')
+insert site04.[TbRoomsType] (roomTypeName) values ('מרתף')
+insert site04.[TbRoomsType] (roomTypeName) values ('שירותים')
+insert site04.[TbRoomsType] (roomTypeName) values ('ממ"ד')
+insert site04.[TbRoomsType] (roomTypeName) values ('חדר ארונות')
+insert site04.[TbRoomsType] (roomTypeName) values ('מטבח')
+insert site04.[TbRoomsType] (roomTypeName) values ('סלון')
 
 
 
@@ -170,7 +170,7 @@ create proc Login
 @userName varchar(30),
 @pass varchar(30)
 as
-select * from dbo.[TbUsers] where [userName]=@userName and [pass]=@pass
+select * from site04.[TbUsers] where [userName]=@userName and [pass]=@pass
 go 
 
 create proc Register (
@@ -183,9 +183,9 @@ create proc Register (
 )
 as 
 
- if not exists(select * from dbo.[TbUsers] where [userName]=@userName )
+ if not exists(select * from site04.[TbUsers] where [userName]=@userName )
  begin
-	if not exists(select * from dbo.[TbUsers] where [email]=@email )
+	if not exists(select * from site04.[TbUsers] where [email]=@email )
 	 begin 
 		insert into TbUsers(userName, pass, firstName, lastName, email, tel)
 		values (@userName,@pass,@firstName,@lastName,@email,@tel)
@@ -216,12 +216,12 @@ siteID int NOT NULL PRIMARY KEY,
 )
 declare @ID int
 
-insert into dbo.[TbBuildingSite] (siteName, siteAddress,siteStatus) values (@siteName,@siteAddress,1)
+insert into site04.[TbBuildingSite] (siteName, siteAddress,siteStatus) values (@siteName,@siteAddress,1)
  set @ID = @@IDENTITY
- select * from [dbo].[TbBuildingSite] where [siteID] = @ID
-if(exists(select * from [dbo].[TbBuildingSite] where [siteID] = @ID))
+ select * from [site04].[TbBuildingSite] where [siteID] = @ID
+if(exists(select * from [site04].[TbBuildingSite] where [siteID] = @ID))
 begin 
-insert dbo.[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
+insert site04.[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
 end
 
 go
@@ -231,11 +231,11 @@ go
 create proc GetSitesForUser 
 @userID int
 as
-SELECT        dbo.TbBuildingSite.siteID, dbo.TbBuildingSite.siteName, dbo.TbBuildingSite.siteAddress, dbo.TbBuildingSite.siteStatus, dbo.TbUsersType.userTypName, dbo.TbUsersInSite.userID, dbo.TbUsersType.userTypeID
-FROM            dbo.TbBuildingSite INNER JOIN
-                         dbo.TbUsersInSite ON dbo.TbBuildingSite.siteID = dbo.TbUsersInSite.siteID INNER JOIN
-                         dbo.TbUsersType ON dbo.TbUsersInSite.userTypeID = dbo.TbUsersType.userTypeID
-WHERE        (dbo.TbUsersInSite.userID = @userID)
+SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbBuildingSite.siteStatus, site04.TbUsersType.userTypName, site04.TbUsersInSite.userID, site04.TbUsersType.userTypeID
+FROM            site04.TbBuildingSite INNER JOIN
+                         site04.TbUsersInSite ON site04.TbBuildingSite.siteID = site04.TbUsersInSite.siteID INNER JOIN
+                         site04.TbUsersType ON site04.TbUsersInSite.userTypeID = site04.TbUsersType.userTypeID
+WHERE        (site04.TbUsersInSite.userID = @userID)
 go
 
 
@@ -246,8 +246,8 @@ create proc AddRoomInSite
 @floorNumber int,
 @roomPicture nvarchar(max)
 as
-insert into [dbo].[TbRoomsInSite] (siteID, roomTypeID, roomName, floorNumber,roomPicture)  values (@siteID,@roomTypeID,@roomName,@floorNumber,@roomPicture)
-select * from [dbo].[TbRoomsInSite] where roomID = @@IDENTITY
+insert into [site04].[TbRoomsInSite] (siteID, roomTypeID, roomName, floorNumber,roomPicture)  values (@siteID,@roomTypeID,@roomName,@floorNumber,@roomPicture)
+select * from [site04].[TbRoomsInSite] where roomID = @@IDENTITY
 
 
 go 
@@ -255,11 +255,11 @@ go
 create proc GetAllRoomsInSite
 @siteID int
 as
-SELECT        dbo.TbBuildingSite.siteID, dbo.TbRoomsType.roomTypeName, dbo.TbRoomsType.roomTypeID, TbRoomsInSite_1.roomID, TbRoomsInSite_1.roomName, TbRoomsInSite_1.floorNumber, TbRoomsInSite_1.roomPicture
-FROM            dbo.TbBuildingSite INNER JOIN
-                         dbo.TbRoomsInSite AS TbRoomsInSite_1 ON dbo.TbBuildingSite.siteID = TbRoomsInSite_1.siteID INNER JOIN
-                         dbo.TbRoomsType ON TbRoomsInSite_1.roomTypeID = dbo.TbRoomsType.roomTypeID
-WHERE        (dbo.TbBuildingSite.siteID = @siteID)
+SELECT        site04.TbBuildingSite.siteID, site04.TbRoomsType.roomTypeName, site04.TbRoomsType.roomTypeID, TbRoomsInSite_1.roomID, TbRoomsInSite_1.roomName, TbRoomsInSite_1.floorNumber, TbRoomsInSite_1.roomPicture
+FROM            site04.TbBuildingSite INNER JOIN
+                         site04.TbRoomsInSite AS TbRoomsInSite_1 ON site04.TbBuildingSite.siteID = TbRoomsInSite_1.siteID INNER JOIN
+                         site04.TbRoomsType ON TbRoomsInSite_1.roomTypeID = site04.TbRoomsType.roomTypeID
+WHERE        (site04.TbBuildingSite.siteID = @siteID)
 go
 
 create proc UpdateWorkerInSite
@@ -267,11 +267,11 @@ create proc UpdateWorkerInSite
 @workerType int,
 @siteID int
 as
-if not exists(select * from [dbo].[TbUsersInSite] where [siteID] = @siteID and [userID] = @workerID) begin 
-	insert into [dbo].[TbUsersInSite](siteID, userID, userTypeID) values(@siteID, @workerID, @workerType)
+if not exists(select * from [site04].[TbUsersInSite] where [siteID] = @siteID and [userID] = @workerID) begin 
+	insert into [site04].[TbUsersInSite](siteID, userID, userTypeID) values(@siteID, @workerID, @workerType)
 end
 else begin
-	update [dbo].[TbUsersInSite] set [userTypeID] = @workerType where [siteID] = @siteID and [userID] = @workerID
+	update [site04].[TbUsersInSite] set [userTypeID] = @workerType where [siteID] = @siteID and [userID] = @workerID
 end
 
 create proc AddFault
@@ -281,22 +281,22 @@ create proc AddFault
 @faultType int,
 @info nvarchar(max)
 as
-if exists (select [userID] from [dbo].[TbUsersInSite] where [userID] = @workerID and [siteID] = (select [siteID] from [dbo].[TbRoomsInSite] where [roomID] = @roomID)) 
+if exists (select [userID] from [site04].[TbUsersInSite] where [userID] = @workerID and [siteID] = (select [siteID] from [site04].[TbRoomsInSite] where [roomID] = @roomID)) 
 begin
-	insert into [dbo].[TbFaultInSite] (ownerID,workerID, roomID, faultType, info, faultStatus, openDate) values (@ownerID,@workerID,@roomID,@faultType,@info,1,GETDATE())
-	select * from [dbo].[TbFaultInSite] where faultID = @@IDENTITY
+	insert into [site04].[TbFaultInSite] (ownerID,workerID, roomID, faultType, info, faultStatus, openDate) values (@ownerID,@workerID,@roomID,@faultType,@info,1,GETDATE())
+	select * from [site04].[TbFaultInSite] where faultID = @@IDENTITY
 end
 go
 
 create proc GetAllFaultsInRoom
 @roomID int
 as
-SELECT        dbo.TbFaultInSite.faultID, dbo.TbFaultInSite.ownerID, dbo.TbFaultInSite.workerID, dbo.TbFaultType.faultName, dbo.TbFaultInSite.info, dbo.TbFaultInSite.faultStatus, dbo.TbFaultInSite.openDate, dbo.TbFaultInSite.closeDate, 
-                         dbo.TbRoomsInSite.roomID, dbo.TbFaultInSite.faultType
-FROM            dbo.TbFaultInSite INNER JOIN
-                         dbo.TbFaultType ON dbo.TbFaultInSite.faultType = dbo.TbFaultType.faultID INNER JOIN
-                         dbo.TbRoomsInSite ON dbo.TbFaultInSite.roomID = dbo.TbRoomsInSite.roomID
-WHERE        (dbo.TbRoomsInSite.roomID = @roomID)
+SELECT        site04.TbFaultInSite.faultID, site04.TbFaultInSite.ownerID, site04.TbFaultInSite.workerID, site04.TbFaultType.faultName, site04.TbFaultInSite.info, site04.TbFaultInSite.faultStatus, site04.TbFaultInSite.openDate, site04.TbFaultInSite.closeDate, 
+                         site04.TbRoomsInSite.roomID, site04.TbFaultInSite.faultType
+FROM            site04.TbFaultInSite INNER JOIN
+                         site04.TbFaultType ON site04.TbFaultInSite.faultType = site04.TbFaultType.faultID INNER JOIN
+                         site04.TbRoomsInSite ON site04.TbFaultInSite.roomID = site04.TbRoomsInSite.roomID
+WHERE        (site04.TbRoomsInSite.roomID = @roomID)
 go
 
 
@@ -304,12 +304,12 @@ create proc GetUserInSite
 @userID int,
 @siteID int
 as
-SELECT        dbo.TbUsers.userID, dbo.TbUsersInSite.siteID, dbo.TbUsersType.userTypeID, dbo.TbUsersType.userTypName, dbo.TbUsers.userName, dbo.TbUsers.firstName, dbo.TbUsers.lastName, dbo.TbUsers.email, dbo.TbUsers.tel, 
-                         dbo.TbUsers.img
-FROM            dbo.TbUsers INNER JOIN
-                         dbo.TbUsersInSite ON dbo.TbUsers.userID = dbo.TbUsersInSite.userID INNER JOIN
-                         dbo.TbUsersType ON dbo.TbUsersInSite.userTypeID = dbo.TbUsersType.userTypeID
-WHERE        (dbo.TbUsers.userID = @userID) AND (dbo.TbUsersInSite.siteID = @siteID)
+SELECT        site04.TbUsers.userID, site04.TbUsersInSite.siteID, site04.TbUsersType.userTypeID, site04.TbUsersType.userTypName, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.email, site04.TbUsers.tel, 
+                         site04.TbUsers.img
+FROM            site04.TbUsers INNER JOIN
+                         site04.TbUsersInSite ON site04.TbUsers.userID = site04.TbUsersInSite.userID INNER JOIN
+                         site04.TbUsersType ON site04.TbUsersInSite.userTypeID = site04.TbUsersType.userTypeID
+WHERE        (site04.TbUsers.userID = @userID) AND (site04.TbUsersInSite.siteID = @siteID)
 
 go
 
@@ -318,14 +318,14 @@ create proc AddFaultPicture
 @faultID int,
 @faultPicture nvarchar(max)
 as
-insert [dbo].[TbFaultPicture] (faultID, faultPicture) values (@faultID,@faultPicture)
+insert [site04].[TbFaultPicture] (faultID, faultPicture) values (@faultID,@faultPicture)
 go
 
 create proc GetFaultPicture
 @faultID int
 AS
 SELECT        faultID, faultPicture
-FROM            dbo.TbFaultPicture
+FROM            site04.TbFaultPicture
 WHERE        (faultID = @faultID)
 
 GO
@@ -338,24 +338,24 @@ GO
  @reciverName nvarchar(max),
  @UsersType int
  as
- declare @id int=(select [userID] from  [dbo].[TbUsers] where [userName]=@reciverName or [email]=@reciverName )
+ declare @id int=(select [userID] from  [site04].[TbUsers] where [userName]=@reciverName or [email]=@reciverName )
   if(@id = @senderID)
  begin
-  select 'its not posibale to sent invaite for self '
+  select 'its not possible to sent invite to yourself '
  end
  else 
  begin
    if (@id > 0)
    begin 
    
- if not exists (select reciverID from [dbo].[TbInvaites] where siteID = @siteID and [reciverID]=@id  )
+ if not exists (select reciverID from [site04].[TbInvaites] where siteID = @siteID and [reciverID]=@id  )
  begin 
- insert [dbo].[TbInvaites] (siteID, SenderID, reciverID,userTypeID ) values (@siteID,@senderID,@id,@UsersType)
- select * from [dbo].[TbUsers] where [userID]=@id
+ insert [site04].[TbInvaites] (siteID, SenderID, reciverID,userTypeID ) values (@siteID,@senderID,@id,@UsersType)
+ select userID, userName, firstName, lastName, email, img from site04.[TbUsers] where [userID]=@id
  end
  else 
  begin 
- select 'this user is alredy invaite'
+ select 'this user is alredy invited'
  end
  end
  else
@@ -366,25 +366,26 @@ GO
  go
 
 
- create proc GetSendInvaite
+ alter proc GetSendInvaite
  @userID int 
  as
- SELECT        dbo.TbBuildingSite.siteName, dbo.TbBuildingSite.siteAddress, dbo.TbInvaites.SenderID, dbo.TbUsers.userName, dbo.TbUsers.firstName, dbo.TbUsers.lastName, dbo.TbUsers.tel, dbo.TbUsers.img, dbo.TbUsers.Token, 
-                         dbo.TbUsers.userID, dbo.TbUsers.email
-FROM            dbo.TbInvaites INNER JOIN
-                         dbo.TbBuildingSite ON dbo.TbInvaites.siteID = dbo.TbBuildingSite.siteID INNER JOIN
-                         dbo.TbUsers ON dbo.TbInvaites.reciverID = dbo.TbUsers.userID
-WHERE        (dbo.TbInvaites.SenderID =  @userID)
+SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbInvaites.SenderID, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.tel, 
+                         site04.TbUsers.img, site04.TbUsers.userID, site04.TbUsers.email, site04.TbUsersType.userTypName, site04.TbInvaites.userTypeID
+FROM            site04.TbInvaites INNER JOIN
+                         site04.TbBuildingSite ON site04.TbInvaites.siteID = site04.TbBuildingSite.siteID INNER JOIN
+                         site04.TbUsers ON site04.TbInvaites.reciverID = site04.TbUsers.userID INNER JOIN
+                         site04.TbUsersType ON site04.TbInvaites.userTypeID = site04.TbUsersType.userTypeID
+WHERE        (site04.TbInvaites.SenderID =  @userID)
 go
 
- create proc GetReciveInvaite
+ alter proc GetReciveInvaite
   @userID int 
  as
- SELECT        dbo.TbBuildingSite.siteName, dbo.TbBuildingSite.siteAddress, dbo.TbInvaites.SenderID, dbo.TbUsers.userName, dbo.TbUsers.firstName, dbo.TbUsers.lastName, dbo.TbUsers.tel, dbo.TbUsers.img, dbo.TbUsers.Token, 
-                         dbo.TbUsers.userID, dbo.TbUsers.email
-FROM            dbo.TbInvaites INNER JOIN
-                         dbo.TbBuildingSite ON dbo.TbInvaites.siteID = dbo.TbBuildingSite.siteID INNER JOIN
-                         dbo.TbUsers ON dbo.TbInvaites.reciverID = dbo.TbUsers.userID
-WHERE        (dbo.TbInvaites.ReciverID =  @userID)
+SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbInvaites.SenderID, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.tel, 
+                         site04.TbUsers.img, site04.TbUsers.userID, site04.TbUsers.email
+FROM            site04.TbInvaites INNER JOIN
+                         site04.TbBuildingSite ON site04.TbInvaites.siteID = site04.TbBuildingSite.siteID INNER JOIN
+                         site04.TbUsers ON site04.TbInvaites.SenderID = site04.TbUsers.userID
+WHERE        (site04.TbInvaites.ReciverID =  @userID)
 go
 
