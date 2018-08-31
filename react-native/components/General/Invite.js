@@ -45,13 +45,13 @@ import SQL from '../../Handlers/SQL';
                             />
                             <Picker
                                 selectedValue={this.state.job}
-                                style={styles.input}
+                                style={styles.picker}
                                 onValueChange={(itemValue, itemIndex) => this.setState({ job: itemValue })}>
                                 {this.props.Jobs.map(job => <Picker.Item key={job.userTypeID} label={job.userTypeName} value={job.userTypeID} />)}
                             </Picker>
                             <Picker
                                 selectedValue={this.state.site}
-                                style={styles.input}
+                                style={styles.picker}
                                 onValueChange={(itemValue, itemIndex) => this.setState({ site: itemValue })}>
                                 {this.props.Sites.map(site => <Picker.Item key={site.SiteId} label={site.SiteName} value={site.SiteId} />)}
                             </Picker>
@@ -90,6 +90,12 @@ const styles = StyleSheet.create({
         height: 40,
         marginVertical: 5,
         color: "#ffffff",
+    },
+    picker:{
+        backgroundColor: "#2980B9",
+        width: width - 80,
+        height: 40,
+        marginVertical: 5,
     },
     title: {
         alignItems: 'center',

@@ -4,13 +4,14 @@ import {
   StyleSheet,
   Dimensions,
   TextInput,
-  Button
+  Button,
+  Alert
 } from "react-native";
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
 
 const regexEmail = /^(([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}))$/;
-const regexAZ = /^[A-Z]*$/;
+const regexAZ = /^[A-Z0-9]*$/;
 const regexNum = /^[0-9]*$/;
 export default class Register extends Component {
 
@@ -43,7 +44,7 @@ export default class Register extends Component {
 
       } catch (error) {
         console.log(error);
-
+        Alert.alert(error, "", [{ text: "OK" }]);
       }
 
   };
@@ -57,6 +58,7 @@ export default class Register extends Component {
           placeholder="User name"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
+          value={this.state.userName}
           onChangeText={(text) => { this.setState({ userName: text }) }}
         />
         <TextInput
@@ -65,6 +67,7 @@ export default class Register extends Component {
           secureTextEntry={true}
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
+          value={this.state.password}
           onChangeText={(text) => { this.setState({ password: text }) }}
         />
         <TextInput
@@ -73,6 +76,7 @@ export default class Register extends Component {
           keyboardType="email-address"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
+          value={this.state.email}
           onChangeText={(text) => { this.setState({ email: text }) }}
         />
         <TextInput
@@ -81,6 +85,7 @@ export default class Register extends Component {
           secureTextEntry={true}
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
+          value={this.state.firstName}
           onChangeText={(text) => { this.setState({ firstName: text }) }}
         />
         <TextInput
@@ -88,6 +93,7 @@ export default class Register extends Component {
           placeholder="Last name"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
+          value={this.state.lastName}
           onChangeText={(text) => { this.setState({ lastName: text }) }}
         />
         <TextInput
@@ -96,6 +102,7 @@ export default class Register extends Component {
           keyboardType="phone-pad"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
+          value={this.state.tel}
           onChangeText={(text) => { this.setState({ tel: text }) }}
         />
 

@@ -16,7 +16,7 @@ import Room from './components/Room/Room';
 
 const HomeNav = createDrawerNavigator(
   {
-    Invite,
+    Home,
     Invite,
     Settings,
     Site: {
