@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Dimensions, TextInput, Button, Picker } from 'react-native'
-import {connect} from 'react-redux';
-import {SetJobs} from '../../actions/jobAction';
+import { Text, View, StyleSheet, Dimensions, TextInput, Button, Picker, ScrollView, RefreshControl } from 'react-native'
+import { connect } from 'react-redux';
+import { SetJobs } from '../../actions/jobAction';
+import { SetSentInvites } from '../../actions/invitesAction';
 import SQL from '../../Handlers/SQL';
- class Invite extends Component {
+class Invite extends Component {
 
 
     state = {
         user: '',
         job: '',
-        site: ''
+        site: '',
+        refreshing: false
     }
 
     onSend = () => {
@@ -17,14 +19,29 @@ import SQL from '../../Handlers/SQL';
 
     }
 
-    async componentDidMount(){
-        if(this.props.Jobs.length == 0){
-            const jobs = await SQL.GetJobs();
-            this.props.SetJobs(jobs);
+    async componentDidMount() {
+        if (this.props.Jobs.length == 0) {
+            try {
+                const jobs = await SQL.GetJobs();
+                this.props.SetJobs(jobs);
+            } catch (error) {
+
+            }
         }
-        
+        try {
+            const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
+            console.log(sentInvites);
+
+            await this.props.SetSentInvites(sentInvites);
+        } catch (error) {
+
+        }
+
     }
 
+    _onRefresh = () => {
+
+    }
 
     render() {
         return (
@@ -70,11 +87,35 @@ import SQL from '../../Handlers/SQL';
                         <Text style={styles.text}> Pending Invites </Text>
                     </View>
 
+                    <View>
+                        <Text style={styles.text}> Sent Invites </Text>
+                        <ScrollView
+                         refreshControl={
+                            <RefreshControl
+                              refreshing={this.state.refreshing}
+                              onRefresh={this._onRefresh}
+                            />
+                          }
+                        >
+                            {this.props.Invites.sent.map(sentInvite =>  <SentInvites key={`${sentInvite.user.UserId},${sentInvite.Site.SiteId}`} invite={sentInvite} />)}
+                        </ScrollView>
+                    </View>
                 </View>
             </View>
         )
     }
 }
+
+const SentInvites = (props) => {
+    return (
+        <View style={{backgroundColor: "#2980B9",width, padding: 3, marginBottom: 5}}>
+            <Text style={styles.text}> {props.invite.user.UserName} {props.invite.user.Email} </Text>
+            <Text style={styles.text}> {props.invite.user.FirstName} {props.invite.user.LastName} </Text>
+            <Text style={styles.text}> {props.invite.Site.SiteName} {props.invite.Site.SiteAddress} </Text>
+        </View>
+    )
+}
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -91,7 +132,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         color: "#ffffff",
     },
-    picker:{
+    picker: {
         backgroundColor: "#2980B9",
         width: width - 80,
         height: 40,
@@ -119,12 +160,15 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => ({
     SetJobs: (Jobs) => dispatch(SetJobs(Jobs)),
-  
-  })
+    SetSentInvites: (Invites) => dispatch(SetSentInvites(Invites))
+
+})
 
 mapStateToProps = (state) => ({
+    User: state.user,
     Jobs: state.jobs,
-    Sites: state.sites
+    Sites: state.sites,
+    Invites: state.invites
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Invite); 

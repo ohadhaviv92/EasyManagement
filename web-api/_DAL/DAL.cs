@@ -312,5 +312,94 @@ namespace _DAL
             
         }
 
+        public static DataTable Invite(int siteId , int senderId, string reciver, int userType)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"SendInvaite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("siteID", siteId));
+                _cmd.Parameters.Add(new SqlParameter("senderID", senderId));
+                _cmd.Parameters.Add(new SqlParameter("reciverName", reciver));
+                _cmd.Parameters.Add(new SqlParameter("UsersType", userType));
+
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "User");
+
+                if (ds.Tables["User"] != null)
+                    return ds.Tables["User"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+        }
+
+        public static string GetSiteName(int siteId)
+        {
+ 
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"select SiteName from TbBuildingSite where siteID = @siteid ", Con);
+                _cmd.Parameters.Add(new SqlParameter("@siteid", siteId));
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "SiteName");
+
+                if (ds.Tables["SiteName"].Rows.Count != 0)
+                    return ds.Tables["SiteName"].Rows[0]["SiteName"].ToString();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+
+            return null;
+
+        }
+
+        public static DataTable GetSentInvites(int userId)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"GetSendInvaite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("userID", userId));
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "User");
+
+                if (ds.Tables["User"] != null)
+                    return ds.Tables["User"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+        }
     }
 }
