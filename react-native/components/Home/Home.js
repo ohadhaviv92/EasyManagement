@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import { Text, FlatList, View, RefreshControl, StyleSheet, Dimensions } from 'react-native'
 import PreviewSite from '../Site/PreviewSite';
 import { connect } from 'react-redux';
+
 class Home extends Component {
   state = {
     refreshing: false
   }
+
+
 
   _onRefresh = () => {
 
@@ -24,7 +27,8 @@ class Home extends Component {
   render() {
     return (
       <View>
-        <FlatList
+
+      <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
           ItemSeparatorComponent={this._ItemSeparatorComponent}
           refreshControl={
@@ -37,6 +41,8 @@ class Home extends Component {
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
+
+
       </View>
     )
   }

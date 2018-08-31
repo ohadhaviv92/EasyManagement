@@ -190,6 +190,28 @@ namespace _BAL
             return faults;
         }
 
+        public List<JobDetails> GetJobs()
+        {
+            var details = Dal.GetJobs();
+            if (details == null)
+                return null;
+
+            List<JobDetails> jobs = new List<JobDetails>();
+            for (var i = 0; i < details.Rows.Count; i++)
+            {
+
+                var job = new JobDetails
+                {
+                    userTypeID = int.Parse(details.Rows[i]["userTypeID"].ToString()),
+                    userTypeName = details.Rows[i]["userTypName"].ToString()
+                };
+                jobs.Add(job);
+            }
+            return jobs;
+
+
+        }
+
         public object Register(string userName, string pass, string firstName, string lastName, string email, string tel)
         {
             DataTable results = Dal.Register(userName, pass, firstName, lastName, email, tel);

@@ -100,7 +100,38 @@ export default class SQL {
       console.log(error);
       
     }
-  
 
   }
+
+
+
+  
+  static GetJobs() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/jobsDetails`,
+          {
+            headers: {
+              "content-type": "application/json"
+            },
+            method: "GET"
+          }
+        );
+
+
+        const data = await res.json();
+
+        if (data !== null) {
+          resolve(data);
+        }
+        reject("No Key was fetched");
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+
+
+
 }

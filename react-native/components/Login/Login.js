@@ -26,8 +26,8 @@ import { SetSites } from '../../actions/siteAction';
       await this.props.onLogin(userDetails.User);
       await this.props.SetSites(userDetails.Sites);
 
-      await AsyncStorage.setItem("user", JSON.stringify(userDetails.User));
-      await AsyncStorage.setItem("sites", JSON.stringify(userDetails.Sites));
+       AsyncStorage.setItem("user", JSON.stringify(userDetails.User));
+       AsyncStorage.setItem("sites", JSON.stringify(userDetails.Sites));
       this.props.navigation.navigate("HomeNav");
     } catch (error) {
       console.log(error);

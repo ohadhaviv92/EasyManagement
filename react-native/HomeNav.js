@@ -6,6 +6,7 @@ import {
 import Home from './components/Home/Home';
 import Settings from './components/General/Settings';
 import Site from './components/Site/Site';
+import Invite from './components/General/Invite';
 import { createDrawerNavigator } from 'react-navigation';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import DraweMenu from './DrawerMenu';
@@ -15,7 +16,8 @@ import Room from './components/Room/Room';
 
 const HomeNav = createDrawerNavigator(
   {
-    Home,
+    Invite,
+    Invite,
     Settings,
     Site: {
       screen: Site,

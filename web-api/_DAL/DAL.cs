@@ -11,7 +11,7 @@ namespace _DAL
 {
     public static class Dal
     {
-        private static readonly string  _connectionStr = ConfigurationManager.ConnectionStrings["LIVEDNS"].ConnectionString;
+        private static readonly string _connectionStr = ConfigurationManager.ConnectionStrings["LIVEDNS"].ConnectionString;
         private static readonly SqlConnection Con = new SqlConnection(_connectionStr);
         private static SqlDataAdapter _adtr;
         private static SqlCommand _cmd;
@@ -282,6 +282,34 @@ namespace _DAL
 
             return null;
 
+        }
+
+        public static DataTable GetJobs()
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"Select * from TbUsersType ", Con);
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "Jobs");
+
+                if (ds.Tables["Jobs"].Rows.Count != 0)
+                    return ds.Tables["Jobs"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+
+            return null;
+            
         }
 
     }
