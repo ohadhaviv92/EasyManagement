@@ -29,7 +29,7 @@ const DrawerWithLogoutButton = (props) => (
             underlayColor="transparent"
           />
           </View>
-          <Text style={styles.label}>Logout</Text>
+          <Text style={styles.label}>התנתק</Text>
         </View>
       </TouchableOpacity>
     </ScrollView>

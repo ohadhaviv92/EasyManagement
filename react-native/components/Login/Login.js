@@ -52,20 +52,20 @@ import { SetSites } from '../../actions/siteAction';
 
         <TextInput
           style={styles.input}
-          placeholder="User name"
+          placeholder="שם משתמש"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ userName: text }) }}
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="סיסמא"
           secureTextEntry={true}
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ Password: text }) }}
         />
-        <Button title='Login' onPress={this.onLogin} color='#3498DB'/>
+        <Button title='התחבר' onPress={this.onLogin} color='#3498DB'/>
        
         <View style={styles.Arrow}>
           <Icon

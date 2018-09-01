@@ -6,7 +6,7 @@ import {
 import Home from './components/Home/Home';
 import Settings from './components/General/Settings';
 import Site from './components/Site/Site';
-import Invite from './components/General/Invite';
+import Invite from './components/Invite/Invite';
 import { createDrawerNavigator } from 'react-navigation';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import DraweMenu from './DrawerMenu';
@@ -16,9 +16,24 @@ import Room from './components/Room/Room';
 
 const HomeNav = createDrawerNavigator(
   {
-    Home,
-    Invite,
-    Settings,
+    Home: {
+      navigationOptions: {
+        drawerLabel: 'בית',
+      },
+      screen: Home
+    },
+    Invite: {
+      navigationOptions: {
+        drawerLabel: 'הזמנות',
+      },
+      screen: Invite
+    },
+    Settings: {
+      navigationOptions: {
+        drawerLabel: 'הגדרות',
+      },
+      screen: Settings
+    },
     Site: {
       screen: Site,
       navigationOptions: {

@@ -59,7 +59,7 @@ class Register extends Component {
 
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.userName.toUpperCase()) || this.state.userName == '' ? 'transparent' : '#E74C3C' }]}
-          placeholder="User name"
+          placeholder="שם משתמש"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           value={this.state.userName}
@@ -67,7 +67,7 @@ class Register extends Component {
         />
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: this.state.password.length > 3 || this.state.password == '' ? 'transparent' : '#E74C3C' }]}
-          placeholder="Password"
+          placeholder="סיסמא"
           secureTextEntry={true}
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
@@ -76,7 +76,7 @@ class Register extends Component {
         />
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexEmail.test(this.state.email.toUpperCase()) || this.state.email == '' ? 'transparent' : '#E74C3C' }]}
-          placeholder="Email"
+          placeholder="כתובת דואר אלקטרוני"
           keyboardType="email-address"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
@@ -85,7 +85,7 @@ class Register extends Component {
         />
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.firstName.toUpperCase()) || this.state.firstName == '' ? 'transparent' : '#E74C3C' }]}
-          placeholder="First name"
+          placeholder="שם פרטי"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           value={this.state.firstName}
@@ -93,7 +93,7 @@ class Register extends Component {
         />
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.lastName.toUpperCase()) || this.state.lastName == '' ? 'transparent' : '#E74C3C' }]}
-          placeholder="Last name"
+          placeholder="שם משפחה"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           value={this.state.lastName}
@@ -101,7 +101,7 @@ class Register extends Component {
         />
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexNum.test(this.state.tel) || this.state.tel == '' ? 'transparent' : '#E74C3C' }]}
-          placeholder="Phone"
+          placeholder="מספר טלפון"
           keyboardType="phone-pad"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
@@ -109,7 +109,7 @@ class Register extends Component {
           onChangeText={(text) => { this.setState({ tel: text }) }}
         />
 
-        <Button title='Register' onPress={this.onRegister} color='#3498DB' />
+        <Button title='הירשם' onPress={this.onRegister} color='#3498DB' />
 
         <View style={styles.Arrow}>
           <Icon
