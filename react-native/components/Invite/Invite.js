@@ -3,9 +3,12 @@ import { Text, View, StyleSheet, Dimensions, TextInput, Button, Picker, ScrollVi
 import { connect } from 'react-redux';
 import { SetJobs } from '../../actions/jobAction';
 import { SetSentInvites } from '../../actions/invitesAction';
+import ReceivedInvite from './RecivedInvite';
+import SentInvite from './SentInvite';
+import Empty from '../General/Empty';
 import SQL from '../../Handlers/SQL';
-class Invite extends Component {
 
+class Invite extends Component {
 
     state = {
         user: '',
@@ -30,7 +33,6 @@ class Invite extends Component {
         }
         try {
             const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
-            console.log(sentInvites);
 
             await this.props.SetSentInvites(sentInvites);
         } catch (error) {
@@ -43,18 +45,30 @@ class Invite extends Component {
 
     }
 
+    renderSent = () => this.props.Invites.sent.length > 0 ? this.props.Invites.sent.map(sentInvite =>
+        <SentInvite key={`${sentInvite.user.UserId},${sentInvite.Site.SiteId}`} invite={sentInvite} />)
+        :
+        <Empty />
+
+
+    renderRecived = () => this.props.Invites.recevied.length > 0 ? this.props.Invites.recevied.map(receivedInvite =>
+        <ReceivedInvite key={`${receivedInvite.user.UserId},${receivedInvite.Site.SiteId}`} receivedInvite={receivedInvite} />)
+        :
+        <Empty />
+
+
     render() {
         return (
             <View>
                 <View>
                     <View style={styles.title}>
-                        <Text style={styles.text}> Invite </Text>
+                        <Text style={styles.text}> הזמן </Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flexDirection: 'column' }}>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Email / User name"
+                                placeholder="אימייל / שם משתמש"
                                 secureTextEntry={true}
                                 placeholderTextColor="#ECF0F1"
                                 underlineColorAndroid="transparent"
@@ -76,7 +90,7 @@ class Invite extends Component {
                         </View>
 
                         <View style={styles.button}>
-                            <Button title='Send' onPress={this.onSend} color='#3498DB' />
+                            <Button title='שלח' onPress={this.onSend} color='#3498DB' />
                         </View>
                     </View>
                 </View>
@@ -84,20 +98,23 @@ class Invite extends Component {
 
                 <View>
                     <View style={styles.title}>
-                        <Text style={styles.text}> Pending Invites </Text>
+                        <Text style={styles.text}> הזמנות </Text>
                     </View>
 
                     <View>
-                        <Text style={styles.text}> Sent Invites </Text>
+
                         <ScrollView
-                         refreshControl={
-                            <RefreshControl
-                              refreshing={this.state.refreshing}
-                              onRefresh={this._onRefresh}
-                            />
-                          }
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={this.state.refreshing}
+                                    onRefresh={this._onRefresh}
+                                />
+                            }
                         >
-                            {this.props.Invites.sent.map(sentInvite =>  <SentInvites key={`${sentInvite.user.UserId},${sentInvite.Site.SiteId}`} invite={sentInvite} />)}
+                            <Text style={styles.text}> הזמנות שנשלחו </Text>
+                            {this.renderSent()}
+                            <Text style={styles.text}> הזמנות שהתקבלו </Text>
+                            {this.renderRecived()}
                         </ScrollView>
                     </View>
                 </View>
@@ -105,17 +122,6 @@ class Invite extends Component {
         )
     }
 }
-
-const SentInvites = (props) => {
-    return (
-        <View style={{backgroundColor: "#2980B9",width, padding: 3, marginBottom: 5}}>
-            <Text style={styles.text}> {props.invite.user.UserName} {props.invite.user.Email} </Text>
-            <Text style={styles.text}> {props.invite.user.FirstName} {props.invite.user.LastName} </Text>
-            <Text style={styles.text}> {props.invite.Site.SiteName} {props.invite.Site.SiteAddress} </Text>
-        </View>
-    )
-}
-
 
 const { width, height } = Dimensions.get("window");
 
@@ -145,10 +151,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#E74C3C',
     },
     container: {
-        flex: 1,
+
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: height / 2.5,
+        backgroundColor: '#E74C3C',
     },
     text: {
         fontSize: 21,
