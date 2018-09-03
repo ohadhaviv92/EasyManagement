@@ -1,9 +1,11 @@
-export default (state = {} , action) => {
-  
+export default (state = {}, action) => {
+
     switch (action.type) {
 
         case 'LOGIN_USER':
-            return(action.payload)
+            return (action.payload)
+        case 'UPDATE_TOKEN':
+            return ({...state , Token: action.payload})
         case "LOGOUT":
             return {};
         default:

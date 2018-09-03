@@ -15,7 +15,7 @@ export default class SQL {
         });
 
         const data = await res.json();
-       
+
         if (data === null) reject("invalid email or password");
 
         resolve(data);
@@ -45,7 +45,7 @@ export default class SQL {
 
         const data = await res.json();
 
-        if (data.Error !== undefined){
+        if (data.Error !== undefined) {
           // if a JSON was not returned from SQL, its a custom error message
           reject(data.Error);
         }
@@ -82,7 +82,7 @@ export default class SQL {
   }
 
   static async UpdateNotification(Email, Token) {
-    
+
     try {
       await fetch(`${URL}/Notify`, {
         method: 'POST',
@@ -97,14 +97,13 @@ export default class SQL {
       });
     } catch (error) {
       console.log(error);
-      
+
     }
 
   }
 
 
 
-  
   static GetJobs() {
     return new Promise(async (resolve, reject) => {
       try {
@@ -131,6 +130,96 @@ export default class SQL {
   }
 
 
+  static async GetSentInvites(userId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/getSentInvites`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ UserId: userId }),
+        });
 
+        const data = await res.json();
+        
+        if (data !== null) {
+          resolve(data);
+        }
+        reject("No sent invites");
+
+      } catch (error) {
+        console.log(error);
+
+      }
+    });
+
+  }
+
+
+  
+  static async GetRecivedInvites(userId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/getRecivedInvites`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ UserId: userId }),
+        });
+
+        const data = await res.json();
+        
+        if (data !== null) {
+          resolve(data);
+        }
+        reject("No recived invites");
+
+      } catch (error) {
+        console.log(error);
+
+      }
+    });
+
+  }
+
+    
+  static async SednInvite(SiteId, UserType, SenderId, Reciver) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/getRecivedInvites`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            SiteId,
+            UserType,
+            SenderId,
+            Reciver
+           }),
+        });
+
+        const data = await res.json();
+        
+        if (data !== null) {
+          if(data.Error)
+            reject(data);
+            
+          resolve(data);
+        }
+        reject("No recived invites");
+
+      } catch (error) {
+        console.log(error);
+
+      }
+    });
+
+  }
 
 }

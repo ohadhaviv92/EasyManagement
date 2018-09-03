@@ -47,5 +47,26 @@ namespace WebApplication2.Controllers
         {
             Bal.Instance.AddNotification(userData.Email, userData.Token);
         }
+
+        [HttpPost]
+        [ActionName("sendInvite")]
+        public object PostSendInvite([FromBody]InviteDetails detail)
+        {
+            return Bal.Instance.SendInvite(detail.SiteId,detail.SenderId, detail.Reciver, detail.UserType );
+        }
+
+        [HttpPost]
+        [ActionName("getSentInvites")]
+        public List<UserInSite> PostSentInvites([FromBody]User user)
+        {
+            return Bal.Instance.GetSentInvites(user.UserId);
+        }
+
+        [HttpPost]
+        [ActionName("getRecivedInvites")]
+        public List<UserInSite> PostRecivedInvites([FromBody]User user)
+        {
+            return Bal.Instance.GetRecivedInvites(user.UserId);
+        }
     }
 }

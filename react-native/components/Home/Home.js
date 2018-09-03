@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, FlatList, View, RefreshControl, StyleSheet, Dimensions } from 'react-native'
 import PreviewSite from '../Site/PreviewSite';
 import { connect } from 'react-redux';
-
+import Empty from '../General/Empty';
 class Home extends Component {
   state = {
     refreshing: false
@@ -14,13 +14,7 @@ class Home extends Component {
 
   }
 
-  _ListEmptyComponent = () => {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>Empty</Text>
-      </View>
-    );
-  }
+  _ListEmptyComponent = () => <Empty />
   _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
   _keyExtractor = (site) => site.SiteId.toString();
   _renderItem = (site) => <PreviewSite site={site.item} navigation={this.props.navigation} />

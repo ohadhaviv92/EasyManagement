@@ -19,7 +19,7 @@ const DrawerWithLogoutButton = (props) => (
       <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
         <DrawerItems {...props} />
       </SafeAreaView>
-      <TouchableOpacity onPress={async()=> {await AsyncStorage.clear();await props.Logout(); props.navigation.navigate('AuthNav')}}>
+      <TouchableOpacity onPress={async()=> {AsyncStorage.clear();await props.Logout(); props.navigation.navigate('AuthNav')}}>
         <View style={styles.item}>
         <View style={styles.iconContainer}>
           <Icon
@@ -29,7 +29,7 @@ const DrawerWithLogoutButton = (props) => (
             underlayColor="transparent"
           />
           </View>
-          <Text style={styles.label}>Logout</Text>
+          <Text style={styles.label}>התנתק</Text>
         </View>
       </TouchableOpacity>
     </ScrollView>
