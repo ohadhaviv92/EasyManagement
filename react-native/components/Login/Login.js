@@ -31,8 +31,7 @@ import { SetSites } from '../../actions/siteAction';
       await this.props.UpdateToken(Token);
       await this.props.SetSites(userDetails.Sites);
 
-       AsyncStorage.setItem("user", JSON.stringify(this.props.User));
-       AsyncStorage.setItem("sites", JSON.stringify(userDetails.Sites));
+       
       this.props.navigation.navigate("HomeNav");
     } catch (error) {
       console.log(error);
@@ -41,12 +40,7 @@ import { SetSites } from '../../actions/siteAction';
   };
 
   async componentDidMount() {
-    const user = JSON.parse(await AsyncStorage.getItem('user'));
-    const sites = JSON.parse(await AsyncStorage.getItem('sites'));
-    
-    if (user != undefined) {
-      await this.props.onLogin(user);
-      await this.props.SetSites(sites);
+    if (Object.keys(this.props.User).length != 0) {
       this.props.navigation.navigate("HomeNav");
     }
   }
