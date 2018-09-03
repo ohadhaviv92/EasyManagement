@@ -13,3 +13,13 @@ export const Logout = () => (dispatch) => {
     });
 
 }
+
+
+export const UpdateToken = (Token) => (dispatch) => {
+    dispatch({
+        type: 'UPDATE_TOKEN',
+        payload: Token
+    });
+
+}
+

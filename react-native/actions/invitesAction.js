@@ -12,3 +12,10 @@ export const SetReciveInvites = (Invites) => (dispatch) => {
     });
 }
 
+
+export const AddSentInvites = (Invites) => (dispatch) => {
+    dispatch({
+        type: 'ADD_SENT_INVITES',
+        payload: Invites
+    });
+}

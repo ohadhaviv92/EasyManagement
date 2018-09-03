@@ -9,10 +9,12 @@ import {
   TextInput
 } from "react-native";
 import SQL from '../../Handlers/SQL';
+import Notification from '../../Handlers/Notification';
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux'
-import { onLogin } from '../../actions/userAction';
+import { onLogin, UpdateToken } from '../../actions/userAction';
 import { SetSites } from '../../actions/siteAction';
+
 
  class Login extends Component {
   state = {
@@ -23,10 +25,13 @@ import { SetSites } from '../../actions/siteAction';
   onLogin = async () => {
     try {
       const userDetails = await SQL.Login(this.state.userName, this.state.Password);
+
       await this.props.onLogin(userDetails.User);
+      const Token  = await Notification.Register(userDetails.User.Email ,userDetails.User.Token )
+      await this.props.UpdateToken(Token);
       await this.props.SetSites(userDetails.Sites);
 
-       AsyncStorage.setItem("user", JSON.stringify(userDetails.User));
+       AsyncStorage.setItem("user", JSON.stringify(this.props.User));
        AsyncStorage.setItem("sites", JSON.stringify(userDetails.Sites));
       this.props.navigation.navigate("HomeNav");
     } catch (error) {
@@ -110,8 +115,12 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => ({
   onLogin: (userDetails) => dispatch(onLogin(userDetails)),
-  SetSites: (Sites) => dispatch(SetSites(Sites))
+  SetSites: (Sites) => dispatch(SetSites(Sites)),
+  UpdateToken: (Token) => dispatch(UpdateToken(Token))
 
 })
+const mapStateToProps = state => ({
+    User: state.user
+})
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -42,7 +42,7 @@ class Register extends Component {
         const { userName, password, firstName, lastName, email, tel } = this.state;
         const user = await SQL.Register(userName, password, firstName, lastName, email, tel)
         await this.props.onLogin(user.User);
-        await AsyncStorage.setItem("user", JSON.stringify(user));
+        // await AsyncStorage.setItem("user", JSON.stringify(user));
 
         this.props.navigation.navigate('HomeNav');
 

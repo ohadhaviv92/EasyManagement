@@ -2,7 +2,7 @@ import { Permissions, Notifications } from "expo";
 import SQL from "./SQL";
 
 export default class Notification {
-  static async Register(Email) {
+  static async Register(Email, curToken) {
     try {
       const { status: existingStatus } = await Permissions.getAsync(
         Permissions.NOTIFICATIONS
@@ -27,10 +27,12 @@ export default class Notification {
 
       // Get the token that uniquely identifies this device
       const Token = await Notifications.getExpoPushTokenAsync();
-
-      SQL.UpdateNotification(Email, Token);
+      if(curToken != Token)
+        SQL.UpdateNotification(Email, Token);
+      return Token;
     } catch (error) {
       console.log(error);
     }
   }
 }
+

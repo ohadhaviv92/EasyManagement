@@ -50,7 +50,7 @@ namespace WebApplication2.Controllers
 
         [HttpPost]
         [ActionName("sendInvite")]
-        public User PostSendInvite([FromBody]InviteDetails detail)
+        public object PostSendInvite([FromBody]InviteDetails detail)
         {
             return Bal.Instance.SendInvite(detail.SiteId,detail.SenderId, detail.Reciver, detail.UserType );
         }
@@ -62,5 +62,11 @@ namespace WebApplication2.Controllers
             return Bal.Instance.GetSentInvites(user.UserId);
         }
 
+        [HttpPost]
+        [ActionName("getRecivedInvites")]
+        public List<UserInSite> PostRecivedInvites([FromBody]User user)
+        {
+            return Bal.Instance.GetRecivedInvites(user.UserId);
+        }
     }
 }

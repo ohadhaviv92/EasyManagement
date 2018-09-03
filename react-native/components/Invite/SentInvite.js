@@ -25,9 +25,9 @@ export default (props) => {
                 }
             ]}>
             <View style={{ backgroundColor: "#2980B9", width}}>
-                <Text style={styles.text}> שם משתמש: {props.invite.user.UserName} אימייל: {props.invite.user.Email} </Text>
+                <Text style={styles.text}> שם משתמש: {props.invite.user.UserName} </Text>
                 <Text style={styles.text}> שם: {props.invite.user.FirstName}, שם משפחה: {props.invite.user.LastName} </Text>
-                <Text style={styles.text}> אתר: {props.invite.Site.SiteName} מיקום: {props.invite.Site.SiteAddress} </Text>
+                <Text style={styles.text}> אתר: {props.invite.Site.SiteName} </Text>
             </View>
         </Swipeout>
     );

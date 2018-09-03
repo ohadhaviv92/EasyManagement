@@ -241,8 +241,6 @@ namespace _BAL
         public void AddNotification(string email, string Token)
         {
             Dal.UpdateNotificationKey(email, Token);
-
-            Notify(email, "test", "test of this notification");
         }
 
         private static void Notify(string email, string title, string message)
@@ -267,11 +265,11 @@ namespace _BAL
 
         }
 
-        public User SendInvite(int siteId, int senderId, string reciver, int userType)
+        public object SendInvite(int siteId, int senderId, string reciver, int userType)
         {
             var results = Dal.Invite(siteId, senderId, reciver, userType);
-            if (results == null)
-                return null;
+            if (results.Columns.Count <= 1)
+                return new { Error = results.Rows[0][0].ToString() };
             var user = new User
             {
                 UserId = int.Parse(results.Rows[0]["userID"].ToString()),
@@ -319,5 +317,42 @@ namespace _BAL
             return InvitedUsers;
            
         }
+
+        public List<UserInSite> GetRecivedInvites(int userId)
+        {
+            var results = Dal.GetRecivedInvites(userId);
+            if (results == null)
+                return null;
+            List<UserInSite> InvitedUsers = new List<UserInSite>();
+
+            for (int i = 0; i < results.Rows.Count; i++)
+            {
+
+                var user = new User
+                {
+                    UserId = int.Parse(results.Rows[i]["userID"].ToString()),
+                    UserName = results.Rows[i]["userName"].ToString(),
+                    FirstName = results.Rows[i]["firstName"].ToString(),
+                    LastName = results.Rows[i]["lastName"].ToString(),
+                    Email = results.Rows[i]["email"].ToString(),
+                    Img = results.Rows[i]["img"].ToString(),
+
+                };
+
+                var site = new BuildingSite
+                {
+                    SiteAddress = results.Rows[i]["siteAddress"].ToString(),
+                    SiteId = int.Parse(results.Rows[i]["siteID"].ToString()),
+                    SiteName = results.Rows[i]["siteName"].ToString(),
+                    UserTypeName = results.Rows[i]["userTypName"].ToString(),
+                    UserTypeId = int.Parse(results.Rows[i]["userTypeID"].ToString())
+                };
+                InvitedUsers.Add(new UserInSite { user = user, Site = site });
+            }
+            return InvitedUsers;
+
+        }
+
+
     }
 }

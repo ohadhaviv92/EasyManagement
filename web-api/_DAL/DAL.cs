@@ -319,10 +319,10 @@ namespace _DAL
                 Con.Open();
                 _cmd = new SqlCommand($"SendInvaite", Con);
                 _cmd.CommandType = CommandType.StoredProcedure;
-                _cmd.Parameters.Add(new SqlParameter("siteID", siteId));
-                _cmd.Parameters.Add(new SqlParameter("senderID", senderId));
-                _cmd.Parameters.Add(new SqlParameter("reciverName", reciver));
-                _cmd.Parameters.Add(new SqlParameter("UsersType", userType));
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
+                _cmd.Parameters.Add(new SqlParameter("@senderID", senderId));
+                _cmd.Parameters.Add(new SqlParameter("@reciverName", reciver));
+                _cmd.Parameters.Add(new SqlParameter("@userTypeID", userType));
 
                 _adtr = new SqlDataAdapter(_cmd);
 
@@ -401,5 +401,34 @@ namespace _DAL
             }
             return null;
         }
+
+        public static DataTable GetRecivedInvites(int userId)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"GetReciveInvaite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("userID", userId));
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "User");
+
+                if (ds.Tables["User"] != null)
+                    return ds.Tables["User"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+        }
+        
     }
 }
