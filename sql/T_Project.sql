@@ -336,7 +336,7 @@ GO
  @siteID int , 
  @senderID int ,
  @reciverName nvarchar(max),
- @UsersType int
+ @userTypeID int
  as
  declare @id int=(select [userID] from  [site04].[TbUsers] where [userName]=@reciverName or [email]=@reciverName )
   if(@id = @senderID)
@@ -347,10 +347,11 @@ GO
  begin
    if (@id > 0)
    begin 
-   
+   if not exists(select [userID] from [site04].[TbUsersInSite] where [siteID]=@siteID and [userID]= @id)
+   begin
  if not exists (select reciverID from [site04].[TbInvaites] where siteID = @siteID and [reciverID]=@id  )
  begin 
- insert [site04].[TbInvaites] (siteID, SenderID, reciverID,userTypeID ) values (@siteID,@senderID,@id,@UsersType)
+ insert [site04].[TbInvaites] (siteID, SenderID, reciverID,userTypeID ) values (@siteID,@senderID,@id,@UserTypeID)
  select userID, userName, firstName, lastName, email, img from site04.[TbUsers] where [userID]=@id
  end
  else 
@@ -358,9 +359,15 @@ GO
  select 'this user is alredy invited'
  end
  end
+
  else
  begin 
  select 'user name or email incorrect'
+ end
+ end
+ else
+     begin
+  select 'this user is alredy exists in Site'
  end
  end
  go
@@ -379,14 +386,15 @@ WHERE        (site04.TbInvaites.SenderID =  @userID)
 go
 
  alter proc GetReciveInvaite
-  @userID int 
+ @userID int
  as
 SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbInvaites.SenderID, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.tel, 
-                         site04.TbUsers.img, site04.TbUsers.userID, site04.TbUsers.email
+                         site04.TbUsers.img, site04.TbUsers.userID, site04.TbUsers.email, site04.TbUsersType.userTypName, site04.TbUsersType.userTypeID
 FROM            site04.TbInvaites INNER JOIN
                          site04.TbBuildingSite ON site04.TbInvaites.siteID = site04.TbBuildingSite.siteID INNER JOIN
-                         site04.TbUsers ON site04.TbInvaites.SenderID = site04.TbUsers.userID
-WHERE        (site04.TbInvaites.ReciverID =  @userID)
+                         site04.TbUsers ON site04.TbInvaites.SenderID = site04.TbUsers.userID INNER JOIN
+                         site04.TbUsersType ON site04.TbInvaites.userTypeID = site04.TbUsersType.userTypeID
+WHERE        (site04.TbInvaites.reciverID =  @userID)
 go
 
 
@@ -397,8 +405,7 @@ create proc ConfirmInvaite
 as
 
 declare @userType int= (select [userTypeID] from [site04].[TbInvaites] where [siteID]=@siteID and [SenderID]=@senderID and [reciverID]=@reciverID)
-
-insert [site04].[TbUsersInSite] (siteID, userID, userTypeID) values (@siteID,@reciverID,@userType) 
+exec UpdateWorkerInSite @reciverID ,@userType ,@siteID
 
 SELECT        site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteAddress, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.email, site04.TbUsers.tel, site04.TbUsers.img, 
                          site04.TbUsers.Token, site04.TbUsers.userID
@@ -424,5 +431,16 @@ WHERE        (site04.TbBuildingSite.siteID = @siteID) AND (site04.TbUsers.userID
 
 DELETE FROM [site04].[TbInvaites] WHERE [siteID]=@siteID and [reciverID]=@reciverID;
 go 
+
+
+create proc DeleteInvaite
+@siteID int,
+@senderID int,
+@reciverID int
+AS
+DELETE FROM [site04].[TbInvaites] WHERE [siteID]=@siteID and [reciverID]=@reciverID and [SenderID]=@senderID;
+GO
+
+
 
 
