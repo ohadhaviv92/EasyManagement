@@ -263,5 +263,32 @@ export default class SQL {
 
     });
   }
+  
+    static AddNewSite(UserID,SiteName, SiteAddress) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/AddNewSite`, {
+          body: JSON.stringify({
+            UserID,
+            SiteName,
+            SiteAddress
+
+          }),
+          headers: {
+            "content-type": "application/json"
+          },
+          method: "POST"
+        });
+
+        const data = await res.json();
+
+        if (data === null) reject("invalid email or password");
+
+        resolve(data);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 
 }
