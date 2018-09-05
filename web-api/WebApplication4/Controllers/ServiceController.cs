@@ -76,5 +76,12 @@ namespace WebApplication2.Controllers
         {
             Bal.Instance.RejectInvite((int)invite["siteId"], (int)invite["senderId"], (int)invite["reciverId"]);
         }
+        
+          [HttpPost]
+        [ActionName("AddNewSite")]
+        public BuildingSite PostAddNewSite([FromBody]JObject site)
+        {
+            return Bal.Instance.AddNewSite((int)site["userID"], (string)site["siteName"], (string)site["siteAddress"]);
+        }
     }
 }
