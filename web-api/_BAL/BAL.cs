@@ -362,5 +362,27 @@ namespace _BAL
         {
             Dal.RejectInvite(siteId, senderId, reciverId);
         }
+        
+          public BuildingSite AddNewSite(int userID,string siteName,string siteAddress)
+        {
+            var result = Dal.AddNewSite(userID, siteName, siteAddress);
+            
+            if (result == null)
+                return null;
+            
+
+            var site = new BuildingSite
+                {
+                    SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
+                    SiteName = result.Rows[0]["siteName"].ToString(),
+                    SiteAddress = result.Rows[0]["siteAddress"].ToString(),
+                    SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
+                    UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
+                    UserTypeName = result.Rows[0]["userTypName"].ToString()
+            };
+                
+            
+            return site;
+        }
     }
 }
