@@ -1,4 +1,4 @@
-﻿
+
 /*
 Use Master
 GO
@@ -202,7 +202,7 @@ end
 go 
 
 
-create proc AddNewSite
+alter proc AddNewSite
 @userID int,
 @siteName nvarchar(100),
 @siteAddress nvarchar(100)
@@ -217,8 +217,12 @@ siteID int NOT NULL PRIMARY KEY,
 declare @ID int
 
 insert into site04.[TbBuildingSite] (siteName, siteAddress,siteStatus) values (@siteName,@siteAddress,1)
+
  set @ID = @@IDENTITY
- select * from [site04].[TbBuildingSite] where [siteID] = @ID
+SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbBuildingSite.siteStatus, site04.TbUsersType.userTypeID, site04.TbUsersType.userTypName
+FROM            site04.TbBuildingSite CROSS JOIN
+                         site04.TbUsersType
+WHERE        (site04.TbBuildingSite.siteID = @ID) AND (site04.TbUsersType.userTypeID = 1)
 if(exists(select * from [site04].[TbBuildingSite] where [siteID] = @ID))
 begin 
 insert site04.[TbUsersInSite] (siteID, userID, userTypeID) values (@ID,@userID,1)
