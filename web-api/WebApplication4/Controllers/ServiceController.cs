@@ -1,4 +1,5 @@
 ﻿using _BAL;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,13 @@ namespace WebApplication2.Controllers
         public List<UserInSite> PostRecivedInvites([FromBody]User user)
         {
             return Bal.Instance.GetRecivedInvites(user.UserId);
+        }
+
+        [HttpPost]
+        [ActionName("AddNewSite")]
+        public BuildingSite PostAddNewSite([FromBody]JObject site)
+        {
+            return Bal.Instance.AddNewSite((int)site["userID"], (string)site["siteName"], (string)site["siteAddress"]);
         }
     }
 }
