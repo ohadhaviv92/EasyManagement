@@ -210,3 +210,7 @@ C:\Users\Orhay\Desktop\EasyManagement\web-api\WebApplication4\obj\Debug\WebAppli
 C:\Users\Orhay\Desktop\EasyManagement\web-api\WebApplication4\obj\Debug\WebApplication4.csproj.CopyComplete
 C:\Users\Orhay\Desktop\EasyManagement\web-api\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\Orhay\Desktop\EasyManagement\web-api\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\EasyManagement\EasyManagement\EasyManagement\web-api\WebApplication4\obj\Debug\WebApplication4.csprojAssemblyReference.cache
+C:\EasyManagement\EasyManagement\EasyManagement\web-api\WebApplication4\obj\Debug\WebApplication4.csproj.CoreCompileInputs.cache
+C:\EasyManagement\EasyManagement\EasyManagement\web-api\WebApplication4\obj\Debug\WebApplication4.dll
+C:\EasyManagement\EasyManagement\EasyManagement\web-api\WebApplication4\obj\Debug\WebApplication4.pdb

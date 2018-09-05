@@ -36,3 +36,7 @@ C:\Users\Orhay\Desktop\EasyManagement\web-api\_BAL\obj\Debug\_BAL.csproj.CoreCom
 C:\Users\Orhay\Desktop\EasyManagement\web-api\_BAL\obj\Debug\_BAL.csproj.CopyComplete
 C:\Users\Orhay\Desktop\EasyManagement\web-api\_BAL\obj\Debug\_BAL.dll
 C:\Users\Orhay\Desktop\EasyManagement\web-api\_BAL\obj\Debug\_BAL.pdb
+C:\EasyManagement\EasyManagement\EasyManagement\web-api\_BAL\obj\Debug\_BAL.csprojAssemblyReference.cache
+C:\EasyManagement\EasyManagement\EasyManagement\web-api\_BAL\obj\Debug\_BAL.csproj.CoreCompileInputs.cache
+C:\EasyManagement\EasyManagement\EasyManagement\web-api\_BAL\obj\Debug\_BAL.dll
+C:\EasyManagement\EasyManagement\EasyManagement\web-api\_BAL\obj\Debug\_BAL.pdb
