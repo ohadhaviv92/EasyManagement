@@ -429,6 +429,37 @@ namespace _DAL
             }
             return null;
         }
-        
+
+        public static DataTable AddNewSite(int userID, string siteName, string siteAddress)
+        {
+
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"AddNewSite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@userID", userID));
+                _cmd.Parameters.Add(new SqlParameter("@siteName", siteName));
+                _cmd.Parameters.Add(new SqlParameter("@siteAddress", siteAddress));
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "NewSite");
+
+                if (ds.Tables["NewSite"].Rows.Count != 0)
+                    return ds.Tables["NewSite"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+
+        }
     }
 }
