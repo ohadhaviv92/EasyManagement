@@ -378,7 +378,8 @@ namespace _BAL
                     SiteAddress = result.Rows[0]["siteAddress"].ToString(),
                     SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
                     UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
-                    UserTypeName = result.Rows[0]["userTypName"].ToString()
+                    UserTypeName = result.Rows[0]["userTypName"].ToString(),
+                    Rooms = new List<Room>()
             };
                 
             

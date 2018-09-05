@@ -1,40 +1,39 @@
 import React, { Component } from 'react'
-import { TextInput,Button, View, Dimensions,StyleSheet } from 'react-native'
+import { TextInput, Button, View, Dimensions, StyleSheet } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import SQL from '../../Handlers/SQL';
-import {addSites} from '../../actions/siteAction';
+import { addSites } from '../../actions/siteAction';
 
 class AddSite extends Component {
-    state = {
-        siteName: "",
-        siteAddress: ""
-      };
+  state = {
+    siteName: "",
+    siteAddress: ""
+  };
 
-    addNewSite  = async() => {
-        try {
-            const siteDetails = await SQL.AddNewSite(User.UserId,this.state.siteName,this.state.siteAddress)
-    
-            await this.props.addSites([siteDetails]);          
-            this.props.navigation.navigate("HomeNav");
+  addNewSite = async () => {
+    try {
+      const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress)
+      await this.props.addSites([siteDetails]);          
+      this.props.navigation.navigate("Home");
 
-          } catch (error) {
-            console.log(error);
-            alert(error);
-          }
-        };
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+  };
 
 
   render() {
     return (
-        <View style={styles.container}>
+      <View style={styles.container}>
 
         <TextInput
           style={styles.input}
           placeholder="שם האתר"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
-          onChangeText={(text) => { this.setState({siteName: text }) }}
+          onChangeText={(text) => { this.setState({ siteName: text }) }}
         />
         <TextInput
           style={styles.input}
@@ -43,8 +42,8 @@ class AddSite extends Component {
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ siteAddress: text }) }}
         />
-       
-       
+
+
         <View >
           <Icon
             type="ionicon"
@@ -54,7 +53,7 @@ class AddSite extends Component {
             underlayColor="transparent"
             onPress={this.addNewSite}
           />
-         <Icon
+          <Icon
             type="MaterialIcons"
             name="add-a-photo"
             size={50}
@@ -98,12 +97,12 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = (dispatch) => ({
-    addSites: (Sites) => dispatch(addSites(Sites)),
+  addSites: (Sites) => dispatch(addSites(Sites)),
 
 })
 
 const mapStateToProps = (state) => ({
-    User: state.user,
+  User: state.user,
 });
 
 

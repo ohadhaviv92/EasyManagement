@@ -264,14 +264,14 @@ export default class SQL {
     });
   }
   
-    static AddNewSite(UserID,SiteName, SiteAddress) {
+    static AddNewSite(userID,siteName, siteAddress) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/AddNewSite`, {
           body: JSON.stringify({
-            UserID,
-            SiteName,
-            SiteAddress
+            userID,
+            siteName,
+            siteAddress
 
           }),
           headers: {
