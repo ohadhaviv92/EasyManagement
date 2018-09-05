@@ -429,25 +429,47 @@ namespace _DAL
             }
             return null;
         }
-
-        public static DataTable AddNewSite(int userID, string siteName, string siteAddress)
+        
+        public static void DeleteInvite(int siteId , int senderId , int reciverId)
         {
-
             try
             {
                 Con.Open();
-                _cmd = new SqlCommand($"AddNewSite", Con);
+                _cmd = new SqlCommand($"DeleteInvaite", Con);
                 _cmd.CommandType = CommandType.StoredProcedure;
-                _cmd.Parameters.Add(new SqlParameter("@userID", userID));
-                _cmd.Parameters.Add(new SqlParameter("@siteName", siteName));
-                _cmd.Parameters.Add(new SqlParameter("@siteAddress", siteAddress));
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
+                _cmd.Parameters.Add(new SqlParameter("@senderID", senderId));
+                _cmd.Parameters.Add(new SqlParameter("@reciverID", reciverId));
+                _cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+        } 
+
+        public static DataTable RejectInvite(int siteId , int senderId , int reciverId)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"RejectInvaite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
+                _cmd.Parameters.Add(new SqlParameter("@senderID", senderId));
+                _cmd.Parameters.Add(new SqlParameter("@reciverID", reciverId));
                 _adtr = new SqlDataAdapter(_cmd);
 
                 DataSet ds = new DataSet();
-                _adtr.Fill(ds, "NewSite");
+                _adtr.Fill(ds, "User");
 
-                if (ds.Tables["NewSite"].Rows.Count != 0)
-                    return ds.Tables["NewSite"];
+                if (ds.Tables["User"] != null)
+                    return ds.Tables["User"];
             }
             catch (Exception e)
             {
@@ -459,7 +481,7 @@ namespace _DAL
                     Con.Close();
             }
             return null;
-
         }
+
     }
 }

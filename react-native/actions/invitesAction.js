@@ -19,3 +19,18 @@ export const AddSentInvites = (Invites) => (dispatch) => {
         payload: Invites
     });
 }
+
+
+export const DeleteInvite = (Invite) => (dispatch) => {
+    dispatch({
+        type: 'DELETE_SENT_INVITE',
+        payload: Invite
+    });
+}
+
+export const RejectInvite = (Invite) => (dispatch) => {
+    dispatch({
+        type: 'DELETE_RECIVED_INVITE',
+        payload: Invite
+    });
+}

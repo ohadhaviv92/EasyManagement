@@ -353,26 +353,14 @@ namespace _BAL
 
         }
 
-        public BuildingSite AddNewSite(int userID,string siteName,string siteAddress)
+        public void DeleteInvite(int siteId, int senderId, int reciverId)
         {
-            var result = Dal.AddNewSite(userID, siteName, siteAddress);
-            
-            if (result == null)
-                return null;
-            
+            Dal.DeleteInvite(siteId, senderId, reciverId);
+        }
 
-            var site = new BuildingSite
-                {
-                    SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
-                    SiteName = result.Rows[0]["siteName"].ToString(),
-                    SiteAddress = result.Rows[0]["siteAddress"].ToString(),
-                    SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
-                    UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
-                    UserTypeName = result.Rows[0]["userTypName"].ToString()
-            };
-                
-            
-            return site;
+        public void RejectInvite(int siteId, int senderId, int reciverId)
+        {
+            Dal.RejectInvite(siteId, senderId, reciverId);
         }
     }
 }

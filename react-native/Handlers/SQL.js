@@ -187,7 +187,7 @@ export default class SQL {
   }
 
     
-  static async SednInvite(SiteId, UserType, SenderId, Reciver) {
+  static async SendInvite(SiteId, UserType, SenderId, Reciver) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/getRecivedInvites`, {
@@ -205,6 +205,7 @@ export default class SQL {
         });
 
         const data = await res.json();
+        console.log(data);
         
         if (data !== null) {
           if(data.Error)
@@ -222,30 +223,44 @@ export default class SQL {
 
   }
 
-  static AddNewSite(UserID,SiteName, SiteAddress) {
+
+  
+  static async DeleteInvite(siteId, senderId ,reciverId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(`${URL}/AddNewSite`, {
-          body: JSON.stringify({
-            UserID,
-            SiteName,
-            SiteAddress
-
-          }),
+        await fetch(`${URL}/DeleteInvite`, {
+          method: 'DELETE',
           headers: {
-            "content-type": "application/json"
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
-          method: "POST"
+          body: JSON.stringify({ siteId, senderId ,reciverId }),
         });
 
-        const data = await res.json();
-
-        if (data === null) reject("invalid email or password");
-
-        resolve(data);
       } catch (error) {
         reject(error);
       }
+
+    });
+  }
+
+
+  static async RejectInvite(siteId, senderId ,reciverId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await fetch(`${URL}/RejectInvite`, {
+          method: 'DELETE',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ siteId, senderId ,reciverId }),
+        });
+
+      } catch (error) {
+        reject(error);
+      }
+
     });
   }
 
