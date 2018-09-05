@@ -430,5 +430,58 @@ namespace _DAL
             return null;
         }
         
+        public static void DeleteInvite(int siteId , int senderId , int reciverId)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"DeleteInvaite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
+                _cmd.Parameters.Add(new SqlParameter("@senderID", senderId));
+                _cmd.Parameters.Add(new SqlParameter("@reciverID", reciverId));
+                _cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+        } 
+
+        public static DataTable RejectInvite(int siteId , int senderId , int reciverId)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"RejectInvaite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
+                _cmd.Parameters.Add(new SqlParameter("@senderID", senderId));
+                _cmd.Parameters.Add(new SqlParameter("@reciverID", reciverId));
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "User");
+
+                if (ds.Tables["User"] != null)
+                    return ds.Tables["User"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+        }
+
     }
 }

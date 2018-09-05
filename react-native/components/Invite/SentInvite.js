@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import Swipeout from 'rc-swipeout';
+import {connect} from 'react-redux';
+import {DeleteInvite} from '../../actions/invitesAction';
+import SQL from '../../Handlers/SQL';
 
 const styles = StyleSheet.create({
     text: {
@@ -13,14 +16,26 @@ const styles = StyleSheet.create({
 
 const { width, height } = Dimensions.get("window");
 
-export default (props) => {
+SentInvite = (props) => {
+
+Delete = async() => {
+    try {
+        SQL.DeleteInvite(props.invite.Site.SiteId ,props.User.UserId, props.invite.user.UserId);
+        props.DeleteInvite({siteId: props.invite.Site.SiteId, reciverId: props.invite.user.UserId});
+    
+    } catch (error) {
+        console.error(errorr);
+        
+    }
+ 
+}
 
     return (
         <Swipeout
             right={[
                 {
                     text: 'delete',
-                    onPress: () => console.log('delete'),
+                    onPress: Delete,
                     style: { backgroundColor: 'red', color: 'white' }
                 }
             ]}>
@@ -34,3 +49,13 @@ export default (props) => {
 
 }
 
+
+const mapDispatchToProps = (dispatch) => ({
+    DeleteInvite: (Invite) => dispatch(DeleteInvite(Invite)),
+})
+
+const mapStateToProps = (state) => ({
+    User: state.user,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SentInvite); 

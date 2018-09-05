@@ -21,10 +21,9 @@ class Invite extends Component {
 
     onSend = async () => {
         try {
-            const user = await SQL.SednInvite(this.state.siteID, this.state.jobID, this.props.User.UserId, this.state.user)
+            const user = await SQL.SendInvite(this.state.siteID, this.state.jobID, this.props.User.UserId, this.state.user)
             const Site = this.props.Sites[this.state.siteID];
-            console.log(user, Site);
-            
+     
             //this.props.AddSentInvites({ user, Site })
        
             
@@ -47,8 +46,8 @@ class Invite extends Component {
         try {
             const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
             const recivedInvites = await SQL.GetRecivedInvites(this.props.User.UserId)
-            await this.props.SetSentInvites(sentInvites);
-            await this.props.SetReciveInvites(recivedInvites);
+            this.props.SetSentInvites(sentInvites);
+            this.props.SetReciveInvites(recivedInvites);
         } catch (error) {
 
         }

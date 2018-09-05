@@ -1,4 +1,5 @@
 ﻿using _BAL;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,11 +63,18 @@ namespace WebApplication2.Controllers
             return Bal.Instance.GetSentInvites(user.UserId);
         }
 
-        [HttpPost]
-        [ActionName("getRecivedInvites")]
-        public List<UserInSite> PostRecivedInvites([FromBody]User user)
+        [HttpDelete]
+        [ActionName("DeleteInvite")]
+        public void DeleteInvite([FromBody]JObject invite)
         {
-            return Bal.Instance.GetRecivedInvites(user.UserId);
+            Bal.Instance.DeleteInvite((int)invite["siteId"] , (int)invite["senderId"] , (int)invite["reciverId"]);
+        }
+
+        [HttpPost]
+        [ActionName("RejectInvite")]
+        public void PostRejectInvite([FromBody]JObject invite)
+        {
+            Bal.Instance.RejectInvite((int)invite["siteId"], (int)invite["senderId"], (int)invite["reciverId"]);
         }
     }
 }
