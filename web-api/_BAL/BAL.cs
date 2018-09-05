@@ -353,6 +353,14 @@ namespace _BAL
 
         }
 
+        public void DeleteInvite(int siteId, int senderId, int reciverId)
+        {
+            Dal.DeleteInvite(siteId, senderId, reciverId);
+        }
 
+        public void RejectInvite(int siteId, int senderId, int reciverId)
+        {
+            Dal.RejectInvite(siteId, senderId, reciverId);
+        }
     }
 }
