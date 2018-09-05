@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import Swipeout from 'rc-swipeout';
+import {connect} from 'react-redux';
+import {RejectInvite} from '../../actions/invitesAction';
+import SQL from '../../Handlers/SQL';
 
 const styles = StyleSheet.create({
     text: {
@@ -13,7 +16,20 @@ const styles = StyleSheet.create({
 
 const { width, height } = Dimensions.get("window");
 
-export default (props) => {
+const RecivedInvite = (props) => {
+
+    
+Reject = async() => {
+    try {
+        //SQL.RejectInvite(props.invite.Site.SiteId ,props.User.UserId, props.invite.user.UserId);
+        props.RejectInvite({siteId: props.invite.Site.SiteId, reciverId: props.invite.user.UserId});
+    
+    } catch (error) {
+        console.error(errorr);
+        
+    }
+ 
+}
 
     return (
         <Swipeout
@@ -25,7 +41,7 @@ export default (props) => {
                 },
                 {
                     text: 'reject',
-                    onPress: () => console.log('delete'),
+                    onPress: Reject,
                     style: { backgroundColor: 'red', color: 'white' }
                 }
             ]}>
@@ -39,3 +55,12 @@ export default (props) => {
 
 }
 
+const mapDispatchToProps = (dispatch) => ({
+    RejectInvite: (Invite) => dispatch(RejectInvite(Invite)),
+})
+
+const mapStateToProps = (state) => ({
+    User: state.user,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecivedInvite); 
