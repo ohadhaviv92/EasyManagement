@@ -12,7 +12,7 @@ import SQL from '../../Handlers/SQL';
 import Notification from '../../Handlers/Notification';
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux'
-import { onLogin, UpdateToken } from '../../actions/userAction';
+import { onLogin, UpdateToken, Logout } from '../../actions/userAction';
 import { SetSites } from '../../actions/siteAction';
 
 
@@ -110,7 +110,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => ({
   onLogin: (userDetails) => dispatch(onLogin(userDetails)),
   SetSites: (Sites) => dispatch(SetSites(Sites)),
-  UpdateToken: (Token) => dispatch(UpdateToken(Token))
+  UpdateToken: (Token) => dispatch(UpdateToken(Token)),
+  Logout: () => dispatch(Logout())
 
 })
 const mapStateToProps = state => ({
