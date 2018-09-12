@@ -63,7 +63,14 @@ namespace WebApplication2.Controllers
             return Bal.Instance.GetSentInvites(user.UserId);
         }
 
-        [HttpDelete]
+        [HttpPost]
+        [ActionName("getRecivedInvites")]
+        public List<UserInSite> PostGetRecivedInvites([FromBody]User user)
+        {
+            return Bal.Instance.GetRecivedInvites(user.UserId);
+        }
+
+        [HttpPost]
         [ActionName("DeleteInvite")]
         public void DeleteInvite([FromBody]JObject invite)
         {
@@ -76,8 +83,15 @@ namespace WebApplication2.Controllers
         {
             Bal.Instance.RejectInvite((int)invite["siteId"], (int)invite["senderId"], (int)invite["reciverId"]);
         }
-        
-          [HttpPost]
+
+        [HttpPost]
+        [ActionName("ConfirmInvite")]
+        public UserInSite PostConfirmInvite([FromBody]JObject invite)
+        {
+            return Bal.Instance.ConfirmInvite((int)invite["siteId"], (int)invite["senderId"], (int)invite["reciverId"]);
+        }
+
+        [HttpPost]
         [ActionName("AddNewSite")]
         public BuildingSite PostAddNewSite([FromBody]JObject site)
         {

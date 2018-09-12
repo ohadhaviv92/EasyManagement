@@ -21,7 +21,7 @@ const RecivedInvite = (props) => {
     
 Reject = async() => {
     try {
-        //SQL.RejectInvite(props.invite.Site.SiteId ,props.User.UserId, props.invite.user.UserId);
+        SQL.RejectInvite(props.invite.Site.SiteId , props.invite.user.UserId, props.User.UserId);
         props.RejectInvite({siteId: props.invite.Site.SiteId, reciverId: props.invite.user.UserId});
     
     } catch (error) {

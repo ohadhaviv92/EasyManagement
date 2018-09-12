@@ -292,7 +292,7 @@ namespace _BAL
 
             for (int i = 0; i < results.Rows.Count; i++)
             {
-                
+
                 var user = new User
                 {
                     UserId = int.Parse(results.Rows[i]["userID"].ToString()),
@@ -301,7 +301,7 @@ namespace _BAL
                     LastName = results.Rows[i]["lastName"].ToString(),
                     Email = results.Rows[i]["email"].ToString(),
                     Img = results.Rows[i]["img"].ToString(),
-                    
+
                 };
 
                 var site = new BuildingSite
@@ -315,7 +315,7 @@ namespace _BAL
                 InvitedUsers.Add(new UserInSite { user = user, Site = site });
             }
             return InvitedUsers;
-           
+
         }
 
         public List<UserInSite> GetRecivedInvites(int userId)
@@ -362,28 +362,90 @@ namespace _BAL
         {
             Dal.RejectInvite(siteId, senderId, reciverId);
         }
-        
-          public BuildingSite AddNewSite(int userID,string siteName,string siteAddress)
+
+        public BuildingSite AddNewSite(int userID, string siteName, string siteAddress)
         {
             var result = Dal.AddNewSite(userID, siteName, siteAddress);
-            
+
             if (result == null)
                 return null;
-            
+
 
             var site = new BuildingSite
-                {
-                    SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
-                    SiteName = result.Rows[0]["siteName"].ToString(),
-                    SiteAddress = result.Rows[0]["siteAddress"].ToString(),
-                    SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
-                    UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
-                    UserTypeName = result.Rows[0]["userTypName"].ToString(),
-                    Rooms = new List<Room>()
+            {
+                SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
+                SiteName = result.Rows[0]["siteName"].ToString(),
+                SiteAddress = result.Rows[0]["siteAddress"].ToString(),
+                SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
+                UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
+                UserTypeName = result.Rows[0]["userTypName"].ToString(),
+                Rooms = new List<Room>()
             };
-                
-            
+
+
             return site;
+        }
+
+
+        public UserInSite ConfirmInvite(int siteId, int senderId, int reciverId)
+        {
+            DataTable res = Dal.ConfirmInvite(siteId, senderId, reciverId);
+            if (res == null)
+                return null;
+
+
+            var site = new BuildingSite
+            {
+                SiteName = res.Rows[0]["siteName"].ToString(),
+                SiteId = int.Parse(res.Rows[0]["SiteID"].ToString()),
+                SiteAddress = res.Rows[0]["SiteAddress"].ToString(),
+                UserTypeId = int.Parse(res.Rows[0]["userTypeID"].ToString() ),
+                UserTypeName = res.Rows[0]["userTypName"].ToString()
+            };
+
+            site.Rooms = getSiteRooms(siteId);
+
+            var user = new User
+            {
+                Email = res.Rows[0]["email"].ToString(),
+                UserName = res.Rows[0]["userName"].ToString(),
+                FirstName = res.Rows[0]["firstName"].ToString(),
+                LastName = res.Rows[0]["lastName"].ToString(),
+                Tel = res.Rows[0]["tel"].ToString(),
+                Img = res.Rows[0]["img"].ToString(),
+                UserId = int.Parse(res.Rows[0]["userID"].ToString())
+            };
+
+            var userInSite = new UserInSite
+            {
+                user = user,
+                Site = site
+            };
+
+            Notify(res.Rows[0]["OwnerEmail"].ToString(), "Invitation accepted", $"{user.FirstName} {user.LastName} has accepted your invite");
+
+            return userInSite;
+        }
+
+        private List<Room> getSiteRooms(int siteId)
+        {
+            List<Room> rooms = GetRoomsInSite(siteId);
+
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                rooms[i].Faults = GetRoomFaults(rooms[i].RoomId);
+
+                for (int j = 0; j < rooms[i].Faults.Count; j++)
+                {
+                    var owner = rooms[i].Faults[j].Owner;
+                    var worker = rooms[i].Faults[j].Worker;
+                    rooms[i].Faults[j].Owner = GetUserInSite(owner.UserId, siteId);
+                    rooms[i].Faults[j].Worker = GetUserInSite(worker.UserId, siteId);
+
+                }
+            }
+
+            return rooms;
         }
     }
 }

@@ -143,7 +143,7 @@ export default class SQL {
         });
 
         const data = await res.json();
-        
+
         if (data !== null) {
           resolve(data);
         }
@@ -158,7 +158,7 @@ export default class SQL {
   }
 
 
-  
+
   static async GetRecivedInvites(userId) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -172,7 +172,7 @@ export default class SQL {
         });
 
         const data = await res.json();
-        
+
         if (data !== null) {
           resolve(data);
         }
@@ -186,31 +186,31 @@ export default class SQL {
 
   }
 
-    
+
   static async SendInvite(SiteId, UserType, SenderId, Reciver) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(`${URL}/getRecivedInvites`, {
+        const res = await fetch(`${URL}/sendInvite`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             SiteId,
             UserType,
             SenderId,
             Reciver
-           }),
+          }),
         });
 
         const data = await res.json();
         console.log(data);
-        
+
         if (data !== null) {
-          if(data.Error)
+          if (data.Error)
             reject(data);
-            
+
           resolve(data);
         }
         reject("No recived invites");
@@ -224,20 +224,29 @@ export default class SQL {
   }
 
 
-  
-  static async DeleteInvite(siteId, senderId ,reciverId) {
+
+  static async DeleteInvite(siteId, senderId, reciverId) {
+    console.log(siteId, senderId, reciverId);
+
     return new Promise(async (resolve, reject) => {
       try {
-        await fetch(`${URL}/DeleteInvite`, {
-          method: 'DELETE',
+        const res = await fetch(`${URL}/DeleteInvite`, {
+          method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ siteId, senderId ,reciverId }),
+          body: JSON.stringify({
+            "siteId": siteId,
+            "senderId": senderId,
+            "reciverId": reciverId
+          }),
         });
+        console.log(res);
 
+        resolve(true);
       } catch (error) {
+        console.log(errorr);
         reject(error);
       }
 
@@ -245,26 +254,32 @@ export default class SQL {
   }
 
 
-  static async RejectInvite(siteId, senderId ,reciverId) {
+  static async RejectInvite(siteId, senderId, reciverId) {
+
     return new Promise(async (resolve, reject) => {
       try {
-        await fetch(`${URL}/RejectInvite`, {
-          method: 'DELETE',
+        const res = await fetch(`${URL}/RejectInvite`, {
+          method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ siteId, senderId ,reciverId }),
+          body: JSON.stringify({
+            "siteId": siteId,
+            "senderId": senderId,
+            "reciverId": reciverId
+          }),
         });
-
+        console.log(res);
+        resolve(true)
       } catch (error) {
         reject(error);
       }
 
     });
   }
-  
-    static AddNewSite(userID,siteName, siteAddress) {
+
+  static AddNewSite(userID, siteName, siteAddress) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/AddNewSite`, {

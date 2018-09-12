@@ -24,7 +24,7 @@ class Invite extends Component {
             const user = await SQL.SendInvite(this.state.siteID, this.state.jobID, this.props.User.UserId, this.state.user)
             const Site = this.props.Sites[this.state.siteID];
      
-            //this.props.AddSentInvites({ user, Site })
+            this.props.AddSentInvites({ user, Site })
        
             
         } catch (error) {
@@ -42,7 +42,9 @@ class Invite extends Component {
             } catch (error) {
 
             }
-        }
+        }else
+            if(this.props.Sites.length !== 0)
+                this.setState({jobID: this.props.Jobs[0].userTypeID , siteID: this.props.Sites[0].SiteId})
         try {
             const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
             const recivedInvites = await SQL.GetRecivedInvites(this.props.User.UserId)

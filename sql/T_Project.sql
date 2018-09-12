@@ -55,6 +55,7 @@ create TABLE TbUsers (
 
 CREATE TABLE TbBuildingSite (
 	siteID int identity(1,1) NOT NULL PRIMARY KEY,
+	OwnerId int not null,
 	siteName nvarchar(100) NOT NULL ,
 	siteAddress nvarchar(100) NOT NULL ,
 	siteStatus bit,
@@ -208,15 +209,9 @@ alter proc AddNewSite
 @siteAddress nvarchar(100)
 as
 
-declare @site table(
-siteID int NOT NULL PRIMARY KEY,
-	siteName nvarchar(100) NOT NULL ,
-	siteAddress nvarchar(100) NOT NULL ,
-	siteStatus bit
-)
 declare @ID int
 
-insert into site04.[TbBuildingSite] (siteName, siteAddress,siteStatus) values (@siteName,@siteAddress,1)
+insert into site04.[TbBuildingSite] (siteName, siteAddress,OwnerId,siteStatus) values (@siteName,@siteAddress, @userID,1)
 
  set @ID = @@IDENTITY
 SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbBuildingSite.siteStatus, site04.TbUsersType.userTypeID, site04.TbUsersType.userTypName
@@ -402,7 +397,7 @@ WHERE        (site04.TbInvaites.reciverID =  @userID)
 go
 
 
-create proc ConfirmInvaite
+alter proc ConfirmInvaite
 @siteID int,
 @senderID int,
 @reciverID int
@@ -411,12 +406,14 @@ as
 declare @userType int= (select [userTypeID] from [site04].[TbInvaites] where [siteID]=@siteID and [SenderID]=@senderID and [reciverID]=@reciverID)
 exec UpdateWorkerInSite @reciverID ,@userType ,@siteID
 
-SELECT        site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteAddress, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.email, site04.TbUsers.tel, site04.TbUsers.img, 
-                         site04.TbUsers.Token, site04.TbUsers.userID
+SELECT        site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteAddress, site04.TbUsers.userName, site04.TbUsers.firstName, site04.TbUsers.lastName, site04.TbUsers.email, site04.TbUsers.tel, 
+                         site04.TbUsers.userID, site04.TbUsersInSite.userTypeID, site04.TbUsersType.userTypName, TbUsers_1.email AS OwnerEmail, site04.TbUsers.img
 FROM            site04.TbBuildingSite INNER JOIN
-                         site04.TbInvaites ON site04.TbBuildingSite.siteID = site04.TbInvaites.siteID INNER JOIN
-                         site04.TbUsers ON site04.TbInvaites.SenderID = site04.TbUsers.userID
-WHERE        (site04.TbBuildingSite.siteID = @siteID) AND (site04.TbUsers.userID = @senderID) AND (site04.TbInvaites.reciverID = @reciverID)
+                         site04.TbUsersInSite ON site04.TbBuildingSite.siteID = site04.TbUsersInSite.siteID INNER JOIN
+                         site04.TbUsers ON site04.TbUsersInSite.userID = site04.TbUsers.userID INNER JOIN
+                         site04.TbUsersType ON site04.TbUsersInSite.userTypeID = site04.TbUsersType.userTypeID INNER JOIN
+                         site04.TbUsers AS TbUsers_1 ON site04.TbBuildingSite.OwnerId = TbUsers_1.userID
+WHERE        (site04.TbBuildingSite.siteID = @siteID) AND (site04.TbUsers.userID = @reciverID) 
 
 DELETE FROM [site04].[TbInvaites] WHERE [siteID]=@siteID and [reciverID]=@reciverID;
 go 
