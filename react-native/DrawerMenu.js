@@ -5,8 +5,7 @@ import {
     TouchableOpacity,
     Text,
     SafeAreaView,
-    ScrollView,
-    AsyncStorage
+    ScrollView
   } from "react-native";
   import { Icon } from "react-native-elements";
   import { DrawerItems } from 'react-navigation';

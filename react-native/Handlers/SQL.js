@@ -297,13 +297,40 @@ export default class SQL {
 
         const data = await res.json();
 
-        if (data === null) reject("invalid email or password");
-
         resolve(data);
       } catch (error) {
         reject(error);
       }
     });
   }
+
+
+  static async ConfirmInvite(siteId, senderId, reciverId) {
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/ConfirmInvite`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "siteId": siteId,
+            "senderId": senderId,
+            "reciverId": reciverId
+          }),
+        });
+        const data = await res.json();
+        console.log(data);
+        
+        resolve(data)
+      } catch (error) {
+        reject(error);
+      }
+
+    });
+  }
+
 
 }

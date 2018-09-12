@@ -16,7 +16,8 @@ class Home extends Component {
 
   _ListEmptyComponent = () => <Empty />
   _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
-  _keyExtractor = (site) => site.SiteId.toString();
+  _keyExtractor = (site) => site.SiteId.toString()
+
   _renderItem = (site) => <PreviewSite site={site.item} navigation={this.props.navigation} />
   render() {
     return (

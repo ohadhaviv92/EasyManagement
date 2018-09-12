@@ -50,6 +50,8 @@ class Invite extends Component {
             const recivedInvites = await SQL.GetRecivedInvites(this.props.User.UserId)
             this.props.SetSentInvites(sentInvites);
             this.props.SetReciveInvites(recivedInvites);
+
+            
         } catch (error) {
 
         }
