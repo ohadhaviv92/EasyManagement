@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
-import { Text, FlatList, View, RefreshControl, StyleSheet, Dimensions } from 'react-native'
+import { FlatList, View, RefreshControl, StyleSheet, Dimensions } from 'react-native'
 import PreviewSite from '../Site/PreviewSite';
+import AddSite from '../Site/AddSite';
 import { connect } from 'react-redux';
 import Empty from '../General/Empty';
+import { Icon } from 'react-native-elements';
+import Modal from '../General/Modal';
+
 class Home extends Component {
   state = {
-    refreshing: false
+    refreshing: false,
+    modalVisible: false
   }
 
 
@@ -13,6 +18,8 @@ class Home extends Component {
   _onRefresh = () => {
 
   }
+
+  openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
   _ListEmptyComponent = () => <Empty />
   _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
@@ -22,8 +29,19 @@ class Home extends Component {
   render() {
     return (
       <View>
+        <Icon
+          type="ionicon"
+          name="ios-add-circle-outline"
+          size={50}
+          color="#ECF0F1"
+          underlayColor="transparent"
+          onPress={this.openModal}
+        />
+        <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
+          <AddSite />
+        </Modal>
 
-      <FlatList
+        <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
           ItemSeparatorComponent={this._ItemSeparatorComponent}
           refreshControl={
@@ -36,8 +54,6 @@ class Home extends Component {
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
-
-
       </View>
     )
   }
