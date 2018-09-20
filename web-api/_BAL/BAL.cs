@@ -448,9 +448,9 @@ namespace _BAL
             return rooms;
         }
 
-        public BuildingSite DeleteSite(int siteID)
+        public BuildingSite ChangeSiteStatus(int siteID, int statusID)
         {
-            var result = Dal.DeleteSite(siteID);
+            var result = Dal.ChangeSiteStatus(siteID, statusID);
 
             if (result == null)
                 return null;

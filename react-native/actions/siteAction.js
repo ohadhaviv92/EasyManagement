@@ -22,3 +22,12 @@ export const RemoveSite = (Site) => (dispatch) => {
     });
 
 }
+
+export const SetSiteStatus = (SiteID,Status) => (dispatch) => {
+
+    dispatch({
+        type: 'SET_STATUS',
+        payload: {SiteID,Status}
+    });
+
+}

@@ -7,7 +7,13 @@ export default (state = [], action) => {
             return (
                action.payload
             )
-
+        case 'SET_STATUS':
+            return ([...state].map((site) => {
+                let tempSite = site;
+                if(site.SiteId == action.payload.SiteID) 
+                    tempSite.SiteStatus = action.payload.Status;
+                return tempSite;
+            }))
         case 'ADD_SITES':
             return ([...state].concat(action.payload))
         case "REMOVE_SITES":

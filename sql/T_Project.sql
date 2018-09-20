@@ -446,6 +446,16 @@ AS
 DELETE FROM [site04].[TbInvaites] WHERE [siteID]=@siteID and [reciverID]=@reciverID and [SenderID]=@senderID;
 GO
 
+alter proc ChangeSiteStatus
+@siteID int,
+@statusID int
+AS
+UPDATE   [site04].[TbBuildingSite] SET [siteStatus]=@statusID where [siteID]=@siteID;
+select * from [site04].[TbBuildingSite] where [siteID]=@siteID;
+GO
+
+
+
 
 
 

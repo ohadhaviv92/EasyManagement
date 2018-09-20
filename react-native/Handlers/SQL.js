@@ -357,12 +357,14 @@ export default class SQL {
     });
   }
 
-  static DeleteSite(siteID) {
+  static ChangeSiteStatus(siteID,statusID) {
+    
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(`${URL}/DeleteSite`, {
+        const res = await fetch(`${URL}/ChangeSiteStatus`, {
           body: JSON.stringify({
             siteID,
+            statusID
 
           }),
           headers: {

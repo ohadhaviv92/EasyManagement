@@ -17,8 +17,8 @@ class AddRoom extends Component {
 
   };
 
-  componentDidMount() {
-    if (this.props.RoomTypes.length == 0) {
+  async componentDidMount() {
+    if (this.props.RoomsType.length == 0) {
       try {
         const roomTypes = await SQL.GetRoomsType();
         this.props.SetRoomsType(roomTypes);
@@ -39,7 +39,7 @@ class AddRoom extends Component {
           onValueChange={(val, index) => this.setState({ roomId: val })}
           style={styles.picker}>
 
-          {this.props.RoomTypes.map(type => <Picker.Item key={type.RoomTypeId} label={type.RoomTypeName} value={type.RoomTypeId} />)}
+          {this.props.RoomsType.map(type => <Picker.Item key={type.RoomTypeId} label={type.RoomTypeName} value={type.RoomTypeId} />)}
 
         </Picker>
 
@@ -107,6 +107,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
   },
+  picker: {
+    backgroundColor: "#2980B9",
+    width: width - 80,
+    height: 40,
+    marginVertical: 5,
+  }
 
 });
 

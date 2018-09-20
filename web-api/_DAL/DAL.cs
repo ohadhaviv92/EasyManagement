@@ -546,23 +546,24 @@ namespace _DAL
         }
 
 
-        public static DataTable DeleteSite(int siteID)
+        public static DataTable ChangeSiteStatus(int siteID,int statusID)
         {
 
             try
             {
                 Con.Open();
-                _cmd = new SqlCommand($"DeleteSite", Con);
+                _cmd = new SqlCommand($"ChangeSiteStatus", Con);
                 _cmd.CommandType = CommandType.StoredProcedure;
                 _cmd.Parameters.Add(new SqlParameter("@siteID", siteID));
+                _cmd.Parameters.Add(new SqlParameter("@statusID", statusID));
 
                 _adtr = new SqlDataAdapter(_cmd);
 
                 DataSet ds = new DataSet();
-                _adtr.Fill(ds, "siteDelete");
+                _adtr.Fill(ds, "site");
 
-                if (ds.Tables["siteDelete"].Rows.Count != 0)
-                    return ds.Tables["siteDelete"];
+                if (ds.Tables["site"].Rows.Count != 0)
+                    return ds.Tables["site"];
             }
             catch (Exception e)
             {

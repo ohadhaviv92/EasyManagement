@@ -8,11 +8,12 @@ import { Icon } from 'react-native-elements';
 import Modal from '../General/Modal';
 
 class Home extends Component {
-  state = {
-    refreshing: false,
-    modalVisible: false
-  }
 
+
+    state = {
+      refreshing: false,
+      modalVisible: false,
+    }
 
 
   _onRefresh = () => {
@@ -25,7 +26,7 @@ class Home extends Component {
   _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
   _keyExtractor = (site) => site.SiteId.toString()
 
-  _renderItem = (site) => <PreviewSite site={site.item} navigation={this.props.navigation} />
+_renderItem = (site) =><PreviewSite site={site.item} navigation={this.props.navigation} />
   render() {
     return (
       <View>
@@ -50,7 +51,7 @@ class Home extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Sites}
+          data={this.props.Sites.filter(site=> site.SiteStatus === true)}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />

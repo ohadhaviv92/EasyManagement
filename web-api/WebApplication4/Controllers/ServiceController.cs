@@ -84,10 +84,10 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        [ActionName("DeleteSite")]
-        public BuildingSite DeleteSite([FromBody]JObject site)
+        [ActionName("ChangeSiteStatus")]
+        public BuildingSite ChangeSiteStatus([FromBody]JObject site)
         {
-            return Bal.Instance.DeleteSite((int)site["siteID"]);
+            return Bal.Instance.ChangeSiteStatus((int)site["siteID"] , (int)site["statusID"]);
         }
     }
 }
