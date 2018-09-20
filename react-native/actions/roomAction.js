@@ -19,3 +19,11 @@ export const RemoveRoom = (Room) => (dispatch) => {
         payload: Room
     });
 }
+
+
+export const SetRoomsType = (Rooms) => (dispatch) => {
+    dispatch({
+        type: 'SET_ROOMS_TYPE',
+        payload: Rooms
+    });
+}
