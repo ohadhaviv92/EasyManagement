@@ -64,7 +64,7 @@ class AddSite extends Component {
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
-            onPress={null}
+            onPress={()=>null}
           />
         </View>
 

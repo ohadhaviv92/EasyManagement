@@ -62,7 +62,14 @@ namespace WebApplication2.Controllers
             return Bal.Instance.GetSentInvites(user.UserId);
         }
 
-        [HttpDelete]
+        [HttpPost]
+        [ActionName("getRecivedInvites")]
+        public List<UserInSite> PostGetRecivedInvites([FromBody]User user)
+        {
+            return Bal.Instance.GetRecivedInvites(user.UserId);
+        }
+
+        [HttpPost]
         [ActionName("DeleteInvite")]
         public void DeleteInvite([FromBody]JObject invite)
         {
@@ -75,19 +82,35 @@ namespace WebApplication2.Controllers
         {
             Bal.Instance.RejectInvite((int)invite["siteId"], (int)invite["senderId"], (int)invite["reciverId"]);
         }
-        
-          [HttpPost]
+
+        [HttpPost]
+        [ActionName("ConfirmInvite")]
+        public UserInSite PostConfirmInvite([FromBody]JObject invite)
+        {
+            return Bal.Instance.ConfirmInvite((int)invite["siteId"], (int)invite["senderId"], (int)invite["reciverId"]);
+        }
+
+        [HttpPost]
         [ActionName("AddNewSite")]
         public BuildingSite PostAddNewSite([FromBody]JObject site)
         {
             return Bal.Instance.AddNewSite((int)site["userID"], (string)site["siteName"], (string)site["siteAddress"]);
         }
 
+<<<<<<< HEAD
         [HttpPost]
         [ActionName("ChangeSiteStatus")]
         public BuildingSite ChangeSiteStatus([FromBody]JObject site)
         {
             return Bal.Instance.ChangeSiteStatus((int)site["siteID"] , (int)site["statusID"]);
+=======
+
+        [HttpGet]
+        [ActionName("roomsType")]
+        public List<RoomType> GetRoomsType()
+        {
+            return Bal.Instance.GetRoomTypes();
+>>>>>>> f99fbb89c348e0e1839226702891073d6496d08f
         }
     }
 }
