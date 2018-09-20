@@ -53,10 +53,11 @@ create TABLE TbUsers (
 
 
 
-CREATE TABLE TbBuildingSite (
+create TABLE TbBuildingSite (
 	siteID int identity(1,1) NOT NULL PRIMARY KEY,
 	siteName nvarchar(100) NOT NULL ,
 	siteAddress nvarchar(100) NOT NULL ,
+	img nvarchar(max),
 	siteStatus bit,
 	
 );
