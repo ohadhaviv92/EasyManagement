@@ -545,7 +545,6 @@ namespace _DAL
             return null;
         }
 
-<<<<<<< HEAD
 
         public static DataTable ChangeSiteStatus(int siteID,int statusID)
         {
@@ -565,7 +564,22 @@ namespace _DAL
 
                 if (ds.Tables["site"].Rows.Count != 0)
                     return ds.Tables["site"];
-=======
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+
+        }
+
+    
         public static DataTable GetRoomsTypes()
         {
             try
@@ -579,7 +593,6 @@ namespace _DAL
 
                 if (ds.Tables["RoomsType"].Rows.Count != 0)
                     return ds.Tables["RoomsType"];
->>>>>>> f99fbb89c348e0e1839226702891073d6496d08f
             }
             catch (Exception e)
             {
@@ -590,16 +603,11 @@ namespace _DAL
                 if (Con != null && Con.State == ConnectionState.Open)
                     Con.Close();
             }
-<<<<<<< HEAD
-            return null;
-
-        }
-=======
-
             return null;
 
         }
 
->>>>>>> f99fbb89c348e0e1839226702891073d6496d08f
+  
+
     }
 }

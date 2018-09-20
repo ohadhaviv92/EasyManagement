@@ -97,20 +97,18 @@ namespace WebApplication2.Controllers
             return Bal.Instance.AddNewSite((int)site["userID"], (string)site["siteName"], (string)site["siteAddress"]);
         }
 
-<<<<<<< HEAD
         [HttpPost]
         [ActionName("ChangeSiteStatus")]
         public BuildingSite ChangeSiteStatus([FromBody]JObject site)
         {
-            return Bal.Instance.ChangeSiteStatus((int)site["siteID"] , (int)site["statusID"]);
-=======
+            return Bal.Instance.ChangeSiteStatus((int)site["siteID"], (int)site["statusID"]);
+        }
 
         [HttpGet]
         [ActionName("roomsType")]
         public List<RoomType> GetRoomsType()
         {
             return Bal.Instance.GetRoomTypes();
->>>>>>> f99fbb89c348e0e1839226702891073d6496d08f
         }
     }
 }

@@ -269,7 +269,6 @@ export default class SQL {
             "reciverId": reciverId
           }),
         });
-<<<<<<< HEAD
         console.log(res);
         resolve(true)
       } catch (error) {
@@ -325,39 +324,10 @@ export default class SQL {
         console.log(data);
         
         resolve(data)
-=======
-    
-        resolve(true)
->>>>>>> f99fbb89c348e0e1839226702891073d6496d08f
       } catch (error) {
         reject(error);
       }
 
-    });
-  }
-
-    static AddNewSite(userID, siteName, siteAddress) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const res = await fetch(`${URL}/AddNewSite`, {
-          body: JSON.stringify({
-            userID,
-            siteName,
-            siteAddress
-
-          }),
-          headers: {
-            "content-type": "application/json"
-          },
-          method: "POST"
-        });
-
-        const data = await res.json();
-
-        resolve(data);
-      } catch (error) {
-        reject(error);
-      }
     });
   }
 
