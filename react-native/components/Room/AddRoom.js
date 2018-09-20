@@ -1,46 +1,62 @@
 import React, { Component } from 'react'
-import { TextInput, Button, View, Dimensions, StyleSheet } from 'react-native'
+import { TextInput, View, Dimensions, StyleSheet, Picker } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import SQL from '../../Handlers/SQL';
-import { addSites } from '../../actions/siteAction';
+import { SetRoomsType } from '../../actions/roomAction';
 
-class AddSite extends Component {
+class AddRoom extends Component {
   state = {
-    siteName: "",
-    siteAddress: ""
+    roomTypes: null,
+    roomName: '',
+    roomId: NaN,
+    floor: 0
   };
 
-  addNewSite = async () => {
-    try {
-      const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress)
-      await this.props.addSites([siteDetails]);          
-      this.props.navigation.navigate("Home");
+  AddNewRoom = async () => {
 
-    } catch (error) {
-      console.log(error);
-      alert(error);
+  };
+
+  componentDidMount() {
+    if (this.props.RoomTypes.length == 0) {
+      try {
+        const roomTypes = await SQL.GetRoomsType();
+        this.props.SetRoomsType(roomTypes);
+      } catch (error) {
+
+      }
     }
-  };
-
+  }
 
   render() {
     return (
       <View style={styles.container}>
 
+
+        <Picker
+          selectedValue={this.state.roomId}
+          itemStyle={{ height: 40, color: "#ffffff" }}
+          onValueChange={(val, index) => this.setState({ roomId: val })}
+          style={styles.picker}>
+
+          {this.props.RoomTypes.map(type => <Picker.Item key={type.RoomTypeId} label={type.RoomTypeName} value={type.RoomTypeId} />)}
+
+        </Picker>
+
         <TextInput
           style={styles.input}
-          placeholder="שם האתר"
+          placeholder="שם החדר"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
-          onChangeText={(text) => { this.setState({ siteName: text }) }}
+          onChangeText={(text) => { this.setState({ roomName: text }) }}
         />
         <TextInput
           style={styles.input}
-          placeholder="כתובת האתר"
+          placeholder="קומה"
           placeholderTextColor="#ECF0F1"
+          keyboardType="numeric"
           underlineColorAndroid="transparent"
-          onChangeText={(text) => { this.setState({ siteAddress: text }) }}
+          onChangeText={(text) => { this.setState({ floor: text }) }}
         />
 
 
@@ -51,7 +67,7 @@ class AddSite extends Component {
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
-            onPress={this.addNewSite}
+            onPress={this.AddNewRoom}
           />
           <Icon
             type="MaterialIcons"
@@ -59,7 +75,6 @@ class AddSite extends Component {
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
-            onPress={()=>null}
           />
         </View>
 
@@ -97,13 +112,15 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = (dispatch) => ({
-  addSites: (Sites) => dispatch(addSites(Sites)),
+  SetRoomsType: (Jobs) => dispatch(SetRoomsType(Jobs))
 
 })
 
-const mapStateToProps = (state) => ({
-  User: state.user,
-});
+const mapStateToProps = state => {
+  return {
+    RoomsType: state.roomsType
+  }
+}
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddSite); 
+export default connect(mapStateToProps, mapDispatchToProps)(AddRoom); 

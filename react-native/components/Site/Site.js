@@ -3,15 +3,29 @@ import { FlatList, View, RefreshControl, StyleSheet, Dimensions } from 'react-na
 import { connect } from 'react-redux';
 import RoomPreview from '../Room/RoomPreview';
 import Empty from '../General/Empty';
+import { Icon } from 'react-native-elements';
+import Modal from '../General/Modal';
+import AddRoom from '../Room/AddRoom';
 
 class Site extends Component {
   state = {
-    refreshing: false
+    refreshing: false,
+    jobId: NaN,
+    site: null,
+    modalVisible: false
+  }
+
+  componentDidMount() {
+    const site = (this.props.Sites.filter(site => site.SiteId == this.props.Rooms.SiteID))[0];
+    this.setState({ site });
+
   }
 
   _onRefresh = () => {
 
   }
+
+  openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
 
   _ListEmptyComponent = () => <Empty />
@@ -21,6 +35,19 @@ class Site extends Component {
   render() {
     return (
       <View>
+
+        <Icon
+          type="ionicon"
+          name="ios-add-circle-outline"
+          size={50}
+          color="#ECF0F1"
+          underlayColor="transparent"
+          onPress={this.openModal}
+        />
+        <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
+          <AddRoom />
+        </Modal>
+
         <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
           ItemSeparatorComponent={this._ItemSeparatorComponent}
@@ -30,7 +57,7 @@ class Site extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Rooms}
+          data={this.props.Rooms.details}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
@@ -60,7 +87,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    Rooms: state.rooms.details
+    Sites: state.sites,
+    Rooms: state.rooms
   }
 }
 

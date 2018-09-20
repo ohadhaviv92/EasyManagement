@@ -447,5 +447,27 @@ namespace _BAL
 
             return rooms;
         }
+
+        public List<RoomType> GetRoomTypes()
+        {
+            var details = Dal.GetRoomsTypes();
+            if (details == null)
+                return null;
+
+            List<RoomType> roomsType = new List<RoomType>();
+            for (var i = 0; i < details.Rows.Count; i++)
+            {
+
+                var roomType = new RoomType
+                {
+                    RoomTypeId = int.Parse(details.Rows[i]["roomTypeID"].ToString()),
+                    RoomTypeName = details.Rows[i]["roomTypeName"].ToString()
+                };
+                roomsType.Add(roomType);
+            }
+            return roomsType;
+
+
+        }
     }
 }

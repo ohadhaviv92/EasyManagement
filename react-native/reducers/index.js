@@ -5,6 +5,7 @@ import rooms from './rooms';
 import faults from './faults';
 import jobs from './job';
 import invites from './invites';
+import roomsType from './roomsType';
 
 const appReducer = combineReducers({
     user,
@@ -12,7 +13,8 @@ const appReducer = combineReducers({
     rooms,
     faults,
     jobs,
-    invites
+    invites,
+    roomsType
 })
 
 export default (state , action) => {

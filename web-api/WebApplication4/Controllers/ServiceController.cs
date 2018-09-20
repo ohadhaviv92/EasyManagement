@@ -97,5 +97,13 @@ namespace WebApplication2.Controllers
         {
             return Bal.Instance.AddNewSite((int)site["userID"], (string)site["siteName"], (string)site["siteAddress"]);
         }
+
+
+        [HttpGet]
+        [ActionName("roomsType")]
+        public List<RoomType> GetRoomsType()
+        {
+            return Bal.Instance.GetRoomTypes();
+        }
     }
 }

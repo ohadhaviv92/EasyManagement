@@ -122,7 +122,6 @@ export default class SQL {
         if (data !== null) {
           resolve(data);
         }
-        reject("No Key was fetched");
       } catch (error) {
         reject(error);
       }
@@ -270,7 +269,7 @@ export default class SQL {
             "reciverId": reciverId
           }),
         });
-        console.log(res);
+    
         resolve(true)
       } catch (error) {
         reject(error);
@@ -322,13 +321,39 @@ export default class SQL {
           }),
         });
         const data = await res.json();
-        console.log(data);
-        
+      
         resolve(data)
       } catch (error) {
         reject(error);
       }
 
+    });
+  }
+
+
+
+  
+  static GetRoomsType() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/roomsType`,
+          {
+            headers: {
+              "content-type": "application/json"
+            },
+            method: "GET"
+          }
+        );
+
+
+        const data = await res.json();
+
+        if (data !== null) {
+          resolve(data);
+        }
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 

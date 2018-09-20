@@ -545,5 +545,33 @@ namespace _DAL
             return null;
         }
 
+        public static DataTable GetRoomsTypes()
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"Select * from TbRoomsType ", Con);
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "RoomsType");
+
+                if (ds.Tables["RoomsType"].Rows.Count != 0)
+                    return ds.Tables["RoomsType"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+
+            return null;
+
+        }
+
     }
 }

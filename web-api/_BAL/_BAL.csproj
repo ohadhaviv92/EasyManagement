@@ -70,6 +70,7 @@
     <Compile Include="JobDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />
+    <Compile Include="RoomType.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserInSite.cs" />
     <Compile Include="UserInSites.cs" />
