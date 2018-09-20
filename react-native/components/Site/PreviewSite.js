@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity,Alert } from 'react-native'
 import { connect } from 'react-redux';
 import { SetRooms } from '../../actions/roomAction';
-
+import { Icon } from "react-native-elements";
+import SQL from '../../Handlers/SQL';
 class PreviewSite extends Component {
 
+
+  onSiteClick = async() => {
+    console.log(this.props.site.Rooms, this.props.site.SiteId);
+    
+    await this.props.SetRooms(this.props.site.Rooms, this.props.site.SiteId);
+    this.props.navigation.navigate("Site");
+  }
 
   onSiteClick = async() => {
     console.log(this.props.site.Rooms, this.props.site.SiteId);
@@ -19,6 +27,43 @@ class PreviewSite extends Component {
     return (
       <TouchableOpacity onPress={this.onSiteClick}>
       <View style={styles.container}>
+
+      <Icon
+            type="MaterialIcons"
+            name="info-outline"
+            size={30}
+            color="white"
+            underlayColor="transparent"
+            onPress={()=>{ 
+              if(this.props.site.UserTypeId==1){
+
+              
+              Alert.alert(
+              'שינוי סטטוס אתר',
+              'מה ברצונך לבצע?',
+              [
+               
+               {text: 'יציאה מהאתר', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: 'מחיקה', onPress: () => alert( this.props.site.UserTypeId)},
+                {text: 'cancel', onPress: () => console.log('Ask me later pressed')},
+              ],
+              { cancelable: false }
+            )}
+            else{
+              Alert.alert(
+                'הודעה',
+                'מה ברצונך לבצע?',
+                [
+                
+                 {text: 'יציאה מהאתר', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                 {text: 'cancel', onPress: () => console.log('Ask me later pressed')},
+               
+                ],
+                { cancelable: false }
+              )
+            }
+          }}
+          />
         <Text style={styles.text}>{site.SiteName}</Text>
         <Text style={styles.text}>{site.SiteAddress}</Text>
       </View>

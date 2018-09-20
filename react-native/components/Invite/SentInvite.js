@@ -20,7 +20,7 @@ SentInvite = (props) => {
 
 Delete = async() => {
     try {
-        SQL.DeleteInvite(props.invite.Site.SiteId ,props.User.UserId, props.invite.user.UserId);
+        await SQL.DeleteInvite(props.invite.Site.SiteId ,props.User.UserId, props.invite.user.UserId);
         props.DeleteInvite({siteId: props.invite.Site.SiteId, reciverId: props.invite.user.UserId});
     
     } catch (error) {

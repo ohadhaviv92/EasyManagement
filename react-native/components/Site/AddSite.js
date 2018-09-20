@@ -13,9 +13,14 @@ class AddSite extends Component {
 
   addNewSite = async () => {
     try {
+      if(this.state.siteName!=""&&this.state.siteAddress){
       const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress)
       await this.props.addSites([siteDetails]);          
       this.props.navigation.navigate("Home");
+      }
+      else {
+          throw("חובה למלא את כל השדות")      
+      }
 
     } catch (error) {
       console.log(error);
@@ -59,7 +64,7 @@ class AddSite extends Component {
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
-            onPress={this.addNewSite}
+            onPress={null}
           />
         </View>
 

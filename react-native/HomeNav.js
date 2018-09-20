@@ -11,7 +11,6 @@ import { createDrawerNavigator } from 'react-navigation';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import DraweMenu from './DrawerMenu';
 import Room from './components/Room/Room';
-import AddSite from './components/Site/AddSite';
 
 
 const HomeNav = createDrawerNavigator(
@@ -27,12 +26,6 @@ const HomeNav = createDrawerNavigator(
         drawerLabel: 'הזמנות',
       },
       screen: Invite
-    },
-    AddSite: {
-      navigationOptions: {
-        drawerLabel: 'הוספת אתר',
-      },
-      screen: AddSite
     },
     Settings: {
       navigationOptions: {

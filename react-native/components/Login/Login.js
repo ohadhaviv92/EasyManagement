@@ -6,7 +6,9 @@ import {
   Alert,
   AsyncStorage,
   Button,
-  TextInput
+  TextInput,
+  Text
+
 } from "react-native";
 import SQL from '../../Handlers/SQL';
 import Notification from '../../Handlers/Notification';
@@ -48,7 +50,7 @@ import { SetSites } from '../../actions/siteAction';
   render() {
     return (
       <View style={styles.container}>
-
+        <Text  style={styles.logo} > EasyManagement </Text>
         <TextInput
           style={styles.input}
           placeholder="שם משתמש"
@@ -104,6 +106,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
   },
+  logo:{
+    color:'white',
+    
+  }
 
 });
 

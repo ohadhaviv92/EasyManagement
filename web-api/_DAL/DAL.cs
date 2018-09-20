@@ -309,10 +309,10 @@ namespace _DAL
             }
 
             return null;
-            
+
         }
 
-        public static DataTable Invite(int siteId , int senderId, string reciver, int userType)
+        public static DataTable Invite(int siteId, int senderId, string reciver, int userType)
         {
             try
             {
@@ -346,7 +346,7 @@ namespace _DAL
 
         public static string GetSiteName(int siteId)
         {
- 
+
             try
             {
                 Con.Open();
@@ -429,8 +429,8 @@ namespace _DAL
             }
             return null;
         }
-        
-        public static void DeleteInvite(int siteId , int senderId , int reciverId)
+
+        public static void DeleteInvite(int siteId, int senderId, int reciverId)
         {
             try
             {
@@ -451,9 +451,9 @@ namespace _DAL
                 if (Con != null && Con.State == ConnectionState.Open)
                     Con.Close();
             }
-        } 
+        }
 
-        public static DataTable RejectInvite(int siteId , int senderId , int reciverId)
+        public static DataTable RejectInvite(int siteId, int senderId, int reciverId)
         {
             try
             {
@@ -483,7 +483,7 @@ namespace _DAL
             return null;
         }
 
-           public static DataTable AddNewSite(int userID, string siteName, string siteAddress)
+        public static DataTable AddNewSite(int userID, string siteName, string siteAddress)
         {
 
             try
@@ -514,5 +514,36 @@ namespace _DAL
             return null;
 
         }
+
+        public static DataTable ConfirmInvite(int siteId, int senderId, int reciverId)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"ConfirmInvaite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
+                _cmd.Parameters.Add(new SqlParameter("@senderID", senderId));
+                _cmd.Parameters.Add(new SqlParameter("@reciverID", reciverId));
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "Site");
+
+                if (ds.Tables["Site"] != null)
+                    return ds.Tables["Site"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+        }
+
     }
 }
