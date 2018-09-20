@@ -332,5 +332,52 @@ export default class SQL {
     });
   }
 
+    static AddNewSite(userID, siteName, siteAddress) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/AddNewSite`, {
+          body: JSON.stringify({
+            userID,
+            siteName,
+            siteAddress
+
+          }),
+          headers: {
+            "content-type": "application/json"
+          },
+          method: "POST"
+        });
+
+        const data = await res.json();
+
+        resolve(data);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  static DeleteSite(siteID) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/DeleteSite`, {
+          body: JSON.stringify({
+            siteID,
+
+          }),
+          headers: {
+            "content-type": "application/json"
+          },
+          method: "POST"
+        });
+
+        const data = await res.json();
+
+        resolve(data);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 
 }

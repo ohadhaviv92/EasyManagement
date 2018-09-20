@@ -44,7 +44,7 @@ class PreviewSite extends Component {
               [
                
                {text: 'יציאה מהאתר', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: 'מחיקה', onPress: () => alert( this.props.site.UserTypeId)},
+                {text: 'שינוי סטטוס אתר', onPress: () => SQL.DeleteSite(this.props.site.UserTypeId) },
                 {text: 'cancel', onPress: () => console.log('Ask me later pressed')},
               ],
               { cancelable: false }

@@ -447,5 +447,28 @@ namespace _BAL
 
             return rooms;
         }
+
+        public BuildingSite DeleteSite(int siteID)
+        {
+            var result = Dal.DeleteSite(siteID);
+
+            if (result == null)
+                return null;
+
+
+            var site = new BuildingSite
+            {
+                SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
+                SiteName = result.Rows[0]["siteName"].ToString(),
+                SiteAddress = result.Rows[0]["siteAddress"].ToString(),
+                SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
+                UserTypeId = 0,
+                UserTypeName =null,
+                Rooms = new List<Room>()
+            };
+
+
+            return site;
+        }
     }
 }

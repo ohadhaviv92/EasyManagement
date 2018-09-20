@@ -82,5 +82,12 @@ namespace WebApplication2.Controllers
         {
             return Bal.Instance.AddNewSite((int)site["userID"], (string)site["siteName"], (string)site["siteAddress"]);
         }
+
+        [HttpPost]
+        [ActionName("DeleteSite")]
+        public BuildingSite DeleteSite([FromBody]JObject site)
+        {
+            return Bal.Instance.DeleteSite((int)site["siteID"]);
+        }
     }
 }

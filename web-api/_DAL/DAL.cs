@@ -545,5 +545,36 @@ namespace _DAL
             return null;
         }
 
+
+        public static DataTable DeleteSite(int siteID)
+        {
+
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"DeleteSite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteID));
+
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "siteDelete");
+
+                if (ds.Tables["siteDelete"].Rows.Count != 0)
+                    return ds.Tables["siteDelete"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+
+        }
     }
 }
