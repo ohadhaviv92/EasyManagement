@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, RefreshControl, StyleSheet, Dimensions } from 'react-native'
+import { FlatList, View, RefreshControl, StyleSheet, Dimensions,Vibration } from 'react-native'
 import PreviewSite from '../Site/PreviewSite';
 import AddSite from '../Site/AddSite';
 import { connect } from 'react-redux';
@@ -13,13 +13,14 @@ class Home extends Component {
     state = {
       refreshing: false,
       modalVisible: false,
+      siteStatusToShow:true
     }
 
 
   _onRefresh = () => {
-
+   
   }
-
+  changeStatus = () =>{Vibration.vibrate(500); this.setState((pervState) => ({ siteStatusToShow: !pervState.siteStatusToShow }))}
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
   _ListEmptyComponent = () => <Empty />
@@ -30,10 +31,21 @@ _renderItem = (site) =><PreviewSite site={site.item} navigation={this.props.navi
   render() {
     return (
       <View>
+        
+          <Icon
+          type="MaterialIcons"
+          name="filter-list"
+          size={40}
+          color="#ECF0F1"
+          underlayColor="transparent"
+          onPress={this.changeStatus}
+        />
+        
+        
         <Icon
           type="ionicon"
           name="ios-add-circle-outline"
-          size={50}
+          size={40}
           color="#ECF0F1"
           underlayColor="transparent"
           onPress={this.openModal}
@@ -51,7 +63,7 @@ _renderItem = (site) =><PreviewSite site={site.item} navigation={this.props.navi
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Sites.filter(site=> site.SiteStatus === true)}
+          data={this.props.Sites.filter(site=> site.SiteStatus === this.state.siteStatusToShow)}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
@@ -74,7 +86,13 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 21,
     color: '#ECF0F1',
+  },
+  Filter:{
+    position:'absolute',
+    left:0,
+    
   }
+
 
 })
 

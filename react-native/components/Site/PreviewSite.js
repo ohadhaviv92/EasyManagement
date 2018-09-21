@@ -47,8 +47,6 @@ class PreviewSite extends Component {
             underlayColor="transparent"
             onPress={() => {
               if (this.props.site.UserTypeId == 1) {
-
-
                 Alert.alert(
                   'שינוי סטטוס אתר',
                   'מה ברצונך לבצע?',
