@@ -322,7 +322,7 @@ export default class SQL {
         });
         const data = await res.json();
         console.log(data);
-        
+
         resolve(data)
       } catch (error) {
         reject(error);
@@ -331,8 +331,8 @@ export default class SQL {
     });
   }
 
-  static ChangeSiteStatus(siteID,statusID) {
-    
+  static ChangeSiteStatus(siteID, statusID) {
+
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/ChangeSiteStatus`, {
@@ -374,7 +374,7 @@ export default class SQL {
           }),
         });
         const data = await res.json();
-      
+
         resolve(data)
       } catch (error) {
         reject(error);
@@ -385,7 +385,7 @@ export default class SQL {
 
 
 
-  
+
   static GetRoomsType() {
     return new Promise(async (resolve, reject) => {
       try {
@@ -407,6 +407,32 @@ export default class SQL {
       } catch (error) {
         reject(error);
       }
+    });
+  }
+
+
+  static async OutFromSite(siteID, userID) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/OutFromSite`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "siteID": siteID,
+            "userID": userID
+          }),
+        });
+        console.log(res);
+
+        resolve(true);
+      } catch (error) {
+        console.log(errorr);
+        reject(error);
+      }
+
     });
   }
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Alert,Image } from 'react-native'
 import { connect } from 'react-redux';
 import { SetRooms } from '../../actions/roomAction';
-import { SetSiteStatus } from '../../actions/siteAction';
+import { SetSiteStatus,RemoveUserFromSite } from '../../actions/siteAction';
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
 class PreviewSite extends Component {
@@ -32,6 +32,16 @@ class PreviewSite extends Component {
     }
   }
 
+  GetOutFromSite = async () => {
+    try {
+      await SQL.OutFromSite(this.props.site.SiteId,this.props.user.UserId);
+      this.props.RemoveUserFromSite(this.props.site.SiteId);
+    } catch (error) {
+
+    }
+  }
+
+
   render() {
     const site = this.props.site;
 
@@ -42,8 +52,8 @@ class PreviewSite extends Component {
           <Icon
             type="MaterialIcons"
             name="info-outline"
-            size={30}
-            color="white"
+            size={35}
+            color="#2C3E50"
             underlayColor="transparent"
             onPress={() => {
               if (this.props.site.UserTypeId == 1) {
@@ -51,10 +61,8 @@ class PreviewSite extends Component {
                   'שינוי סטטוס אתר',
                   'מה ברצונך לבצע?',
                   [
-
-                    { text: 'יציאה מהאתר', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
                     { text: 'שינוי סטטוס אתר', onPress: this.closeSite },
-                    { text: 'cancel', onPress: () => console.log('Ask me later pressed') },
+                    { text: 'ביטול'},
                   ],
                   { cancelable: false }
                 )
@@ -64,10 +72,8 @@ class PreviewSite extends Component {
                   'הודעה',
                   'מה ברצונך לבצע?',
                   [
-
-                    { text: 'יציאה מהאתר', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                    { text: 'cancel', onPress: () => console.log('Ask me later pressed') },
-
+                    { text: 'ביטול'},
+                    { text: 'יציאה מהאתר', onPress: this.GetOutFromSite},
                   ],
                   { cancelable: false }
                 )
@@ -76,6 +82,11 @@ class PreviewSite extends Component {
           />
           <Text style={styles.text}>{site.SiteName}</Text>
           <Text style={styles.text}>{site.SiteAddress}</Text>
+          <Image
+          source={require('../../assets/House.png')}
+          style={styles.img}
+       />
+        />
         </View>
       </TouchableOpacity>
     )
@@ -85,21 +96,30 @@ class PreviewSite extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E74C3C'
   },
   text: {
+    flex:1,
     fontSize: 21,
     color: '#ECF0F1',
+  },
+  img: {
+    flex:1,
+   
+    width: 30,
+     height: 100,
+     
   }
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
   SetRooms: (Rooms, SiteID) => dispatch(SetRooms(Rooms, SiteID)),
-  SetSiteStatus: (SiteId, Status) => dispatch(SetSiteStatus(SiteId, Status))
-
+  SetSiteStatus: (SiteId, Status) => dispatch(SetSiteStatus(SiteId, Status)),
+  RemoveUserFromSite:(SiteId) => dispatch(RemoveUserFromSite(SiteId))
 })
 
 export default connect(null, mapDispatchToProps)(PreviewSite);

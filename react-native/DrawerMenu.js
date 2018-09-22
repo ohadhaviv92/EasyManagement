@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     Text,
     SafeAreaView,
-    ScrollView
+    ScrollView,Image
   } from "react-native";
   import { Icon } from "react-native-elements";
   import { DrawerItems } from 'react-navigation';
@@ -16,11 +16,17 @@ const DrawerWithLogoutButton = (props) => (
 
     <ScrollView contentContainerStyle={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
       <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+      <Image
+           source={require('../react-native/assets/default_user_pic.png')}
+           style={styles.img}
+        />
         <DrawerItems {...props} />
       </SafeAreaView>
       <TouchableOpacity onPress={async()=> {await props.Logout(); props.navigation.navigate('AuthNav')}}>
         <View style={styles.item}>
+   
         <View style={styles.iconContainer}>
+
           <Icon
             type="simple-line-icon"
             name="logout"
@@ -53,6 +59,12 @@ const DrawerWithLogoutButton = (props) => (
     icon: {
       width: 24,
       height: 24,
+    },
+    img: {
+      
+      width: 80,
+       height: 80,
+       borderRadius:40,
     }
   });
 
@@ -60,6 +72,8 @@ const DrawerWithLogoutButton = (props) => (
   const mapDispatchToProps = (dispatch) => ({
     Logout: () => dispatch(Logout())
   })
+  
+
   
   export default connect(null, mapDispatchToProps)(DrawerWithLogoutButton);
   

@@ -29,7 +29,7 @@ class Site extends Component {
 
 
   _ListEmptyComponent = () => <Empty />
-  _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
+  _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: 'white', marginVertical: 7 }}></View>
   _keyExtractor = (room) => room.RoomId.toString();
   _renderItem = (room) => <RoomPreview room={room.item} navigation={this.props.navigation} />
   render() {

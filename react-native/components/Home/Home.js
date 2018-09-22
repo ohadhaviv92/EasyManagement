@@ -13,7 +13,8 @@ class Home extends Component {
     state = {
       refreshing: false,
       modalVisible: false,
-      siteStatusToShow:true
+      siteStatusToShow:true,
+
     }
 
 
@@ -24,10 +25,10 @@ class Home extends Component {
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
   _ListEmptyComponent = () => <Empty />
-  _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
+  _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: 'white', marginVertical: 7 }}></View>
   _keyExtractor = (site) => site.SiteId.toString()
 
-_renderItem = (site) =><PreviewSite site={site.item} navigation={this.props.navigation} />
+_renderItem = (site) =><PreviewSite site={site.item} user={this.props.User} navigation={this.props.navigation} />
   render() {
     return (
       <View>
@@ -98,7 +99,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    Sites: state.sites
+    Sites: state.sites,
+    User:state.user
   }
 }
 

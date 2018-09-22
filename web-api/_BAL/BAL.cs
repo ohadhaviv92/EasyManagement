@@ -493,5 +493,10 @@ namespace _BAL
 
 
         }
+
+        public void OutFromSite(int siteID, int userID)
+        {
+            Dal.OutFromSite(siteID, userID);
+        }
     }
 }

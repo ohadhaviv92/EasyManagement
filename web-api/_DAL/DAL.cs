@@ -607,7 +607,29 @@ namespace _DAL
 
         }
 
-  
+        public static void OutFromSite(int siteID, int userID)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"OutFromSite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteID));
+                _cmd.Parameters.Add(new SqlParameter("@userID", userID));
+                _cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+        }
+
+
 
     }
 }

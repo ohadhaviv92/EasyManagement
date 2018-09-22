@@ -110,5 +110,12 @@ namespace WebApplication2.Controllers
         {
             return Bal.Instance.GetRoomTypes();
         }
+
+        [HttpPost]
+        [ActionName("OutFromSite")]
+        public void OutFromSite([FromBody]JObject site)
+        {
+            Bal.Instance.OutFromSite((int)site["siteID"], (int)site["userID"]);
+        }
     }
 }

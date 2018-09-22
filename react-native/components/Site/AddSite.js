@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, Button, View, Dimensions, StyleSheet } from 'react-native'
+import { TextInput, Button, View, Dimensions, StyleSheet,Text } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import SQL from '../../Handlers/SQL';
@@ -32,7 +32,7 @@ class AddSite extends Component {
   render() {
     return (
       <View style={styles.container}>
-
+        <Text  style={styles.logo} > הוספת אתר חדש </Text>
         <TextInput
           style={styles.input}
           placeholder="שם האתר"
@@ -97,6 +97,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
   },
+  logo:{
+    color:'white',
+    fontSize: 30,
+  }
 
 });
 
