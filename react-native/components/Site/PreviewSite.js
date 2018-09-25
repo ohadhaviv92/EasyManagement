@@ -50,8 +50,8 @@ class PreviewSite extends Component {
         <View style={styles.container}>
 
           <Icon
-            type="MaterialIcons"
-            name="info-outline"
+            type="FontAwesome"
+            name="edit"
             size={35}
             color="#2C3E50"
             underlayColor="transparent"
