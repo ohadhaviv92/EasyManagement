@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -494,9 +495,12 @@ namespace _BAL
 
         }
 
-        public void OutFromSite(int siteID, int userID)
+        public void uploadImg(string base64, string imgName, string imgRef)
         {
-            Dal.OutFromSite(siteID, userID);
+
+            File.WriteAllBytes(@"http://ruppinmobile.tempdomain.co.il/site04/Images/" +imgName, Convert.FromBase64String(base64));
+            
+            Dal.uploadImg(@"http://ruppinmobile.tempdomain.co.il/site04/Images/"+ imgName +".jpg");
         }
     }
 }

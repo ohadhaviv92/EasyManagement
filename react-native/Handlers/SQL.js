@@ -434,6 +434,35 @@ export default class SQL {
       }
 
     });
+
+  }
+    static async UploadImg(data) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const res = await fetch(`${URL}/UploadImg`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              base64:data.base64,
+              imgName:new Date(),
+              imgRef:data.uri
+            }),
+          });
+          console.log(res);
+  
+          resolve(true);
+        } catch (error) {
+          console.log(errorr);
+          reject(error);
+        }
+  
+      });
+
+
+
   }
 
 

@@ -111,11 +111,13 @@ namespace WebApplication2.Controllers
             return Bal.Instance.GetRoomTypes();
         }
 
-        [HttpPost]
-        [ActionName("OutFromSite")]
-        public void OutFromSite([FromBody]JObject site)
+
+        [HttpGet]
+        [ActionName("UploadImg")]
+        public void UploadImg([FromBody]JObject data)
         {
-            Bal.Instance.OutFromSite((int)site["siteID"], (int)site["userID"]);
+
+             Bal.Instance.uploadImg((string)data["base64"], (string)data["imgName"], (string)data["imgRef"]);
         }
     }
 }

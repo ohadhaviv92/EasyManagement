@@ -607,15 +607,14 @@ namespace _DAL
 
         }
 
-        public static void OutFromSite(int siteID, int userID)
+        public static void uploadImg(string imgRef)
         {
             try
             {
                 Con.Open();
-                _cmd = new SqlCommand($"OutFromSite", Con);
+                _cmd = new SqlCommand($"UploadImg", Con);
                 _cmd.CommandType = CommandType.StoredProcedure;
-                _cmd.Parameters.Add(new SqlParameter("@siteID", siteID));
-                _cmd.Parameters.Add(new SqlParameter("@userID", userID));
+                _cmd.Parameters.Add(new SqlParameter("@imgRef", imgRef));
                 _cmd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -628,8 +627,6 @@ namespace _DAL
                     Con.Close();
             }
         }
-
-
 
     }
 }
