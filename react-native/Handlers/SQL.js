@@ -412,6 +412,7 @@ export default class SQL {
 
 
   static async OutFromSite(siteID, userID) {
+    
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/OutFromSite`, {
@@ -421,8 +422,8 @@ export default class SQL {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            "siteID": siteID,
-            "userID": userID
+            siteID,
+            userID
           }),
         });
         console.log(res);

@@ -112,12 +112,20 @@ namespace WebApplication2.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [ActionName("UploadImg")]
         public void UploadImg([FromBody]JObject data)
         {
 
              Bal.Instance.uploadImg((string)data["base64"], (string)data["imgName"], (string)data["imgRef"]);
+        }
+
+        [HttpPost]
+        [ActionName("OutFromSite")]
+        public void OutFromSite([FromBody]JObject data)
+        {
+
+            Bal.Instance.OutFromSite((int)data["siteID"], (int)data["userID"]);
         }
     }
 }

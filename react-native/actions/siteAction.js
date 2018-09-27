@@ -32,11 +32,11 @@ export const SetSiteStatus = (SiteID,Status) => (dispatch) => {
 }
 
 
-    export const RemoveUserFromSite = (siteId) => (dispatch) => {
+    export const RemoveUserFromSite = (SiteId) => (dispatch) => {
 
         dispatch({
             type: 'REMOVE_SITES',
-            payload: {siteId}
+            payload: {SiteId}
         });
 
 }

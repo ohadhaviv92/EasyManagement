@@ -30,7 +30,7 @@ export default class Settings extends Component {
   render() {
     let { pickerResult } = this.state;
      imageUri = pickerResult ? `data:image/jpg;base64,${pickerResult.base64}` : null;
-    imageUri && console.log({uri: imageUri.slice(0, 100)});
+    
     
     
     return (

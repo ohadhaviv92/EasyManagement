@@ -35,9 +35,10 @@ class PreviewSite extends Component {
   GetOutFromSite = async () => {
     try {
       await SQL.OutFromSite(this.props.site.SiteId,this.props.user.UserId);
+      
       this.props.RemoveUserFromSite(this.props.site.SiteId);
     } catch (error) {
-
+      
     }
   }
 
