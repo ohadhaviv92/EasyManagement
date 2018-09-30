@@ -27,6 +27,7 @@ class Site extends Component {
 
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
+  Close = () => { this.setState({modalVisible: false}) }
 
   _ListEmptyComponent = () => <Empty />
   _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: 'white', marginVertical: 7 }}></View>
@@ -45,7 +46,7 @@ class Site extends Component {
           onPress={this.openModal}
         />
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
-          <AddRoom />
+          <AddRoom Close={this.Close}/>
         </Modal>
 
         <FlatList

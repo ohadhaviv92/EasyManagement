@@ -3,7 +3,7 @@ import { TextInput, View, Dimensions, StyleSheet, Picker } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import SQL from '../../Handlers/SQL';
-import { SetRoomsType } from '../../actions/roomAction';
+import { SetRoomsType, AddRooms } from '../../actions/roomAction';
 
 class AddRoom extends Component {
   state = {
@@ -14,7 +14,20 @@ class AddRoom extends Component {
   };
 
   AddNewRoom = async () => {
-
+   
+    if(this.state.roomId){
+      const room = this.props.RoomsType.filter(room => room.RoomTypeId == this.state.roomId)[0];
+      
+      this.props.AddRooms(
+        [{
+          RoomName: this.state.roomName, 
+          RoomTypeName: room.RoomTypeName, 
+          FloorNumber: this.state.floor,
+          Faults: []
+          }]
+        );
+      this.props.Close();
+    }
   };
 
   async componentDidMount() {
@@ -118,7 +131,8 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = (dispatch) => ({
-  SetRoomsType: (Jobs) => dispatch(SetRoomsType(Jobs))
+  SetRoomsType: (Jobs) => dispatch(SetRoomsType(Jobs)),
+  AddRooms: (Rooms) => dispatch(AddRooms(Rooms))
 
 })
 

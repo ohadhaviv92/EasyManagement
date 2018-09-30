@@ -29,11 +29,10 @@ import { SetSites } from '../../actions/siteAction';
       const userDetails = await SQL.Login(this.state.userName, this.state.Password);
 
       await this.props.onLogin(userDetails.User);
+      await this.props.SetSites(userDetails.Sites);
       const Token  = await Notification.Register(userDetails.User.Email ,userDetails.User.Token )
       await this.props.UpdateToken(Token);
-      await this.props.SetSites(userDetails.Sites);
-
-       
+ 
       this.props.navigation.navigate("HomeNav");
     } catch (error) {
       console.log(error);

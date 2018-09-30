@@ -17,7 +17,7 @@ export default (state = [], action) => {
         case 'ADD_SITES':
             return ([...state].concat(action.payload))
         case "REMOVE_SITES":
-        return state.filter((item, index) => { return item.SiteId == action.payload.siteId ? index : -1 });
+        return state.filter(item => item.SiteId != action.payload.siteId);
         default:
         return state;
 }

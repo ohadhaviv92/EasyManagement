@@ -185,7 +185,6 @@ export default class SQL {
 
   }
 
-
   static async SendInvite(SiteId, UserType, SenderId, Reciver) {
     return new Promise(async (resolve, reject) => {
       try {

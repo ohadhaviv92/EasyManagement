@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, RefreshControl, StyleSheet, Dimensions,Vibration } from 'react-native'
+import { FlatList, View, RefreshControl, StyleSheet, Dimensions, Vibration } from 'react-native'
 import PreviewSite from '../Site/PreviewSite';
 import AddSite from '../Site/AddSite';
 import { connect } from 'react-redux';
@@ -10,30 +10,33 @@ import Modal from '../General/Modal';
 class Home extends Component {
 
 
-    state = {
-      refreshing: false,
-      modalVisible: false,
-      siteStatusToShow:true,
+  state = {
+    refreshing: false,
+    modalVisible: false,
+    siteStatusToShow: true,
 
-    }
+  }
 
 
   _onRefresh = () => {
-   
+
   }
-  changeStatus = () =>{Vibration.vibrate(500); this.setState((pervState) => ({ siteStatusToShow: !pervState.siteStatusToShow }))}
+  changeStatus = () => {
+    Vibration.vibrate(500)
+    this.setState((pervState) => ({ siteStatusToShow: !pervState.siteStatusToShow }))
+  }
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
   _ListEmptyComponent = () => <Empty />
   _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: 'white', marginVertical: 7 }}></View>
   _keyExtractor = (site) => site.SiteId.toString()
 
-_renderItem = (site) =><PreviewSite site={site.item} user={this.props.User} navigation={this.props.navigation} />
+  _renderItem = (site) => <PreviewSite site={site.item} user={this.props.User} navigation={this.props.navigation} />
   render() {
     return (
       <View>
-        
-          <Icon
+
+        <Icon
           type="MaterialIcons"
           name="filter-list"
           size={40}
@@ -41,8 +44,8 @@ _renderItem = (site) =><PreviewSite site={site.item} user={this.props.User} navi
           underlayColor="transparent"
           onPress={this.changeStatus}
         />
-        
-        
+
+
         <Icon
           type="ionicon"
           name="ios-add-circle-outline"
@@ -88,10 +91,10 @@ const styles = StyleSheet.create({
     fontSize: 21,
     color: '#ECF0F1',
   },
-  Filter:{
-    position:'absolute',
-    left:0,
-    
+  Filter: {
+    position: 'absolute',
+    left: 0,
+
   }
 
 
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     Sites: state.sites,
-    User:state.user
+    User: state.user
   }
 }
 
