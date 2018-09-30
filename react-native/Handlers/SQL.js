@@ -268,7 +268,7 @@ export default class SQL {
             "reciverId": reciverId
           }),
         });
-        console.log(res);
+     
         resolve(true)
       } catch (error) {
         reject(error);
@@ -320,8 +320,7 @@ export default class SQL {
           }),
         });
         const data = await res.json();
-        console.log(data);
-
+  
         resolve(data)
       } catch (error) {
         reject(error);
@@ -436,5 +435,30 @@ export default class SQL {
 
   }
 
+
+  static async AddRoom(siteId , roomTypeId, roomName, floorNumber, base64image = null) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/UploadImg`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ siteId, roomTypeId, roomName, floorNumber, base64image}),
+        });
+   
+        const data = await res.json();
+
+        if (data === null)
+           reject("couldnt add room");
+
+      } catch (error) {
+        reject(error);
+      }
+
+    });
+
+}
 
 }

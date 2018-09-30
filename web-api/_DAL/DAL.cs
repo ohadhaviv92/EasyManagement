@@ -652,5 +652,59 @@ namespace _DAL
             }
         }
 
+        public static DataTable AddRoom(int siteId , int roomTypeId, string roomName, int floorNumber)
+        {
+       
+
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"AddNewSite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
+                _cmd.Parameters.Add(new SqlParameter("@roomTypeID", roomTypeId));
+                _cmd.Parameters.Add(new SqlParameter("@floorNumber", floorNumber));
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "NewRoom");
+
+
+
+                if (ds.Tables["NewRoom"].Rows.Count != 0)
+                    return ds.Tables["NewRoom"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+        }
+
+        public static void UpdateRoomPicture(int roomId, string imageName)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"Update TbRoomsInSite set roomPicture = @roomdPic where roomID = @roomdId", Con);
+                _cmd.Parameters.Add(new SqlParameter("@roomdPic", imageName));
+                _cmd.Parameters.Add(new SqlParameter("@roomdId", roomId));
+                _cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+        }
     }
 }

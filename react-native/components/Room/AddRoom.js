@@ -16,16 +16,8 @@ class AddRoom extends Component {
   AddNewRoom = async () => {
    
     if(this.state.roomId){
-      const room = this.props.RoomsType.filter(room => room.RoomTypeId == this.state.roomId)[0];
-      
-      this.props.AddRooms(
-        [{
-          RoomName: this.state.roomName, 
-          RoomTypeName: room.RoomTypeName, 
-          FloorNumber: this.state.floor,
-          Faults: []
-          }]
-        );
+      const room = await SQL.AddRoom(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor)
+      this.props.AddRooms([room]);
       this.props.Close();
     }
   };
@@ -138,7 +130,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = state => {
   return {
-    RoomsType: state.roomsType
+    RoomsType: state.roomsType,
+    SiteID: state.rooms.SiteID
   }
 }
 

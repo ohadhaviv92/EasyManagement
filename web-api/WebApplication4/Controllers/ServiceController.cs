@@ -127,5 +127,19 @@ namespace WebApplication2.Controllers
 
             Bal.Instance.OutFromSite((int)data["siteID"], (int)data["userID"]);
         }
+
+      
+        [HttpPost]
+        [ActionName("AddRoom")]
+        public Room AddRoom([FromBody]JObject data)
+        {
+            return Bal.Instance.AddRoom(
+                        (int)data["siteId"], 
+                        (int)data["roomTypeId"], 
+                        (string)data["roomName"], 
+                        (int)data["floorNumber"], 
+                        (string)data["base64image"]
+                );
+        }
     }
 }
