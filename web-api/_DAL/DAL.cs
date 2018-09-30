@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace _DAL
 {
     public static class Dal
@@ -615,6 +616,29 @@ namespace _DAL
                 _cmd = new SqlCommand($"UploadImg", Con);
                 _cmd.CommandType = CommandType.StoredProcedure;
                 _cmd.Parameters.Add(new SqlParameter("@imgRef", imgRef));
+                _cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+        }
+
+        public static void OutFromSite(int siteID, int userID)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"OutFromSite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteID));
+                _cmd.Parameters.Add(new SqlParameter("@userID", userID));
+                
                 _cmd.ExecuteNonQuery();
             }
             catch (Exception e)

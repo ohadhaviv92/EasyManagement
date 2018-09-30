@@ -1,14 +1,18 @@
 ﻿using _DAL;
 using Newtonsoft.Json;
 using System;
+
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using WebPush;
 
 namespace _BAL
@@ -400,8 +404,9 @@ namespace _BAL
                 SiteName = res.Rows[0]["siteName"].ToString(),
                 SiteId = int.Parse(res.Rows[0]["SiteID"].ToString()),
                 SiteAddress = res.Rows[0]["SiteAddress"].ToString(),
-                UserTypeId = int.Parse(res.Rows[0]["userTypeID"].ToString() ),
-                UserTypeName = res.Rows[0]["userTypName"].ToString()
+                UserTypeId = int.Parse(res.Rows[0]["userTypeID"].ToString()),
+                UserTypeName = res.Rows[0]["userTypName"].ToString(),
+                SiteStatus = true
             };
 
             site.Rooms = getSiteRooms(siteId);
@@ -464,7 +469,7 @@ namespace _BAL
                 SiteAddress = result.Rows[0]["siteAddress"].ToString(),
                 SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
                 UserTypeId = 0,
-                UserTypeName =null,
+                UserTypeName = null,
                 Rooms = new List<Room>()
             };
 
@@ -497,10 +502,32 @@ namespace _BAL
 
         public void uploadImg(string base64, string imgName, string imgRef)
         {
+            string ImgName = $"Images/{new DateTime()}.jpg";
+            String path = HttpContext.Current.Server.MapPath($"~/"); //Path
 
-            File.WriteAllBytes(@"http://ruppinmobile.tempdomain.co.il/site04/Images/" +imgName, Convert.FromBase64String(base64));
-            
-            Dal.uploadImg(@"http://ruppinmobile.tempdomain.co.il/site04/Images/"+ imgName +".jpg");
+
+            //set the image path
+            string imgPath = Path.Combine(path, ImgName);
+            byte[] imageBytes = Convert.FromBase64String(base64);
+
+
+            using (Image image = Image.FromStream(new MemoryStream(imageBytes)))
+            {
+                image.Save(imgPath, ImageFormat.Jpeg);
+            }
+
+            string returnPath = $"http://ruppinmobile.tempdomain.co.il/site04/Images/" + ImgName;
+
+
+            Dal.uploadImg(returnPath);
+        }
+
+
+        public void OutFromSite(int siteID, int userID)
+        {
+
+            Dal.OutFromSite(siteID, userID);
+
         }
     }
 }
