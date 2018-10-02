@@ -17,7 +17,7 @@ const HomeNav = createDrawerNavigator(
   {
     Home: {
       navigationOptions: {
-        drawerLabel: 'בית',
+        drawerLabel: 'home',
       },
       screen: Home
     },
