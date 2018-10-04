@@ -2,16 +2,23 @@ import React, { Component } from 'react'
 import { FlatList, View, RefreshControl, StyleSheet, Dimensions } from 'react-native'
 import { connect } from 'react-redux';
 import FaultPreview from '../Fault/FaultPreview';
+import { Icon } from 'react-native-elements';
+import Modal from '../General/Modal';
+import AddFault from '../Fault/AddFault';
 import Empty from '../General/Empty';
 
 class Room extends Component {
   state = {
-    refreshing: false
+    refreshing: false,
+    modalVisible: false
   }
 
   _onRefresh = () => {
 
   }
+
+  openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
+  Close = () => { this.setState({ modalVisible: false }) }
 
 
   _ListEmptyComponent = () => <Empty />
@@ -21,6 +28,23 @@ class Room extends Component {
   render() {
     return (
       <View>
+
+        <View style={{ flexDirection: 'row' }}>
+
+          <Icon
+            type="ionicon"
+            name="ios-add-circle-outline"
+            size={40}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this.openModal}
+          />
+        </View>
+        
+        <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
+          <AddFault Close={this.Close} />
+        </Modal>
+
         <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
           ItemSeparatorComponent={this._ItemSeparatorComponent}

@@ -529,5 +529,32 @@ namespace _BAL
             Dal.OutFromSite(siteID, userID);
 
         }
+
+        public Room AddRoom(int siteId, int roomTypeId, string roomName, int floorNumber, string base64image = null)
+        {
+            var result = Dal.AddRoom(siteId, roomTypeId, roomName, floorNumber);
+
+            if (result == null)
+                return null;
+
+
+            var room = new Room
+            {
+                RoomId = int.Parse(result.Rows[0]["roomID"].ToString()),
+                RoomTypeId = int.Parse(result.Rows[0]["roomTypeID"].ToString()),
+                RoomTypeName = result.Rows[0]["roomTypeName"].ToString(),
+                RoomName = result.Rows[0]["roomName"].ToString(),
+                FloorNumber = int.Parse(result.Rows[0]["floorNumber"].ToString()),
+                Faults = new List<Fault>()
+            };
+            if(base64image != null)
+            {
+                room.RoomPicture = $"/{siteId}/{room.RoomId}.jpg";
+                Dal.UpdateRoomPicture(room.RoomId, room.RoomPicture);
+            }
+           
+
+            return room;
+        }
     }
 }

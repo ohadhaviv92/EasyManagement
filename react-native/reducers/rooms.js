@@ -11,12 +11,9 @@ export default (state = [] , action) => {
                 }
             )
         case 'ADD_ROOMS':
-            return([...state].concat(action.payload))
+            return( { SiteID: state.SiteID, details: [...state.details].concat([...action.payload]) })
         case "REMOVE_ROOM":
-            roomIndex = state.filter((item, index)=> {return item.RoomId == action.payload.RoomId ? index : -1})
-            if(siteIndex == -1)
-                return state;
-            return state.splice(siteIndex, 1);
+            return  state.filter(item => item.RoomId != action.payload.RoomId);
         default:
             return state;
     }

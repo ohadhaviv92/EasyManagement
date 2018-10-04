@@ -27,6 +27,7 @@ class Site extends Component {
 
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
+  Close = () => { this.setState({ modalVisible: false }) }
 
   _ListEmptyComponent = () => <Empty />
   _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: 'white', marginVertical: 7 }}></View>
@@ -36,16 +37,20 @@ class Site extends Component {
     return (
       <View>
 
-        <Icon
-          type="ionicon"
-          name="ios-add-circle-outline"
-          size={50}
-          color="#ECF0F1"
-          underlayColor="transparent"
-          onPress={this.openModal}
-        />
+        <View style={{ flexDirection: 'row' }}>
+
+          <Icon
+            type="ionicon"
+            name="ios-add-circle-outline"
+            size={40}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this.openModal}
+          />
+        </View>
+
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
-          <AddRoom />
+          <AddRoom Close={this.Close} />
         </Modal>
 
         <FlatList

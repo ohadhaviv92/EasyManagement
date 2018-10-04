@@ -16,14 +16,15 @@ class Invite extends Component {
         jobIndex: NaN,
         siteID: NaN,
         siteIndex: NaN,
-        refreshing: false
+        refreshing: false,
+        openSites: []
+
     }
 
     onSend = async () => {
         try {
             const user = await SQL.SendInvite(this.state.siteID, this.state.jobID, this.props.User.UserId, this.state.user)
-            const Site = this.props.Sites[this.state.siteID];
-     
+            const Site = this.props.Sites[this.state.siteIndex];
             this.props.AddSentInvites({ user, Site })
        
             
@@ -43,8 +44,10 @@ class Invite extends Component {
 
             }
         }else
-            if(this.props.Sites.length !== 0)
-                this.setState({jobID: this.props.Jobs[0].userTypeID , siteID: this.props.Sites[0].SiteId})
+            if(this.props.Sites.length !== 0){
+                const openSites = this.props.Sites.filter(site=> site.SiteStatus == true )
+                this.setState({jobID: this.props.Jobs[0].userTypeID , siteID: this.props.Sites[0].SiteId, openSites})
+            }
         try {
             const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
             const recivedInvites = await SQL.GetRecivedInvites(this.props.User.UserId)
@@ -80,7 +83,7 @@ class Invite extends Component {
             <View>
                 <View>
                     <View style={styles.title}>
-                        <Text style={styles.text}> הזמן </Text>
+                        <Text style={styles.text}> הוספת בעל מקצוע </Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flexDirection: 'column' }}>
@@ -106,7 +109,7 @@ class Invite extends Component {
                                 onValueChange={(val, index) => this.setState({ siteID: val, siteIndex: index })}
                                 style={styles.picker}
                             >
-                                {this.props.Sites.map(site => <Picker.Item key={site.SiteId} label={site.SiteName} value={site.SiteId} />)}
+                                {this.state.openSites.map(site => <Picker.Item key={site.SiteId} label={site.SiteName} value={site.SiteId} />)}
                             </Picker>
 
                         </View>

@@ -3,7 +3,7 @@ import { TextInput, View, Dimensions, StyleSheet, Picker } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import SQL from '../../Handlers/SQL';
-import { SetRoomsType } from '../../actions/roomAction';
+import { SetRoomsType, AddRooms } from '../../actions/roomAction';
 
 class AddRoom extends Component {
   state = {
@@ -14,7 +14,12 @@ class AddRoom extends Component {
   };
 
   AddNewRoom = async () => {
-
+   
+    if(this.state.roomId){
+      const room = await SQL.AddRoom(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor)
+      this.props.AddRooms([room]);
+      this.props.Close();
+    }
   };
 
   async componentDidMount() {
@@ -60,7 +65,7 @@ class AddRoom extends Component {
         />
 
 
-        <View >
+        <View style={{flexDirection: 'row'}}>
           <Icon
             type="ionicon"
             name="ios-add-circle-outline"
@@ -68,6 +73,7 @@ class AddRoom extends Component {
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={this.AddNewRoom}
+            containerStyle={{marginHorizontal: (width - 80)/4}}
           />
           <Icon
             type="MaterialIcons"
@@ -75,6 +81,7 @@ class AddRoom extends Component {
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
+            containerStyle={{marginHorizontal: (width - 80)/4}}
           />
         </View>
 
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    marginVertical: 75,
     alignItems: 'center',
   },
   input: {
@@ -118,13 +125,15 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = (dispatch) => ({
-  SetRoomsType: (Jobs) => dispatch(SetRoomsType(Jobs))
+  SetRoomsType: (Jobs) => dispatch(SetRoomsType(Jobs)),
+  AddRooms: (Rooms) => dispatch(AddRooms(Rooms))
 
 })
 
 const mapStateToProps = state => {
   return {
-    RoomsType: state.roomsType
+    RoomsType: state.roomsType,
+    SiteID: state.rooms.SiteID
   }
 }
 

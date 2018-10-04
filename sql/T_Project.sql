@@ -247,7 +247,10 @@ create proc AddRoomInSite
 @roomPicture nvarchar(max)
 as
 insert into [site04].[TbRoomsInSite] (siteID, roomTypeID, roomName, floorNumber,roomPicture)  values (@siteID,@roomTypeID,@roomName,@floorNumber,@roomPicture)
-select * from [site04].[TbRoomsInSite] where roomID = @@IDENTITY
+SELECT site04.TbRoomsInSite.*, site04.TbRoomsType.roomTypeName
+FROM site04.TbRoomsInSite INNER JOIN site04.TbRoomsType ON 
+	site04.TbRoomsInSite.roomTypeID = site04.TbRoomsType.roomTypeID
+where roomID = @@IDENTITY
 
 
 go 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Alert,Image } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native'
 import { connect } from 'react-redux';
 import { SetRooms } from '../../actions/roomAction';
-import { SetSiteStatus,RemoveUserFromSite } from '../../actions/siteAction';
+import { SetSiteStatus, RemoveUserFromSite } from '../../actions/siteAction';
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
 class PreviewSite extends Component {
@@ -15,12 +15,6 @@ class PreviewSite extends Component {
     this.props.navigation.navigate("Site");
   }
 
-  onSiteClick = async () => {
-    console.log(this.props.site.Rooms, this.props.site.SiteId);
-
-    await this.props.SetRooms(this.props.site.Rooms, this.props.site.SiteId);
-    this.props.navigation.navigate("Site");
-  }
 
 
   closeSite = async () => {
@@ -34,11 +28,10 @@ class PreviewSite extends Component {
 
   GetOutFromSite = async () => {
     try {
-      await SQL.OutFromSite(this.props.site.SiteId,this.props.user.UserId);
-      
+      await SQL.OutFromSite(this.props.site.SiteId, this.props.user.UserId);
       this.props.RemoveUserFromSite(this.props.site.SiteId);
     } catch (error) {
-      
+
     }
   }
 
@@ -48,8 +41,23 @@ class PreviewSite extends Component {
 
     return (
       <TouchableOpacity onPress={this.onSiteClick}>
-        <View style={styles.container}>
+        <View style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: site.SiteStatus ? "#3498DB" : "#E74C3C"
+        }}>
 
+
+          <Image
+            source={require('../../assets/House.png')}
+            style={styles.img}
+          />
+
+
+          <Text style={styles.text}>{site.SiteName}</Text>
+          <Text style={styles.text}>{site.SiteAddress}</Text>
           <Icon
             type="FontAwesome"
             name="edit"
@@ -63,7 +71,7 @@ class PreviewSite extends Component {
                   'מה ברצונך לבצע?',
                   [
                     { text: 'שינוי סטטוס אתר', onPress: this.closeSite },
-                    { text: 'ביטול'},
+                    { text: 'ביטול' },
                   ],
                   { cancelable: false }
                 )
@@ -73,21 +81,15 @@ class PreviewSite extends Component {
                   'הודעה',
                   'מה ברצונך לבצע?',
                   [
-                    { text: 'ביטול'},
-                    { text: 'יציאה מהאתר', onPress: this.GetOutFromSite},
+                    { text: 'ביטול' },
+                    { text: 'יציאה מהאתר', onPress: this.GetOutFromSite },
                   ],
                   { cancelable: false }
                 )
               }
             }}
           />
-          <Text style={styles.text}>{site.SiteName}</Text>
-          <Text style={styles.text}>{site.SiteAddress}</Text>
-          <Image
-          source={require('../../assets/House.png')}
-          style={styles.img}
-       />
-        />
+
         </View>
       </TouchableOpacity>
     )
@@ -95,24 +97,17 @@ class PreviewSite extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#E74C3C'
-  },
   text: {
-    flex:1,
+    flex: 1,
     fontSize: 21,
     color: '#ECF0F1',
   },
   img: {
-    flex:1,
-   
+    flex: 1,
+
     width: 30,
-     height: 100,
-     
+    height: 100,
+
   }
 
 })
@@ -120,7 +115,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => ({
   SetRooms: (Rooms, SiteID) => dispatch(SetRooms(Rooms, SiteID)),
   SetSiteStatus: (SiteId, Status) => dispatch(SetSiteStatus(SiteId, Status)),
-  RemoveUserFromSite:(SiteId) => dispatch(RemoveUserFromSite(SiteId))
+  RemoveUserFromSite: (SiteId) => dispatch(RemoveUserFromSite(SiteId))
 })
 
 export default connect(null, mapDispatchToProps)(PreviewSite);
