@@ -6,6 +6,7 @@ import faults from './faults';
 import jobs from './job';
 import invites from './invites';
 import roomsType from './roomsType';
+import faultTypes from './faultsType';
 
 const appReducer = combineReducers({
     user,
@@ -14,7 +15,8 @@ const appReducer = combineReducers({
     faults,
     jobs,
     invites,
-    roomsType
+    roomsType,
+    faultTypes
 })
 
 export default (state , action) => {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 class FaultPreivew extends Component {
 
 
@@ -15,9 +14,14 @@ class FaultPreivew extends Component {
     return (
       <TouchableOpacity onPress={this.onSiteClick}>
       <View style={styles.container}>
+      <Image style={{width: 100, height: 100}} source={{uri: 'https://via.placeholder.com/100x100'}}/> 
+      <View style={{flexDirection: 'column'}}>
         <Text style={styles.text}>{fault.FaultName}</Text>
         <Text style={styles.text}>{fault.Info}</Text>
-        <Text style={styles.text}>Open: {fault.FaultStatus ? 'פתוח' : 'סגור'}</Text>
+        <Text style={styles.text}>סטטוס תקלה: {fault.FaultStatus ? 'פתוח' : 'סגור'}</Text>
+      </View>
+      
+   
       </View>
       </TouchableOpacity>
     )
@@ -27,8 +31,7 @@ class FaultPreivew extends Component {
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'row',
     backgroundColor: '#E74C3C'
   },
   text: {
