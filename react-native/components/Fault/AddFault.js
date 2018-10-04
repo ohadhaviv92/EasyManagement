@@ -64,21 +64,24 @@ class AddFault extends Component {
         />
 
 
-        <View >
-        <Icon
-            type="ionicon"
-            name="md-person-add"
-            size={50}
-            color="#ECF0F1"
-            underlayColor="transparent"
-          />
-        <Icon
-            type="MaterialIcons"
-            name="add-a-photo"
-            size={50}
-            color="#ECF0F1"
-            underlayColor="transparent"
-          />
+          <View style={{flexDirection: 'row'}}>
+          <Icon
+              type="ionicon"
+              name="md-person-add"
+              size={50}
+              color="#ECF0F1"
+              underlayColor="transparent"
+              containerStyle={{marginHorizontal: (width - 80)/4}}
+            />
+          <Icon
+              type="MaterialIcons"
+              name="add-a-photo"
+              size={50}
+              color="#ECF0F1"
+              underlayColor="transparent"
+              containerStyle={{marginHorizontal: (width - 80)/4}}
+            />
+          </View>
           <Icon
             type="ionicon"
             name="ios-add-circle-outline"
@@ -88,8 +91,7 @@ class AddFault extends Component {
             onPress={this.AddNewFault}
           />
      
-        </View>
-
+      
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
             <FlatList
             ListEmptyComponent={this._ListEmptyComponent}
@@ -111,9 +113,9 @@ const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
+    marginVertical: 75,
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   input: {

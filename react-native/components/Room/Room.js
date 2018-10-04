@@ -18,7 +18,7 @@ class Room extends Component {
   }
 
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
-  Close = () => { this.setState({modalVisible: false}) }
+  Close = () => { this.setState({ modalVisible: false }) }
 
 
   _ListEmptyComponent = () => <Empty />
@@ -29,15 +29,18 @@ class Room extends Component {
     return (
       <View>
 
+        <View style={{ flexDirection: 'row' }}>
 
-        <Icon
-          type="ionicon"
-          name="ios-add-circle-outline"
-          size={50}
-          color="#ECF0F1"
-          underlayColor="transparent"
-          onPress={this.openModal}
-        />
+          <Icon
+            type="ionicon"
+            name="ios-add-circle-outline"
+            size={40}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this.openModal}
+          />
+        </View>
+        
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
           <AddFault Close={this.Close} />
         </Modal>

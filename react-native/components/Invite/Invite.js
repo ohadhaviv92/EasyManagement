@@ -83,7 +83,7 @@ class Invite extends Component {
             <View>
                 <View>
                     <View style={styles.title}>
-                        <Text style={styles.text}> הזמן </Text>
+                        <Text style={styles.text}> הוספת בעל מקצוע </Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flexDirection: 'column' }}>

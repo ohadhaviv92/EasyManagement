@@ -7,6 +7,9 @@ import Empty from '../General/Empty';
 import { Icon } from 'react-native-elements';
 import Modal from '../General/Modal';
 
+
+const { width, height } = Dimensions.get("window");
+
 class Home extends Component {
 
 
@@ -36,24 +39,30 @@ class Home extends Component {
     return (
       <View>
 
+      <View style={{flexDirection: 'row'}}>
+  
+      <Icon
+            type="ionicon"
+            name="ios-add-circle-outline"
+            size={40}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this.openModal}
+          />
+
+        <View style={{justifyContent: 'center', alignItems: 'center', marginLeft: width/3}}>
         <Icon
-          type="MaterialIcons"
-          name="filter-list"
+          type="font-awesome"
+          name="building"
           size={40}
-          color="#ECF0F1"
+          color={ this.state.siteStatusToShow ? "#3498DB": "#E74C3C"}
           underlayColor="transparent"
           onPress={this.changeStatus}
         />
+        </View>
+      </View> 
 
 
-        <Icon
-          type="ionicon"
-          name="ios-add-circle-outline"
-          size={40}
-          color="#ECF0F1"
-          underlayColor="transparent"
-          onPress={this.openModal}
-        />
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
           <AddSite />
         </Modal>
@@ -67,7 +76,7 @@ class Home extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Sites.filter(site=> site.SiteStatus === this.state.siteStatusToShow)}
+          data={this.props.Sites.filter(site => site.SiteStatus === this.state.siteStatusToShow)}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
@@ -76,8 +85,6 @@ class Home extends Component {
   }
 }
 
-
-const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
