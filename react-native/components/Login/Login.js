@@ -70,7 +70,7 @@ import { SetSites } from '../../actions/siteAction';
         <View style={styles.Arrow}>
           <Icon
             type="ionicon"
-            name="ios-arrow-forward"
+            name="ios-arrow-back"
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"

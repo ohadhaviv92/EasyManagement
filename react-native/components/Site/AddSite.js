@@ -49,7 +49,7 @@ class AddSite extends Component {
         />
 
 
-        <View >
+        <View style={{flexDirection: 'row'}}>
           <Icon
             type="ionicon"
             name="ios-add-circle-outline"
@@ -57,6 +57,7 @@ class AddSite extends Component {
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={this.addNewSite}
+            containerStyle={{marginHorizontal: (width - 80)/4}}
           />
           <Icon
             type="MaterialIcons"
@@ -65,6 +66,7 @@ class AddSite extends Component {
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={()=>null}
+            containerStyle={{marginHorizontal: (width - 80)/4}}
           />
         </View>
 
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    marginVertical: 75,
     alignItems: 'center',
   },
   input: {

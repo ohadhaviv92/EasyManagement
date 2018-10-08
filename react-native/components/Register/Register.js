@@ -113,7 +113,7 @@ class Register extends Component {
         <View style={styles.Arrow}>
           <Icon
             type="ionicon"
-            name="ios-arrow-back"
+            name="ios-arrow-forward"
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"

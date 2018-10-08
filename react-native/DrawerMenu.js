@@ -17,7 +17,7 @@ const DrawerWithLogoutButton = (props) => (
     <ScrollView contentContainerStyle={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
       <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
       <Image
-           source={require('../react-native/assets/default_user_pic.png')}
+           source={require('./assets/default_user_pic.png')}
            style={styles.img}
         />
         <DrawerItems {...props} />

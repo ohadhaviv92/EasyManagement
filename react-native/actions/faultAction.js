@@ -19,3 +19,11 @@ export const RemoveFault = (Fault) => (dispatch) => {
         payload: Fault
     });
 }
+
+
+export const SetFaultTypes = (FaultTypes) => (dispatch) => {
+    dispatch({
+        type: 'SET_FAULTS_TYPE',
+        payload: FaultTypes
+    });
+}

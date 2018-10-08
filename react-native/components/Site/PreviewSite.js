@@ -31,7 +31,7 @@ class PreviewSite extends Component {
       await SQL.OutFromSite(this.props.site.SiteId, this.props.user.UserId);
       this.props.RemoveUserFromSite(this.props.site.SiteId);
     } catch (error) {
-      
+
     }
   }
 
@@ -41,8 +41,23 @@ class PreviewSite extends Component {
 
     return (
       <TouchableOpacity onPress={this.onSiteClick}>
-        <View style={styles.container}>
+        <View style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: site.SiteStatus ? "#3498DB" : "#E74C3C"
+        }}>
 
+
+          <Image
+            source={require('../../assets/House.png')}
+            style={styles.img}
+          />
+
+
+          <Text style={styles.text}>{site.SiteName}</Text>
+          <Text style={styles.text}>{site.SiteAddress}</Text>
           <Icon
             type="FontAwesome"
             name="edit"
@@ -74,12 +89,6 @@ class PreviewSite extends Component {
               }
             }}
           />
-          <Text style={styles.text}>{site.SiteName}</Text>
-          <Text style={styles.text}>{site.SiteAddress}</Text>
-          <Image
-            source={require('../../assets/House.png')}
-            style={styles.img}
-          />
 
         </View>
       </TouchableOpacity>
@@ -88,13 +97,6 @@ class PreviewSite extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#E74C3C'
-  },
   text: {
     flex: 1,
     fontSize: 21,
