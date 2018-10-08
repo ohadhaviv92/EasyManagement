@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import Swipeout from 'rc-swipeout';
-import {connect} from 'react-redux';
-import {DeleteInvite} from '../../actions/invitesAction';
+import { connect } from 'react-redux';
+import { Icon } from "react-native-elements";
+import { DeleteInvite } from '../../actions/invitesAction';
+import DropDownMenu from '../General/DropDownMenu';
 import SQL from '../../Handlers/SQL';
 
 const styles = StyleSheet.create({
     text: {
         fontSize: 21,
-        color: '#ECF0F1',
+        color: '#ECF0F1'
     }
 
 })
@@ -16,37 +17,50 @@ const styles = StyleSheet.create({
 
 const { width, height } = Dimensions.get("window");
 
-SentInvite = (props) => {
+class SentInvite extends Component {
 
-Delete = async() => {
-    try {
-        await SQL.DeleteInvite(props.invite.Site.SiteId ,props.User.UserId, props.invite.user.UserId);
-        props.DeleteInvite({siteId: props.invite.Site.SiteId, reciverId: props.invite.user.UserId});
-    
-    } catch (error) {
-        console.error(errorr);
-        
+    state = {
+        open: false
     }
- 
-}
 
-    return (
-        <Swipeout
-            right={[
-                {
-                    text: 'delete',
-                    onPress: Delete,
-                    style: { backgroundColor: 'red', color: 'white' }
-                }
-            ]}>
-            <View style={{ backgroundColor: "#2980B9", width}}>
-                <Text style={styles.text}> שם משתמש: {props.invite.user.UserName} </Text>
-                <Text style={styles.text}> שם: {props.invite.user.FirstName}, שם משפחה: {props.invite.user.LastName} </Text>
-                <Text style={styles.text}> אתר: {props.invite.Site.SiteName} </Text>
+    Delete = async () => {
+        try {
+            await SQL.DeleteInvite(this.props.invite.Site.SiteId, this.props.User.UserId, this.props.invite.user.UserId);
+            this.props.DeleteInvite({ siteId: this.props.invite.Site.SiteId, reciverId: this.props.invite.user.UserId });
+
+        } catch (error) {
+            console.error(errorr);
+
+        }
+
+    }
+
+    toggle = () => {
+      this.setState((pervState) => ({open: !pervState.open}));
+    }
+
+    render() {
+        return (
+
+            <View>
+                <View style={{ backgroundColor: "#2980B9", width }}>
+                    <Text style={styles.text}> שם משתמש: {this.props.invite.user.UserName} </Text>
+                    <Text style={styles.text}> אתר: {this.props.invite.Site.SiteName} </Text>
+                    <Icon
+                        type="ionicon"
+                        name={this.state.open ?  'ios-arrow-down': 'ios-arrow-up' }
+                        size={40}
+                        color="#ECF0F1"
+                        underlayColor="transparent"
+                        onPress={this.toggle}
+                    />
+                </View>
+                <DropDownMenu isOpen = {this.state.open}>
+                    <Text style={styles.text}> שם: {this.props.invite.user.FirstName}, שם משפחה: {this.props.invite.user.LastName} </Text>
+                </DropDownMenu>
             </View>
-        </Swipeout>
-    );
-
+        );
+    }
 }
 
 

@@ -24,10 +24,10 @@ class Invite extends Component {
     onSend = async () => {
         try {
             const user = await SQL.SendInvite(this.state.siteID, this.state.jobID, this.props.User.UserId, this.state.user)
-            const Site = this.props.Sites[this.state.siteIndex];
-            this.props.AddSentInvites({ user, Site })
-       
-            
+            const Site = this.props.Sites.filter(site => site.SiteId == this.state.siteID)[0];
+            this.props.AddSentInvites([{ user, Site }])
+
+
         } catch (error) {
             console.log(error);
 
@@ -43,110 +43,110 @@ class Invite extends Component {
             } catch (error) {
 
             }
-        }else
-            if(this.props.Sites.length !== 0){
-                const openSites = this.props.Sites.filter(site=> site.SiteStatus == true )
-                this.setState({jobID: this.props.Jobs[0].userTypeID , siteID: this.props.Sites[0].SiteId, openSites})
+        }
+            if (this.props.Sites.length !== 0) {
+                const openSites = this.props.Sites.filter(site => site.SiteStatus == true)
+                this.setState({ jobID: this.props.Jobs[0].userTypeID, siteID: this.props.Sites[0].SiteId, openSites })
             }
-        try {
-            const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
-            const recivedInvites = await SQL.GetRecivedInvites(this.props.User.UserId)
-            this.props.SetSentInvites(sentInvites);
-            this.props.SetReciveInvites(recivedInvites);
+            try {
+                const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
+                const recivedInvites = await SQL.GetRecivedInvites(this.props.User.UserId)
+                this.props.SetSentInvites(sentInvites);
+                this.props.SetReciveInvites(recivedInvites);
 
-            
-        } catch (error) {
+
+            } catch (error) {
+
+            }
 
         }
 
-    }
+        _onRefresh = () => {
 
-    _onRefresh = () => {
+        }
 
-    }
-
-    renderSent = () => this.props.Invites.sent.length > 0 ? this.props.Invites.sent.map(sentInvite =>
-        <SentInvite key={`${sentInvite.user.UserId},${sentInvite.Site.SiteId}`} invite={sentInvite} />)
-        :
-        <Empty />
+        renderSent = () => this.props.Invites.sent.length > 0 ? this.props.Invites.sent.map(sentInvite =>
+            <SentInvite key={`${sentInvite.user.UserId},${sentInvite.Site.SiteId}`} invite={sentInvite} />)
+            :
+            <Empty />
 
 
-    renderRecived = () => this.props.Invites.recevied.length > 0 ? this.props.Invites.recevied.map(receivedInvite =>
-        <ReceivedInvite key={`${receivedInvite.user.UserId},${receivedInvite.Site.SiteId}`} invite={receivedInvite} />)
-        :
-        <Empty />
+        renderRecived = () => this.props.Invites.recevied.length > 0 ? this.props.Invites.recevied.map(receivedInvite =>
+            <ReceivedInvite key={`${receivedInvite.user.UserId},${receivedInvite.Site.SiteId}`} invite={receivedInvite} />)
+            :
+            <Empty />
 
 
 
-    render() {
-        return (
-            <View>
+        render() {
+            return (
                 <View>
-                    <View style={styles.title}>
-                        <Text style={styles.text}> הוספת בעל מקצוע </Text>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flexDirection: 'column' }}>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="אימייל / שם משתמש"
-                                placeholderTextColor="#ECF0F1"
-                                underlineColorAndroid="transparent"
-                                onChangeText={(text) => { this.setState({ user: text }) }}
-                            />
-                            <Picker
-                                selectedValue={this.state.jobID}
-                                itemStyle={{height: 40, color: "#ffffff"}}
-                                onValueChange={(val, index) => this.setState({ jobID: val, jobIndex: index })}
-                                style={styles.picker}>
-
-                                {this.props.Jobs.map(job => <Picker.Item  key={job.userTypeID} label={job.userTypeName} value={job.userTypeID} />)}
-
-                            </Picker>
-                            <Picker
-                                selectedValue={this.state.siteID}
-                                itemStyle={{height: 40, color: "#ffffff"}}
-                                onValueChange={(val, index) => this.setState({ siteID: val, siteIndex: index })}
-                                style={styles.picker}
-                            >
-                                {this.state.openSites.map(site => <Picker.Item key={site.SiteId} label={site.SiteName} value={site.SiteId} />)}
-                            </Picker>
-
+                    <View>
+                        <View style={styles.title}>
+                            <Text style={styles.text}> הוספת בעל מקצוע </Text>
                         </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'column' }}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="אימייל / שם משתמש"
+                                    placeholderTextColor="#ECF0F1"
+                                    underlineColorAndroid="transparent"
+                                    onChangeText={(text) => { this.setState({ user: text }) }}
+                                />
+                                <Picker
+                                    selectedValue={this.state.jobID}
+                                    itemStyle={{ height: 40, color: "#ffffff" }}
+                                    onValueChange={(val, index) => this.setState({ jobID: val, jobIndex: index })}
+                                    style={styles.picker}>
 
-                        <View style={styles.button}>
-                            <Button title='שלח' onPress={this.onSend} color='#3498DB' />
+                                    {this.props.Jobs.map(job => <Picker.Item key={job.userTypeID} label={job.userTypeName} value={job.userTypeID} />)}
+
+                                </Picker>
+                                <Picker
+                                    selectedValue={this.state.siteID}
+                                    itemStyle={{ height: 40, color: "#ffffff" }}
+                                    onValueChange={(val, index) => this.setState({ siteID: val, siteIndex: index })}
+                                    style={styles.picker}
+                                >
+                                    {this.state.openSites.map(site => <Picker.Item key={site.SiteId} label={site.SiteName} value={site.SiteId} />)}
+                                </Picker>
+
+                            </View>
+
+                            <View style={styles.button}>
+                                <Button title='שלח' onPress={this.onSend} color='#3498DB' />
+                            </View>
                         </View>
                     </View>
-                </View>
 
-
-                <View>
-                    <View style={styles.title}>
-                        <Text style={styles.text}> הזמנות </Text>
-                    </View>
 
                     <View>
+                        <View style={styles.title}>
+                            <Text style={styles.text}> הזמנות </Text>
+                        </View>
 
-                        <ScrollView
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={this.state.refreshing}
-                                    onRefresh={this._onRefresh}
-                                />
-                            }
-                        >
-                            <Text style={styles.text}> הזמנות שנשלחו </Text>
-                            {this.renderSent()}
-                            <Text style={styles.text}> הזמנות שהתקבלו </Text>
-                            {this.renderRecived()}
-                        </ScrollView>
+                        <View>
+
+                            <ScrollView
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={this.state.refreshing}
+                                        onRefresh={this._onRefresh}
+                                    />
+                                }
+                            >
+                                <Text style={styles.text}> הזמנות שנשלחו </Text>
+                                {this.renderSent()}
+                                <Text style={styles.text}> הזמנות שהתקבלו </Text>
+                                {this.renderRecived()}
+                            </ScrollView>
+                        </View>
                     </View>
                 </View>
-            </View>
-        )
+            )
+        }
     }
-}
 
 const { width, height } = Dimensions.get("window");
 

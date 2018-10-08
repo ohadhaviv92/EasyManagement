@@ -92,15 +92,7 @@ class AddFault extends Component {
           />
      
       
-        <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
-            <FlatList
-            ListEmptyComponent={this._ListEmptyComponent}
-            ItemSeparatorComponent={this._ItemSeparatorComponent}
-            data={this.props.UsersInSite}
-            keyExtractor={this._keyExtractor}
-            renderItem={this._renderItem}
-            />
-        </Modal>
+       
 
       </View>
     )
