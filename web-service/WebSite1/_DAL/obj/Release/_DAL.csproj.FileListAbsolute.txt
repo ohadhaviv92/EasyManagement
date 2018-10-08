@@ -1,0 +1,6 @@
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\bin\Release\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\bin\Release\_DAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\obj\Release\_DAL.csprojAssemblyReference.cache
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\obj\Release\_DAL.csproj.CoreCompileInputs.cache
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\obj\Release\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\web-api\_DAL\obj\Release\_DAL.pdb
