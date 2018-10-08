@@ -39,25 +39,12 @@ Reject = async() => {
 }
 
     return (
-        <Swipeout
-            right={[
-                {
-                    text: 'accept',
-                    onPress: Confirm,
-                    style: { backgroundColor: 'green', color: 'white' }
-                },
-                {
-                    text: 'reject',
-                    onPress: Reject,
-                    style: { backgroundColor: 'red', color: 'white' }
-                }
-            ]}>
             <View style={{ backgroundColor: "#2980B9", width}}>
                 <Text style={styles.text}> {props.invite.user.UserName} {props.invite.user.Email} </Text>
                 <Text style={styles.text}> {props.invite.user.FirstName} {props.invite.user.LastName} </Text>
                 <Text style={styles.text}> {props.invite.Site.SiteName} {props.invite.Site.SiteAddress} </Text>
             </View>
-        </Swipeout>
+
     );
 
 }

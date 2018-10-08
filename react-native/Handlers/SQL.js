@@ -1,4 +1,4 @@
-const URL = "http://ruppinmobile.tempdomain.co.il/site04/api/service"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
+const URL = "http://ruppinmobile.tempdomain.co.il/site04/webservice.asmx"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
 export default class SQL {
   static Login(UserName, Pass) {
     return new Promise(async (resolve, reject) => {
@@ -16,9 +16,9 @@ export default class SQL {
 
         const data = await res.json();
 
-        if (data === null) reject("invalid email or password");
+        if (data.d === null) reject("invalid email or password");
 
-        resolve(data);
+        resolve(data.d);
       } catch (error) {
         reject(error);
       }
@@ -45,11 +45,11 @@ export default class SQL {
 
         const data = await res.json();
 
-        if (data.Error !== undefined) {
+        if (data.d.Error !== undefined) {
           // if a JSON was not returned from SQL, its a custom error message
-          reject(data.Error);
+          reject(data.d.Error);
         }
-        resolve(data);
+        resolve(data.d);
       } catch (error) {
         reject(error);
       }
@@ -64,15 +64,15 @@ export default class SQL {
             headers: {
               "content-type": "application/json"
             },
-            method: "GET"
+            method: "POST"
           }
         );
 
 
         const data = await res.json();
 
-        if (data.length > 0) {
-          resolve(data);
+        if (data.d.length > 0) {
+          resolve(data.d);
         }
         reject("No Key was fetched");
       } catch (error) {
@@ -107,20 +107,20 @@ export default class SQL {
   static GetJobs() {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(`${URL}/jobsDetails`,
+        const res = await fetch(`${URL}/GetJobsDetails`,
           {
             headers: {
               "content-type": "application/json"
             },
-            method: "GET"
+            method: "POST"
           }
         );
 
 
         const data = await res.json();
 
-        if (data !== null) {
-          resolve(data);
+        if (data.d !== null) {
+          resolve(data.d);
         }
       } catch (error) {
         reject(error);
@@ -132,7 +132,7 @@ export default class SQL {
   static async GetSentInvites(userId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(`${URL}/getSentInvites`, {
+        const res = await fetch(`${URL}/SentInvites`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -143,8 +143,8 @@ export default class SQL {
 
         const data = await res.json();
 
-        if (data !== null) {
-          resolve(data);
+        if (data.d !== null) {
+          resolve(data.d);
         }
         reject("No sent invites");
 
@@ -161,7 +161,7 @@ export default class SQL {
   static async GetRecivedInvites(userId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(`${URL}/getRecivedInvites`, {
+        const res = await fetch(`${URL}/GetRecivedInvites`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -172,8 +172,8 @@ export default class SQL {
 
         const data = await res.json();
 
-        if (data !== null) {
-          resolve(data);
+        if (data.d !== null) {
+          resolve(data.d);
         }
         reject("No recived invites");
 
@@ -188,7 +188,7 @@ export default class SQL {
   static async SendInvite(SiteId, UserType, SenderId, Reciver) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(`${URL}/sendInvite`, {
+        const res = await fetch(`${URL}/SendInvite`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -196,20 +196,19 @@ export default class SQL {
           },
           body: JSON.stringify({
             SiteId,
-            UserType,
             SenderId,
-            Reciver
+            ReciverName: Reciver,
+            UserType,
           }),
         });
 
         const data = await res.json();
-        console.log(data);
 
-        if (data !== null) {
-          if (data.Error)
-            reject(data);
+        if (data.d !== null) {
+          if (data.d.Error)
+            reject(data.d.Error);
 
-          resolve(data);
+          resolve(data.d);
         }
         reject("No recived invites");
 
@@ -235,12 +234,11 @@ export default class SQL {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            "siteId": siteId,
-            "senderId": senderId,
-            "reciverId": reciverId
+            SiteId: siteId,
+            SenderId: senderId,
+            reciverId: reciverId
           }),
         });
-        console.log(res);
 
         resolve(true);
       } catch (error) {
@@ -263,12 +261,12 @@ export default class SQL {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            "siteId": siteId,
-            "senderId": senderId,
-            "reciverId": reciverId
+            SiteId: siteId,
+            SenderId: senderId,
+            ReciverId: reciverId
           }),
         });
-     
+
         resolve(true)
       } catch (error) {
         reject(error);
@@ -277,14 +275,15 @@ export default class SQL {
     });
   }
 
-  static AddNewSite(userID, siteName, siteAddress) {
+  static AddNewSite(userID, siteName, siteAddress, base64 = null) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/AddNewSite`, {
           body: JSON.stringify({
-            userID,
-            siteName,
-            siteAddress
+            UserId: userID,
+            SiteName: siteName,
+            SiteAddress: siteAddress,
+            base64
 
           }),
           headers: {
@@ -295,7 +294,7 @@ export default class SQL {
 
         const data = await res.json();
 
-        resolve(data);
+        resolve(data.d);
       } catch (error) {
         reject(error);
       }
@@ -314,14 +313,14 @@ export default class SQL {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            "siteId": siteId,
-            "senderId": senderId,
-            "reciverId": reciverId
+            SiteId: siteId,
+            SenderId: senderId,
+            ReciverId: reciverId
           }),
         });
         const data = await res.json();
-  
-        resolve(data)
+
+        resolve(data.d)
       } catch (error) {
         reject(error);
       }
@@ -335,8 +334,8 @@ export default class SQL {
       try {
         const res = await fetch(`${URL}/ChangeSiteStatus`, {
           body: JSON.stringify({
-            siteID,
-            statusID
+            SiteId: siteID,
+            StatusId: statusID
 
           }),
           headers: {
@@ -347,7 +346,7 @@ export default class SQL {
 
         const data = await res.json();
 
-        resolve(data);
+        resolve(data.d);
       } catch (error) {
         reject(error);
       }
@@ -360,20 +359,20 @@ export default class SQL {
   static GetRoomsType() {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await fetch(`${URL}/roomsType`,
+        const res = await fetch(`${URL}/GetRoomsType`,
           {
             headers: {
               "content-type": "application/json"
             },
-            method: "GET"
+            method: "POST"
           }
         );
 
 
         const data = await res.json();
 
-        if (data !== null) {
-          resolve(data);
+        if (data.d !== null) {
+          resolve(data.d);
         }
       } catch (error) {
         reject(error);
@@ -383,7 +382,7 @@ export default class SQL {
 
 
   static async OutFromSite(siteID, userID) {
-    
+
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/OutFromSite`, {
@@ -393,12 +392,10 @@ export default class SQL {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            siteID,
-            userID
+            SiteId: siteID,
+            UserId: userID
           }),
         });
-        console.log(res);
-
         resolve(true);
       } catch (error) {
         console.log(errorr);
@@ -408,35 +405,7 @@ export default class SQL {
     });
 
   }
-    static async UploadImg(data) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          const res = await fetch(`${URL}/UploadImg`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              base64:data.base64,
-              imgName:new Date(),
-              imgRef:data.uri
-            }),
-          });
-          console.log(res);
-  
-          resolve(true);
-        } catch (error) {
-          console.log(errorr);
-          reject(error);
-        }
-  
-      });
-
-  }
-
-
-  static async AddRoom(siteId , roomTypeId, roomName, floorNumber, base64image = null) {
+  static async UploadImg(data) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/UploadImg`, {
@@ -445,20 +414,50 @@ export default class SQL {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ siteId, roomTypeId, roomName, floorNumber, base64image}),
+          body: JSON.stringify({
+            base64: data.base64,
+          }),
         });
-   
+        resolve(true);
+      } catch (error) {
+        console.log(errorr);
+        reject(error);
+      }
+
+    });
+
+  }
+
+
+  static async AddRoom(siteId, roomTypeId, roomName, floorNumber, base64image = null) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/AddRoom`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            SiteId: siteId,
+            RoomTypeId: roomTypeId,
+            RoomName: roomName,
+            FloorNumber: floorNumber,
+            base64image
+          }),
+        });
+
         const data = await res.json();
 
-        if (data === null)
-           reject("couldnt add room");
-
+        if (data.d === null)
+          reject("couldnt add room");
+        resolve(data.d)
       } catch (error) {
         reject(error);
       }
 
     });
 
-}
+  }
 
 }

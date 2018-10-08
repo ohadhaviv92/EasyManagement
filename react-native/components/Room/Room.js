@@ -40,10 +40,6 @@ class Room extends Component {
             onPress={this.openModal}
           />
         </View>
-        
-        <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
-          <AddFault Close={this.Close} />
-        </Modal>
 
         <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
@@ -58,6 +54,12 @@ class Room extends Component {
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
+
+
+        <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
+          <AddFault Close={this.Close} />
+        </Modal>
+
       </View>
     )
   }
