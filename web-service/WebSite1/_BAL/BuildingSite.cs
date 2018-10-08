@@ -11,6 +11,7 @@ namespace _BAL
         public bool SiteStatus { get; set; }
         public int UserTypeId { get; set; }
         public string UserTypeName { get; set; }
+        public string SiteImage { get; set; }
         public List<Room> Rooms { get; set; }
     }
 }

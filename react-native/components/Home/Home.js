@@ -64,7 +64,7 @@ class Home extends Component {
 
 
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
-          <AddSite />
+          <AddSite navigation={this.props.navigation} Toggle={this.openModal}/>
         </Modal>
 
         <FlatList

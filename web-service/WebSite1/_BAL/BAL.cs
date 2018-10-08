@@ -114,8 +114,10 @@ namespace _BAL
                     SiteAddress = results.Rows[i]["siteAddress"].ToString(),
                     SiteStatus = bool.Parse(results.Rows[i]["siteStatus"].ToString()),
                     UserTypeId = int.Parse(results.Rows[i]["userTypeID"].ToString()),
-                    UserTypeName = results.Rows[i]["userTypName"].ToString()
-                };
+                    UserTypeName = results.Rows[i]["userTypName"].ToString(),
+                    SiteImage = results.Rows[i]["img"].ToString()
+                    
+    };
                 sites.Add(site);
             }
             return sites;
@@ -368,9 +370,9 @@ namespace _BAL
             Dal.RejectInvite(siteId, senderId, reciverId);
         }
 
-        public BuildingSite AddNewSite(int userID, string siteName, string siteAddress)
+        public BuildingSite AddNewSite(int userID, string siteName, string siteAddress, string base64, string imgName)
         {
-            var result = Dal.AddNewSite(userID, siteName, siteAddress);
+            var result = Dal.AddNewSite(userID, siteName, siteAddress, base64, imgName);
 
             if (result == null)
                 return null;

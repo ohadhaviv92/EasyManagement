@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Web;
 
 namespace _DAL
 {
@@ -484,9 +485,19 @@ namespace _DAL
             return null;
         }
 
-        public static DataTable AddNewSite(int userID, string siteName, string siteAddress)
+        public static DataTable AddNewSite(int userID, string siteName, string siteAddress, string base64, string imgName)
         {
+            string imgRef;
+            if (base64 != "")
+            {
+                File.WriteAllBytes(HttpContext.Current.Server.MapPath(@"~/images/" + imgName), Convert.FromBase64String(base64));
+                imgRef = @"http://ruppinmobile.tempdomain.co.il/site04/images" + imgName;
+            }
+            else
+            {
 
+                imgRef = "";
+            }
             try
             {
                 Con.Open();
@@ -495,6 +506,7 @@ namespace _DAL
                 _cmd.Parameters.Add(new SqlParameter("@userID", userID));
                 _cmd.Parameters.Add(new SqlParameter("@siteName", siteName));
                 _cmd.Parameters.Add(new SqlParameter("@siteAddress", siteAddress));
+                _cmd.Parameters.Add(new SqlParameter("@siteImage", imgRef));
                 _adtr = new SqlDataAdapter(_cmd);
 
                 DataSet ds = new DataSet();
