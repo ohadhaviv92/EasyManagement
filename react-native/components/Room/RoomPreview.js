@@ -7,7 +7,6 @@ class PreviewRoom extends Component {
 
   onSiteClick = async() => {
     this.props.navigation.navigate('Room');
-    this.props.SetFaults(this.props.room.Faults , this.props.room.RoomId)
   }
 
   render() {    

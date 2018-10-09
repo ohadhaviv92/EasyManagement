@@ -1,8 +1,7 @@
-export const SetFaults = (Faults, RoomID) => (dispatch) => {
+export const SetFaults = (Faults) => (dispatch) => {
     dispatch({
         type: 'SET_FAULTS',
-        payload: Faults,
-        RoomID
+        payload: Faults
     });
 }
 

@@ -86,8 +86,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    Faults: state.faults.details,
-    RoomID: state.faults.RoomID
+    Faults: state.faults,
   }
 }
 

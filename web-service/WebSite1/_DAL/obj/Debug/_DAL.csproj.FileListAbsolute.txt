@@ -27,3 +27,9 @@ C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\obj\De
 C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.csproj.CoreCompileInputs.cache
 C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.dll
 C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_DAL\bin\Debug\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_DAL\bin\Debug\_DAL.pdb
+C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.csprojAssemblyReference.cache
+C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.csproj.CoreCompileInputs.cache
+C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.dll
+C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.pdb

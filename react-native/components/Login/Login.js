@@ -16,6 +16,8 @@ import { Icon } from "react-native-elements";
 import { connect } from 'react-redux'
 import { onLogin, UpdateToken, Logout } from '../../actions/userAction';
 import { SetSites } from '../../actions/siteAction';
+import {SetFaults} from '../../actions/faultAction';
+import {SetRooms} from '../../actions/roomAction';
 
 
  class Login extends Component {
@@ -29,7 +31,47 @@ import { SetSites } from '../../actions/siteAction';
       const userDetails = await SQL.Login(this.state.userName, this.state.Password);
 
       await this.props.onLogin(userDetails.User);
-      await this.props.SetSites(userDetails.Sites);
+  
+      const sites = userDetails.Sites.map(site=>({
+        SiteId: site.SiteId,
+        SiteAddress: site.SiteAddress,
+        SiteImage: site.SiteImage,
+        SiteName: site.SiteName,
+        SiteStatus: site.SiteStatus,
+        UserTypeId: site.UserTypeId
+      }))
+      
+      await this.props.SetSites(sites)
+
+      const sitesWithRooms = userDetails.Sites.filter(site=> site.Rooms.length != 0)
+      for(let site of sitesWithRooms) {
+
+        const rooms = site.Rooms.map(room=>({
+          FloorNumber: room.FloorNumber,
+          RoomId: room.RoomId,
+          RoomName: room.RoomName,
+          RoomPicture: room.RoomPicture,
+          RoomTypeId: room.RoomTypeId,
+          RoomTypeName: room.RoomTypeName,
+          SiteId: site.SiteId
+        }))
+        this.props.SetRooms(rooms)
+
+        const roomsWithFaults = site.Rooms.filter(room => room.Faults.length != 0 )
+        for (const room of roomsWithFaults) {
+          const faults = room.Faults.map(fault=>({
+            SiteId: site.SiteId,
+            RoomId: room.RoomId,
+            ...fault
+          }))
+
+          
+          this.props.SetFaults(faults)
+
+        
+        }
+      }
+      
       const Token  = await Notification.Register(userDetails.User.Email ,userDetails.User.Token )
       await this.props.UpdateToken(Token);
  
@@ -116,6 +158,8 @@ const mapDispatchToProps = (dispatch) => ({
   onLogin: (userDetails) => dispatch(onLogin(userDetails)),
   SetSites: (Sites) => dispatch(SetSites(Sites)),
   UpdateToken: (Token) => dispatch(UpdateToken(Token)),
+  SetFaults: (Faults) => dispatch(SetFaults(Faults)),
+  SetRooms: (Rooms) => dispatch(SetRooms(Rooms)),
   Logout: () => dispatch(Logout())
 
 })

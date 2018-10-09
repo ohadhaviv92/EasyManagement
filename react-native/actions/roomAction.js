@@ -1,8 +1,7 @@
-export const SetRooms = (Rooms, SiteID) => (dispatch) => {
+export const SetRooms = (Rooms) => (dispatch) => {
     dispatch({
         type: 'SET_ROOMS',
-        payload: Rooms,
-        SiteID
+        payload: Rooms
     });
 }
 

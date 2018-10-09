@@ -130,7 +130,7 @@ public class WebService : System.Web.Services.WebService
 
 
     [WebMethod]
-    public Room AddRoom(int SiteId , int RoomTypeId, string RoomName, int FloorNumber, string base64image)
+    public Room AddRoom(int SiteId , int RoomTypeId, string RoomName, int FloorNumber, string base64image = "")
     {
         return Bal.Instance.AddRoom(SiteId, RoomTypeId, RoomName, FloorNumber, base64image);
     }

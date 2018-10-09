@@ -9,9 +9,6 @@ class PreviewSite extends Component {
 
 
   onSiteClick = async () => {
-    console.log(this.props.site.Rooms, this.props.site.SiteId);
-
-    await this.props.SetRooms(this.props.site.Rooms, this.props.site.SiteId);
     this.props.navigation.navigate("Site");
   }
 
@@ -51,7 +48,7 @@ class PreviewSite extends Component {
 
 
           <Image
-            source={site.SiteImage!=null ?{uri:site.SiteImage}:require('../../assets/House.png')}
+            source={(site.SiteImage == null || site.SiteImage == '') ? require('../../assets/House.png') : {uri:site.SiteImage}}
             style={styles.img}
           />
 

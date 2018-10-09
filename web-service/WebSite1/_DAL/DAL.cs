@@ -664,18 +664,20 @@ namespace _DAL
             }
         }
 
-        public static DataTable AddRoom(int siteId , int roomTypeId, string roomName, int floorNumber)
+        public static DataTable AddRoom(int siteId , int roomTypeId, string roomName, int floorNumber, string roomPicture)
         {
        
 
             try
             {
                 Con.Open();
-                _cmd = new SqlCommand($"AddNewSite", Con);
+                _cmd = new SqlCommand($"AddRoomInSite", Con);
                 _cmd.CommandType = CommandType.StoredProcedure;
                 _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
                 _cmd.Parameters.Add(new SqlParameter("@roomTypeID", roomTypeId));
+                _cmd.Parameters.Add(new SqlParameter("@roomName", roomName));
                 _cmd.Parameters.Add(new SqlParameter("@floorNumber", floorNumber));
+                _cmd.Parameters.Add(new SqlParameter("@roomPicture", roomPicture));
                 _adtr = new SqlDataAdapter(_cmd);
 
                 DataSet ds = new DataSet();

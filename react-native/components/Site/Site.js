@@ -62,7 +62,7 @@ class Site extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Rooms.details}
+          data={this.props.Rooms}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />

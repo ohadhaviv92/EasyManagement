@@ -3,13 +3,8 @@ export default (state = [] , action) => {
     switch (action.type) {
 
         case 'SET_FAULTS':
-            return(
-                {
-                    RoomID: action.RoomID,
-                    details: [...action.payload]
-          
-                }
-            )
+            return(action.payload)
+            
         case 'ADD_FAULTS':
             return([...state].concat(action.payload))
         case "REMOVE_FAULT":

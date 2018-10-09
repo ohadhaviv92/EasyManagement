@@ -532,9 +532,9 @@ namespace _BAL
 
         }
 
-        public Room AddRoom(int siteId, int roomTypeId, string roomName, int floorNumber, string base64image = null)
+        public Room AddRoom(int siteId, int roomTypeId, string roomName, int floorNumber, string base64image)
         {
-            var result = Dal.AddRoom(siteId, roomTypeId, roomName, floorNumber);
+            var result = Dal.AddRoom(siteId, roomTypeId, roomName, floorNumber, base64image);
 
             if (result == null)
                 return null;
