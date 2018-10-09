@@ -44,42 +44,43 @@ class Invite extends Component {
 
             }
         }
-            if (this.props.Sites.length !== 0) {
-                const openSites = this.props.Sites.filter(site => site.SiteStatus == true)
-                this.setState({ jobID: this.props.Jobs[0].userTypeID, siteID: this.props.Sites[0].SiteId, openSites })
-            }
-            try {
-                const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
-                const recivedInvites = await SQL.GetRecivedInvites(this.props.User.UserId)
-                this.props.SetSentInvites(sentInvites);
-                this.props.SetReciveInvites(recivedInvites);
+        if (this.props.Sites.length !== 0) {
+            const openSites = this.props.Sites.filter(site => site.SiteStatus == true)
+            this.setState({ jobID: this.props.Jobs[0].userTypeID, siteID: this.props.Sites[0].SiteId, openSites })
+        }
+        try {
+            const sentInvites = await SQL.GetSentInvites(this.props.User.UserId);
+            const recivedInvites = await SQL.GetRecivedInvites(this.props.User.UserId)
+            this.props.SetSentInvites(sentInvites);
+            this.props.SetReciveInvites(recivedInvites);
 
 
-            } catch (error) {
-
-            }
+        } catch (error) {
 
         }
 
-        _onRefresh = () => {
+    }
 
-        }
+    _onRefresh = () => {
 
-        renderSent = () => this.props.Invites.sent.length > 0 ? this.props.Invites.sent.map(sentInvite =>
-            <SentInvite key={`${sentInvite.user.UserId},${sentInvite.Site.SiteId}`} invite={sentInvite} />)
-            :
-            <Empty />
+    }
 
-
-        renderRecived = () => this.props.Invites.recevied.length > 0 ? this.props.Invites.recevied.map(receivedInvite =>
-            <ReceivedInvite key={`${receivedInvite.user.UserId},${receivedInvite.Site.SiteId}`} invite={receivedInvite} />)
-            :
-            <Empty />
+    renderSent = () => this.props.Invites.sent.length > 0 ? this.props.Invites.sent.map(sentInvite =>
+        <SentInvite key={`${sentInvite.user.UserId},${sentInvite.Site.SiteId}`} invite={sentInvite} />)
+        :
+        <Empty />
 
 
+    renderRecived = () => this.props.Invites.recevied.length > 0 ? this.props.Invites.recevied.map(receivedInvite =>
+        <ReceivedInvite key={`${receivedInvite.user.UserId},${receivedInvite.Site.SiteId}`} invite={receivedInvite} />)
+        :
+        <Empty />
 
-        render() {
-            return (
+
+
+    render() {
+        return (
+            <ScrollView contentContainerStyle={{paddingBottom: '10%'}}>
                 <View>
                     <View>
                         <View style={styles.title}>
@@ -128,25 +129,18 @@ class Invite extends Component {
 
                         <View>
 
-                            <ScrollView
-                                refreshControl={
-                                    <RefreshControl
-                                        refreshing={this.state.refreshing}
-                                        onRefresh={this._onRefresh}
-                                    />
-                                }
-                            >
-                                <Text style={styles.text}> הזמנות שנשלחו </Text>
-                                {this.renderSent()}
-                                <Text style={styles.text}> הזמנות שהתקבלו </Text>
-                                {this.renderRecived()}
-                            </ScrollView>
+                            <Text style={styles.text}> הזמנות שנשלחו </Text>
+                            {this.renderSent()}
+                            <Text style={styles.text}> הזמנות שהתקבלו </Text>
+                            {this.renderRecived()}
+
                         </View>
                     </View>
                 </View>
-            )
-        }
+            </ScrollView>
+        )
     }
+}
 
 const { width, height } = Dimensions.get("window");
 
