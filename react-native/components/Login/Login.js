@@ -83,6 +83,7 @@ import {SetRooms} from '../../actions/roomAction';
   };
 
   async componentDidMount() {
+    
     if (Object.keys(this.props.User).length != 0) {
       this.props.navigation.navigate("HomeNav");
     }

@@ -37,7 +37,8 @@ class AddSite extends Component {
 
       if (this.state.siteName != "" && this.state.siteAddress) {
         const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress,this.state.tookPic ? this.state.pic.base64 : "",`${this.state.siteName}${new Date().valueOf()}.jpg`)
-        await this.props.addSites([siteDetails]);
+        if(siteDetails != null)
+          await this.props.addSites([siteDetails]);
         this.props.Toggle();
       }
       else {

@@ -5,6 +5,14 @@ export const SetRooms = (Rooms) => (dispatch) => {
     });
 }
 
+
+export const SetCurRoom = (RoomId) => (dispatch) => {
+    dispatch({
+        type: 'SET_CUR_ROOM',
+        payload: RoomId
+    })
+}
+
 export const AddRooms = (Rooms) => (dispatch) => {
     dispatch({
         type: 'ADD_ROOMS',
