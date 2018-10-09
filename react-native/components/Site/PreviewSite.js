@@ -51,7 +51,7 @@ class PreviewSite extends Component {
 
 
           <Image
-            source={require('../../assets/House.png')}
+            source={site.SiteImage!=null ?{uri:site.SiteImage}:require('../../assets/House.png')}
             style={styles.img}
           />
 

@@ -21,3 +21,9 @@ C:\Users\Orhay\Source\Repos\EasyManagement\web-api\_DAL\obj\Debug\_DAL.csprojAss
 C:\Users\Orhay\Source\Repos\EasyManagement\web-api\_DAL\obj\Debug\_DAL.csproj.CoreCompileInputs.cache
 C:\Users\Orhay\Source\Repos\EasyManagement\web-api\_DAL\obj\Debug\_DAL.dll
 C:\Users\Orhay\Source\Repos\EasyManagement\web-api\_DAL\obj\Debug\_DAL.pdb
+C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\bin\Debug\_DAL.dll
+C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\bin\Debug\_DAL.pdb
+C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.csprojAssemblyReference.cache
+C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.csproj.CoreCompileInputs.cache
+C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.dll
+C:\EasyManagement\EasyManagement\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.pdb

@@ -1,25 +1,47 @@
 import React, { Component } from 'react'
-import { TextInput, Button, View, Dimensions, StyleSheet,Text } from 'react-native'
+import { TextInput, Button, View, Dimensions, StyleSheet, Text, Image } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import SQL from '../../Handlers/SQL';
 import { addSites } from '../../actions/siteAction';
-
+import Modal from '../General/Modal'
+import CameraPage from '../General/CameraPage'
 class AddSite extends Component {
   state = {
     siteName: "",
-    siteAddress: ""
+    siteAddress: "",
+    pic: "",
+    tookPic: false,
+    modalVisible: false,
+    base64:  "",
+   
   };
+
+
+  TakePicture = (pic) => {
+    this.setState({ modalVisible: false, pic, tookPic: true })
+  }
+
+  renderPic = () => {
+    if (this.state.tookPic) {
+      return <Image
+        style={{ width: 350, height: 250,marginTop:20, borderRadius: 10 }}
+        source={{ uri: this.state.pic.uri }} />
+    }
+  }
+
+  openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
   addNewSite = async () => {
     try {
-      if(this.state.siteName!=""&&this.state.siteAddress){
-      const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress)
-      await this.props.addSites([siteDetails]);          
-      this.props.navigation.navigate("Home");
+
+      if (this.state.siteName != "" && this.state.siteAddress) {
+        const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress,this.state.tookPic ? this.state.pic.base64 : "",`${this.state.siteName}${new Date().valueOf()}.jpg`)
+        await this.props.addSites([siteDetails]);
+        this.props.Toggle();
       }
       else {
-          throw("חובה למלא את כל השדות")      
+        throw ("חובה למלא את כל השדות")
       }
 
     } catch (error) {
@@ -32,7 +54,7 @@ class AddSite extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text  style={styles.logo} > הוספת אתר חדש </Text>
+        <Text style={styles.logo} > הוספת אתר חדש </Text>
         <TextInput
           style={styles.input}
           placeholder="שם האתר"
@@ -49,7 +71,7 @@ class AddSite extends Component {
         />
 
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Icon
             type="ionicon"
             name="ios-add-circle-outline"
@@ -57,19 +79,30 @@ class AddSite extends Component {
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={this.addNewSite}
-            containerStyle={{marginHorizontal: (width - 80)/4}}
+            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
           />
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => null}
+            Toggle={this.openModal}
+          >
+            <CameraPage Snap={this.TakePicture}  />
+
+          </Modal>
           <Icon
             type="MaterialIcons"
             name="add-a-photo"
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
-            onPress={()=>null}
-            containerStyle={{marginHorizontal: (width - 80)/4}}
+            onPress={() => { this.setState({ modalVisible: true }) }}
+            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
           />
-        </View>
 
+        </View>
+        {this.renderPic()}
       </View>
     )
   }
@@ -99,8 +132,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
   },
-  logo:{
-    color:'white',
+  logo: {
+    color: 'white',
     fontSize: 30,
   }
 

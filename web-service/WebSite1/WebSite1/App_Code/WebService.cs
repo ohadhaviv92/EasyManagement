@@ -91,9 +91,9 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public BuildingSite AddNewSite(int UserId, string SiteName , string SiteAddress)
+    public BuildingSite AddNewSite(int UserId, string SiteName , string SiteAddress, string base64, string imgName)
     {
-        return Bal.Instance.AddNewSite(UserId, SiteName, SiteAddress);
+        return Bal.Instance.AddNewSite(UserId, SiteName, SiteAddress, base64, imgName);
     }
 
 
