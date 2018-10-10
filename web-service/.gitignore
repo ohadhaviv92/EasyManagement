@@ -9,6 +9,8 @@
 
 # User-specific files
 *.suo
+.suo
+storage.ide-shm
 *.user
 *.userosscache
 *.sln.docstates
