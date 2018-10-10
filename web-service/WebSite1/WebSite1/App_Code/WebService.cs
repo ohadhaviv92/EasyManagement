@@ -142,4 +142,16 @@ public class WebService : System.Web.Services.WebService
         return Bal.Instance.GetAllUserInSite(SiteId);
     }
 
+    [WebMethod]
+    public Fault AddFault(int OwnerID, int WorkerID,int RoomID, int FaultType,string Info)
+    {
+        return Bal.Instance.AddFault(OwnerID, WorkerID, RoomID, FaultType, Info);
+    }
+
+    [WebMethod]
+    public List <FaultType> GetFaultTypes()
+    {
+        return Bal.Instance.GetFaultTypes();
+    }
+
 }

@@ -621,5 +621,58 @@ namespace _BAL
             return Users;
 
         }
+
+        public Fault AddFault(int OwnerID, int WorkerID, int RoomID, int FaultType, string Info)
+        {
+            var fault1 = new Fault();
+            var faultsResults = Dal.AddFault(OwnerID, WorkerID, RoomID, FaultType, Info);
+            if (faultsResults != null)
+            {
+               
+                    var fault = new Fault
+                    {
+                        Owner = new User
+                        {
+                            UserId = int.Parse(faultsResults.Rows[0]["ownerID"].ToString())
+                        },
+                        Worker = new User
+                        {
+                            UserId = int.Parse(faultsResults.Rows[0]["workerID"].ToString())
+                        },
+                        FaultId = int.Parse(faultsResults.Rows[0]["faultID"].ToString()),
+                        FaultTypeId = int.Parse(faultsResults.Rows[0]["faultType"].ToString()),
+                        FaultStatus = bool.Parse(faultsResults.Rows[0]["faultStatus"].ToString()),
+                        Info = faultsResults.Rows[0]["info"].ToString(),
+                        OpenDate = DateTime.Parse(faultsResults.Rows[0]["openDate"].ToString()),
+                    };
+                    if (faultsResults.Rows[0]["closeDate"].ToString() != "")
+                        fault.CloseDate = DateTime.Parse(faultsResults.Rows[0]["closeDate"].ToString());
+                fault1 = fault;
+                }
+            
+            return fault1;
+        }
+
+    public List<FaultType> GetFaultTypes()
+    {
+        var details = Dal.GetFaultTypes();
+        if (details == null)
+            return null;
+
+        List<FaultType> faultType = new List<FaultType>();
+        for (var i = 0; i < details.Rows.Count; i++)
+        {
+
+            var faultType2 = new FaultType
+            {
+                FaultTypeId = int.Parse(details.Rows[i]["faultID"].ToString()),
+                FaultName = details.Rows[i]["faultName"].ToString()
+            };
+            faultType.Add(faultType2);
+        }
+        return faultType;
+
+
     }
+}
 }
