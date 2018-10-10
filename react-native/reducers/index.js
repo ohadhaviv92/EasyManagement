@@ -9,6 +9,7 @@ import roomsType from './roomsType';
 import faultTypes from './faultsType';
 import curSite from './curSite';
 import curRoom from './curRoom';
+import curType from './curType';
 
 const appReducer = combineReducers({
     user,
@@ -20,7 +21,8 @@ const appReducer = combineReducers({
     roomsType,
     faultTypes,
     curSite,
-    curRoom
+    curRoom,
+    curType
 })
 
 export default (state , action) => {
