@@ -1,44 +1,66 @@
 import React, { Component } from 'react'
-import { TextInput, View, Dimensions, StyleSheet, Picker, FlatList } from 'react-native'
+import { TextInput,Text, View, Dimensions, StyleSheet, Picker, FlatList, TouchableOpacity } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import Empty from '../General/Empty';
 import Modal from '../General/Modal';
 import SQL from '../../Handlers/SQL';
-import {SetFaultTypes} from '../../actions/faultAction';
+import { SetFaultTypes } from '../../actions/faultAction';
 
 class AddFault extends Component {
   state = {
     faultTypes: null,
     faultInfo: '',
-    faultId: NaN
+    faultId: NaN,
+    modalVisible: false,
+    user: null,
+    users: []
   };
 
+
+  openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
+  Close = () => { this.setState({ modalVisible: false }) }
+
+
+
   AddNewFault = async () => {
-   this.props.Close()
+    this.props.Close()
   };
 
   async componentDidMount() {
     if (this.props.FaultTypes.length == 0) {
-        try {
-        //   const FaultTypes = await SQL.GetRoomsType();
-        //   this.props.SetFaultTypes(FaultTypes);
-        //   this.setState({faultId: FaultTypes[0].FaultTypeId})
-        } catch (error) {
-  
-        }
+      try {
+        const FaultTypes = await SQL.GetFaultTypes();
+        this.props.SetFaultTypes(FaultTypes);
+        this.setState({ faultId: FaultTypes[0].FaultTypeId })
+      } catch (error) {
+
       }
+    }
+
+    const Users = await SQL.GetUsersInSite(this.props.siteId);
+    this.setState({ users: Users.filter(user => user.UserId != this.props.User.UserId) })
+
+
   }
 
 
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
-  Close = () => { this.setState({modalVisible: false}) }
+  Close = () => { this.setState({ modalVisible: false }) }
 
 
   _ListEmptyComponent = () => <Empty />
   _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
-  _keyExtractor = (fault) => fault.FaultId.toString();
-  _renderItem = (fault) => <FaultPreview fault={fault.item} />
+  _keyExtractor = (item) => item.UserId.toString();
+  _renderItem = ({item}) =>
+  <View style={styles.userContainer}>
+    <TouchableOpacity onPress={() => { this.setState({ user: item }); this.Close() }}>
+      <Text style={styles.text}>{item.UserName} , {item.JobName}</Text>
+    </TouchableOpacity>
+  </View>
+  
+  
+
 
   render() {
     return (
@@ -64,35 +86,66 @@ class AddFault extends Component {
         />
 
 
-          <View style={{flexDirection: 'row'}}>
-          <Icon
-              type="ionicon"
-              name="md-person-add"
-              size={50}
-              color="#ECF0F1"
-              underlayColor="transparent"
-              containerStyle={{marginHorizontal: (width - 80)/4}}
-            />
-          <Icon
-              type="MaterialIcons"
-              name="add-a-photo"
-              size={50}
-              color="#ECF0F1"
-              underlayColor="transparent"
-              containerStyle={{marginHorizontal: (width - 80)/4}}
-            />
-          </View>
+        <View style={{ flexDirection: 'row' }}>
           <Icon
             type="ionicon"
-            name="ios-add-circle-outline"
+            name="md-person-add"
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
-            onPress={this.AddNewFault}
+            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
+            onPress={this.openModal}
           />
-     
-      
+          <Icon
+            type="MaterialIcons"
+            name="add-a-photo"
+            size={50}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
+          />
+        </View>
+
+         {this.state.user != null ?
+          <View style={styles.userContainer}>
+            <Text style={styles.text}>{this.state.user.UserName}</Text>
+            <Text style={styles.text}>{this.state.user.JobName}</Text>
+            <Icon
+              type="ionicon"
+              name='md-trash'
+              size={40}
+              containerStyle={{ paddingBottom: 20 }}
+              color="#E74C3C"
+              underlayColor="transparent"
+              onPress={() => this.setState({ user: null })}
+            />
+          </View>
+          : null}
+
+
+        <Icon
+          type="ionicon"
+          name="ios-add-circle-outline"
+          size={50}
+          color="#ECF0F1"
+          underlayColor="transparent"
+          onPress={this.AddNewFault}
+        />
+
        
+
+        <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
+          <View style={{width, height}}>
+            <FlatList
+              ListEmptyComponent={this._ListEmptyComponent}
+              ItemSeparatorComponent={this._ItemSeparatorComponent}
+              data={this.state.users}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+            />
+          </View>
+
+        </Modal>
 
       </View>
     )
@@ -104,6 +157,13 @@ class AddFault extends Component {
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
+  userContainer: {
+    width,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#3498DB'
+  },
+
   container: {
     marginVertical: 75,
     flex: 1,
@@ -128,6 +188,10 @@ const styles = StyleSheet.create({
     width: width - 80,
     height: 40,
     marginVertical: 5,
+  },
+  text: {
+    fontSize: 21,
+    color: '#ECF0F1',
   }
 
 });
@@ -139,9 +203,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = state => {
   return {
-      User: state.user,
-      roomId: state.faults.RoomID,
-      FaultTypes: state.faultTypes
+    User: state.user,
+    siteId: state.curSite,
+    roomId: state.curRoom,
+    FaultTypes: state.faultTypes
   }
 }
 

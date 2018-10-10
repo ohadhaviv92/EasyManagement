@@ -468,4 +468,57 @@ export default class SQL {
 
   }
 
+  
+  static GetFaultTypes() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/GetFaultTypes`,
+          {
+            headers: {
+              "content-type": "application/json"
+            },
+            method: "POST"
+          }
+        );
+
+
+        const data = await res.json();
+
+        if (data.d !== null) {
+          resolve(data.d);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+
+  static GetUsersInSite(SiteId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/GetAllUserInSite`,
+          {
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify({
+              SiteId
+            }),
+            method: "POST"
+          }
+        );
+
+
+        const data = await res.json();
+
+        if (data.d !== null) {
+          resolve(data.d);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
 }
