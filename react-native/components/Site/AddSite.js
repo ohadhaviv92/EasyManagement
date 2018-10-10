@@ -37,7 +37,10 @@ class AddSite extends Component {
     try {
        
       if (this.state.siteName != "" && this.state.siteAddress) {
+        
+        
         const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress,this.state.base64)
+        
         if(siteDetails != null)
           await this.props.addSites([siteDetails]);
         this.props.Toggle();

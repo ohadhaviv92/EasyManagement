@@ -296,8 +296,11 @@ export default class SQL {
         
         const data = await res.json();
         
+        
         resolve(data.d);
       } catch (error) {
+        
+        
         
         
         reject(error);

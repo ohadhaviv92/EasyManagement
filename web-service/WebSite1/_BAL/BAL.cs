@@ -382,40 +382,36 @@ namespace _BAL
                 {
                     DateTime dt = DateTime.Now;
                     string imgName = dt.ToString() + ".jpg";
-                    string imgRef = HttpContext.Current.Server.MapPath(@"~/Images/");
+                    string imgRef = HttpContext.Current.Server.MapPath($"~/Images/");
                     string imgPath = Path.Combine(imgRef, imgName);
                     byte[] imgBytes = Convert.FromBase64String(base64);
 
-                    using (Image img = Image.FromStream(new MemoryStream(imgBytes)))
+
+                    using (Image img = Image.FromStream(new MemoryStream(imgBytes)))//נופל כאן
                     {
 
                         img.Save(imgPath, ImageFormat.Jpeg);
                     }
-
-                    imgRef2 =imgName;
-
-                    var result = Dal.AddNewSite(userID, siteName, siteAddress, imgRef2);
-
-                    if (result == null)
-                        return null;
-
-
-                     site = new BuildingSite
-                    {
-                        SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
-                        SiteName = result.Rows[0]["siteName"].ToString(),
-                        SiteAddress = result.Rows[0]["siteAddress"].ToString(),
-                        SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
-                        UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
-                        UserTypeName = result.Rows[0]["userTypName"].ToString(),
-                        SiteImage = imgRef2,
-                        Rooms = new List<Room>()
-                    };
-
-
-                    
+                    imgRef2 =imgName; 
                 }
-                    return site;
+                var result = Dal.AddNewSite(userID, siteName, siteAddress, imgRef2);
+
+                if (result == null)
+                    return null;
+
+
+                site = new BuildingSite
+                {
+                    SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
+                    SiteName = result.Rows[0]["siteName"].ToString(),
+                    SiteAddress = result.Rows[0]["siteAddress"].ToString(),
+                    SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
+                    UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
+                    UserTypeName = result.Rows[0]["userTypName"].ToString(),
+                    SiteImage = imgRef2,
+                    Rooms = new List<Room>()
+                };
+                return site;
             }
 
 
