@@ -14,6 +14,13 @@ export const SetCurSite = (SiteId) => (dispatch) => {
     })
 }
 
+export const SetCurType = (TypeId) => (dispatch) => {
+    dispatch({
+        type: 'SET_CUR_TYPE',
+        payload: TypeId
+    })
+}
+
 export const addSites = (Sites) => (dispatch) => {
 
     dispatch({

@@ -40,14 +40,16 @@ class Site extends Component {
 
         <View style={{ flexDirection: 'row' }}>
 
-          <Icon
+          {this.props.TypeId == 1 ?    
+           <Icon
             type="ionicon"
             name="ios-add-circle-outline"
             size={40}
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={this.openModal}
-          />
+          />: null}
+      
         </View>
 
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
@@ -96,7 +98,8 @@ const mapStateToProps = state => {
   return {
     Sites: state.sites,
     Rooms: state.rooms,
-    SiteId: state.curSite
+    SiteId: state.curSite,
+    TypeId: state.curType
   }
 }
 

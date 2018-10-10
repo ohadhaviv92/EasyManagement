@@ -30,15 +30,16 @@ class Room extends Component {
       <View>
 
         <View style={{ flexDirection: 'row' }}>
-
-          <Icon
+        {this.props.TypeId == 1 ?    
+           <Icon
             type="ionicon"
             name="ios-add-circle-outline"
             size={40}
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={this.openModal}
-          />
+          />: null}
+      
         </View>
 
         <FlatList
@@ -88,7 +89,8 @@ const mapStateToProps = state => {
   return {
     Faults: state.faults,
     SiteId: state.curSite,
-    RoomId: state.curRoom
+    RoomId: state.curRoom,
+    TypeId: state.curType
   }
 }
 

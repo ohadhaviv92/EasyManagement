@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux';
 import { SetRooms } from '../../actions/roomAction';
-import { SetSiteStatus, RemoveUserFromSite, SetCurSite } from '../../actions/siteAction';
+import { SetSiteStatus, RemoveUserFromSite, SetCurSite, SetCurType } from '../../actions/siteAction';
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
 import DropDownMenu from '../General/DropDownMenu';
@@ -15,6 +15,7 @@ class PreviewSite extends Component {
 
   onSiteClick = async () => {
     this.props.SetCurSite(this.props.site.SiteId)
+    this.props.SetCurType(this.props.site.UserTypeId)
     this.props.navigation.navigate("Site");
   }
 
@@ -118,6 +119,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => ({
   SetRooms: (Rooms, SiteID) => dispatch(SetRooms(Rooms, SiteID)),
+  SetCurType: (TypeId) => dispatch(SetCurType(TypeId)),
   SetSiteStatus: (SiteId, Status) => dispatch(SetSiteStatus(SiteId, Status)),
   RemoveUserFromSite: (SiteId) => dispatch(RemoveUserFromSite(SiteId)),
   SetCurSite: (SiteId) => dispatch(SetCurSite(SiteId))
