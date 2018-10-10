@@ -30,9 +30,10 @@ class Site extends Component {
   Close = () => { this.setState({ modalVisible: false }) }
 
   _ListEmptyComponent = () => <Empty />
-  _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: 'white', marginVertical: 7 }}></View>
   _keyExtractor = (room) => room.RoomId.toString();
   _renderItem = (room) => <RoomPreview room={room.item} navigation={this.props.navigation} />
+  _ItemSeparatorComponent =() => <View style={{ overflow: 'hidden', paddingVertical: 7, backgroundColor: '#2C3E50'}}><View style={{paddingVertical: 1, backgroundColor: 'white'}}/></View>
+
   render() {
     return (
       <View>
@@ -55,8 +56,8 @@ class Site extends Component {
 
         <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
-          ItemSeparatorComponent={this._ItemSeparatorComponent}
           ListFooterComponent={()=><View style={{padding: '11%'}}></View>}
+          ItemSeparatorComponent={this._ItemSeparatorComponent}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}

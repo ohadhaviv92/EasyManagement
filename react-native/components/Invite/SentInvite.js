@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, Button } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from "react-native-elements";
 import { DeleteInvite } from '../../actions/invitesAction';
@@ -43,34 +43,39 @@ class SentInvite extends Component {
 
     render() {
         return (
-            
-            <View>
-                <View style={{ backgroundColor: "#2980B9", width }}>
-                    <Text style={styles.text}> שם משתמש: {this.props.invite.user.UserName} </Text>
-                    <Text style={styles.text}> אתר: {this.props.invite.Site.SiteName} </Text>
-                    <Icon
-                        type="ionicon"
-                        name={this.state.open ? 'ios-arrow-down' : 'ios-arrow-up'}
-                        size={40}
-                        color="#ECF0F1"
-                        underlayColor="transparent"
-                        onPress={this.toggle}
-                    />
-                </View>
 
-                <DropDownMenu isOpen = {this.state.open}>
-                    <View>
-                        <Text style={styles.text}> שם: {this.props.invite.user.FirstName}</Text>
-                        <Text style={styles.text}> שם משפחה: {this.props.invite.user.LastName} </Text>
+            <View>
+                <TouchableOpacity onPress={this.toggle}>
+                    <View style={{
+                        backgroundColor: "#2980B9",
+                        flex: 1,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        <Text style={styles.text}> שם משתמש: {this.props.invite.user.UserName} </Text>
+                        <Text style={styles.text}> אתר: {this.props.invite.Site.SiteName} </Text>
                         <Icon
                             type="ionicon"
-                            name='md-remove-circle'
+                            name={this.state.open ? 'ios-arrow-up' : 'ios-arrow-down'}
                             size={40}
-                            containerStyle={{paddingBottom: 20}}
+                            color="#ECF0F1"
+                            underlayColor="transparent"
+                        />
+                    </View>
+                </TouchableOpacity>
+
+                <DropDownMenu isOpen={this.state.open}>
+                    <View>
+                        <Icon
+                            type="ionicon"
+                            name='md-trash'
+                            size={40}
+                            containerStyle={{ paddingBottom: 20 }}
                             color="#E74C3C"
                             underlayColor="transparent"
                             onPress={this.Delete}
-                    />
+                        />
                     </View>
                 </DropDownMenu>
 

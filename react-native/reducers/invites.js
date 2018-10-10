@@ -12,10 +12,10 @@ export default (state = { sent: [], recevied: [] }, action) => {
             return ({sent: state.sent, recevied: action.payload })
 
         case 'DELETE_SENT_INVITE':
-            return ({sent: [...state.sent].filter(invite=>(invite.Site.SiteId != action.payload.siteId && invite.user.UserId != action.payload.reciverId)), recevied: state.recevied})
+            return ({sent: [...state.sent].filter(invite=>!(invite.Site.SiteId == action.payload.siteId && invite.user.UserId == action.payload.reciverId)), recevied: state.recevied})
         case 'DELETE_RECIVED_INVITE':
             
-        return ({sent: state.sent, recevied: [...state.recevied].filter(invite=>(invite.Site.SiteId != action.payload.siteId && invite.user.UserId != action.payload.reciverId))} )
+        return ({sent: state.sent, recevied: [...state.recevied].filter(invite=>!(invite.Site.SiteId == action.payload.siteId && invite.user.UserId == action.payload.reciverId))} )
 
 
         default:

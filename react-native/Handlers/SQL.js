@@ -236,13 +236,13 @@ export default class SQL {
           body: JSON.stringify({
             SiteId: siteId,
             SenderId: senderId,
-            reciverId: reciverId
+            ReciverId: reciverId
           }),
         });
 
         resolve(true);
       } catch (error) {
-        console.log(errorr);
+        console.log(error);
         reject(error);
       }
 

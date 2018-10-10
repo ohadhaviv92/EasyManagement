@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { RejectInvite } from '../../actions/invitesAction';
 import { addSites } from '../../actions/siteAction';
+import {Icon} from 'react-native-elements';
+import DropDownMenu from '../General/DropDownMenu';
 import SQL from '../../Handlers/SQL';
 
 const styles = StyleSheet.create({
@@ -39,7 +41,7 @@ class RecivedInvite extends Component {
             await this.props.RejectInvite({ siteId: this.props.invite.Site.SiteId, reciverId: this.props.invite.user.UserId });
 
         } catch (error) {
-            console.error(errorr);
+            console.error(error);
 
         }
 
@@ -54,7 +56,7 @@ class RecivedInvite extends Component {
                 <Text style={styles.text}> {this.props.invite.user.UserName} {this.props.invite.user.Email} </Text>
                 <Icon
                         type="ionicon"
-                        name={this.state.open ? 'ios-arrow-down' : 'ios-arrow-up'}
+                        name={this.state.open ? 'ios-arrow-up' : 'ios-arrow-down'}
                         size={40}
                         color="#ECF0F1"
                         underlayColor="transparent"

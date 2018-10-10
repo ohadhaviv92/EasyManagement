@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Dimensions, TextInput, Button, Picker, ScrollView, RefreshControl } from 'react-native'
+import { Text, View, StyleSheet, Dimensions, TextInput, Button, Picker, ScrollView, FlatList } from 'react-native'
 import { connect } from 'react-redux';
 import { SetJobs } from '../../actions/jobAction';
 import { SetSentInvites, SetReciveInvites, AddSentInvites } from '../../actions/invitesAction';
@@ -65,22 +65,17 @@ class Invite extends Component {
 
     }
 
-    renderSent = () => this.props.Invites.sent.length > 0 ? this.props.Invites.sent.map(sentInvite =>
-        <SentInvite key={`${sentInvite.user.UserId},${sentInvite.Site.SiteId}`} invite={sentInvite} />)
-        :
-        <Empty />
-
-
-    renderRecived = () => this.props.Invites.recevied.length > 0 ? this.props.Invites.recevied.map(receivedInvite =>
-        <ReceivedInvite key={`${receivedInvite.user.UserId},${receivedInvite.Site.SiteId}`} invite={receivedInvite} />)
-        :
-        <Empty />
+    _renderSent = ({item}) => <SentInvite key={`${item.user.UserId},${item.Site.SiteId}`} invite={item} />
+    _ListEmptyComponent = () => <Empty/>
+    _keyExtractor = (invite) => `${invite.user.UserId},${invite.Site.SiteId}`
+    _renderRecived = ({item}) => <ReceivedInvite key={`${item.user.UserId},${item.Site.SiteId}`} invite={item} />
+    _ItemSeparatorComponent =() => <View style={{ overflow: 'hidden', paddingVertical: 7, backgroundColor: '#2C3E50'}}><View style={{paddingVertical: 1, backgroundColor: 'white'}}/></View>
 
 
 
     render() {
         return (
-            <ScrollView contentContainerStyle={{paddingBottom: '10%'}}>
+            <ScrollView contentContainerStyle={{ paddingBottom: '10%' }}>
                 <View>
                     <View>
                         <View style={styles.title}>
@@ -130,9 +125,24 @@ class Invite extends Component {
                         <View>
 
                             <Text style={styles.text}> הזמנות שנשלחו </Text>
-                            {this.renderSent()}
+                            
+                            <FlatList
+                                ListEmptyComponent={this._ListEmptyComponent}
+                                ListFooterComponent={() => <View style={{ padding: '1%' }}></View>}
+                                data={this.props.Invites.sent}
+                                keyExtractor={this._keyExtractor}
+                                renderItem={this._renderSent}
+                                ItemSeparatorComponent={this._ItemSeparatorComponent}
+                            />
                             <Text style={styles.text}> הזמנות שהתקבלו </Text>
-                            {this.renderRecived()}
+                            <FlatList
+                                ListEmptyComponent={this._ListEmptyComponent}
+                                ListFooterComponent={() => <View style={{ padding: '1%' }}></View>}
+                                data={this.props.Invites.recevied}
+                                keyExtractor={this._keyExtractor}
+                                renderItem={this._renderRecived}
+                                ItemSeparatorComponent={this._ItemSeparatorComponent}
+                            />
 
                         </View>
                     </View>

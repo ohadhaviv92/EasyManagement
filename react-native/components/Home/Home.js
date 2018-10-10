@@ -30,8 +30,8 @@ class Home extends Component {
   }
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
+  _ItemSeparatorComponent =() => <View style={{ overflow: 'hidden', paddingVertical: 7, backgroundColor: '#2C3E50'}}><View style={{paddingVertical: 1, backgroundColor: 'white'}}/></View>
   _ListEmptyComponent = () => <Empty />
-  _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: 'white', marginVertical: 7 }}></View>
   _keyExtractor = (site) => site.SiteId.toString()
 
   _renderItem = (site) => <PreviewSite site={site.item} user={this.props.User} navigation={this.props.navigation} />
@@ -48,18 +48,17 @@ class Home extends Component {
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={this.openModal}
+            containerStyle={{flex:1,alignItems: 'flex-start', marginLeft: '1%'}}
           />
 
-        <View style={{justifyContent: 'center', alignItems: 'center', marginLeft: width/3}}>
         <Icon
-          type="font-awesome"
-          name="building"
+          name="filter-list"
           size={40}
           color={ this.state.siteStatusToShow ? "#3498DB": "#E74C3C"}
           underlayColor="transparent"
           onPress={this.changeStatus}
+          containerStyle={{flex:1, alignItems: 'flex-end', marginRight: '1%'}}
         />
-        </View>
       </View> 
 
 
@@ -69,6 +68,7 @@ class Home extends Component {
 
         <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
+          ListFooterComponent={()=><View style={{padding: '11%'}}></View>}
           ItemSeparatorComponent={this._ItemSeparatorComponent}
           refreshControl={
             <RefreshControl
