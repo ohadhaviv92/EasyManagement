@@ -20,7 +20,7 @@ class AddSite extends Component {
 
 
   TakePicture = (pic) => {
-    this.setState({ modalVisible: false, pic, tookPic: true })
+    this.setState({ modalVisible: false, pic, tookPic: true, base64: pic.base64 })
   }
 
   renderPic = () => {
@@ -37,15 +37,11 @@ class AddSite extends Component {
     try {
        
       if (this.state.siteName != "" && this.state.siteAddress) {
-         var  base = this.state.pic!=""?this.state.pic.base64:"";
-        
-        const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress,base)
-        
-        
+        const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress,this.state.base64)
+        if(siteDetails != null)
+          await this.props.addSites([siteDetails]);
         this.props.Toggle();
-        
-        //await this.props.addSites([siteDetails]);
-        
+
       }
       else {
         throw ("חובה למלא את כל השדות")
