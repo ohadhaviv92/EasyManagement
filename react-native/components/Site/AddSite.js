@@ -19,7 +19,7 @@ class AddSite extends Component {
 
 
   TakePicture = (pic) => {
-    this.setState({ modalVisible: false, pic, tookPic: true })
+    this.setState({ modalVisible: false, pic, tookPic: true, base64: pic.base64 })
   }
 
   renderPic = () => {
@@ -36,7 +36,7 @@ class AddSite extends Component {
     try {
 
       if (this.state.siteName != "" && this.state.siteAddress) {
-        const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress,this.state.tookPic ? this.state.pic.base64 : "",`${this.state.siteName}${new Date().valueOf()}.jpg`)
+        const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress,this.state.base64)
         if(siteDetails != null)
           await this.props.addSites([siteDetails]);
         this.props.Toggle();
