@@ -2,16 +2,14 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native'
 import { connect } from 'react-redux';
 import { SetRooms } from '../../actions/roomAction';
-import { SetSiteStatus, RemoveUserFromSite } from '../../actions/siteAction';
+import { SetSiteStatus, RemoveUserFromSite, SetCurSite } from '../../actions/siteAction';
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
 class PreviewSite extends Component {
 
 
   onSiteClick = async () => {
-    console.log(this.props.site.Rooms, this.props.site.SiteId);
-
-    await this.props.SetRooms(this.props.site.Rooms, this.props.site.SiteId);
+    this.props.SetCurSite(this.props.site.SiteId)
     this.props.navigation.navigate("Site");
   }
 
@@ -51,7 +49,7 @@ class PreviewSite extends Component {
 
 
           <Image
-            source={site.SiteImage!=""&&site.SiteImage!=null?{uri:site.SiteImage}:require('../../assets/House.png')}
+            source={(site.SiteImage == null || site.SiteImage == '') ? require('../../assets/House.png') : {uri:site.SiteImage}}
             style={styles.img}
           />
 
@@ -115,7 +113,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => ({
   SetRooms: (Rooms, SiteID) => dispatch(SetRooms(Rooms, SiteID)),
   SetSiteStatus: (SiteId, Status) => dispatch(SetSiteStatus(SiteId, Status)),
-  RemoveUserFromSite: (SiteId) => dispatch(RemoveUserFromSite(SiteId))
+  RemoveUserFromSite: (SiteId) => dispatch(RemoveUserFromSite(SiteId)),
+  SetCurSite: (SiteId)=> dispatch(SetCurSite(SiteId))
 })
 
 export default connect(null, mapDispatchToProps)(PreviewSite);

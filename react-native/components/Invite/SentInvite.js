@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from "react-native-elements";
 import { DeleteInvite } from '../../actions/invitesAction';
 import DropDownMenu from '../General/DropDownMenu';
 import SQL from '../../Handlers/SQL';
+
 
 const styles = StyleSheet.create({
     text: {
@@ -36,28 +37,43 @@ class SentInvite extends Component {
     }
 
     toggle = () => {
-      this.setState((pervState) => ({open: !pervState.open}));
+        this.setState((pervState) => ({ open: !pervState.open }));
     }
+
 
     render() {
         return (
-
+            
             <View>
                 <View style={{ backgroundColor: "#2980B9", width }}>
                     <Text style={styles.text}> שם משתמש: {this.props.invite.user.UserName} </Text>
                     <Text style={styles.text}> אתר: {this.props.invite.Site.SiteName} </Text>
                     <Icon
                         type="ionicon"
-                        name={this.state.open ?  'ios-arrow-down': 'ios-arrow-up' }
+                        name={this.state.open ? 'ios-arrow-down' : 'ios-arrow-up'}
                         size={40}
                         color="#ECF0F1"
                         underlayColor="transparent"
                         onPress={this.toggle}
                     />
                 </View>
+
                 <DropDownMenu isOpen = {this.state.open}>
-                    <Text style={styles.text}> שם: {this.props.invite.user.FirstName}, שם משפחה: {this.props.invite.user.LastName} </Text>
+                    <View>
+                        <Text style={styles.text}> שם: {this.props.invite.user.FirstName}</Text>
+                        <Text style={styles.text}> שם משפחה: {this.props.invite.user.LastName} </Text>
+                        <Icon
+                            type="ionicon"
+                            name='md-remove-circle'
+                            size={40}
+                            containerStyle={{paddingBottom: 20}}
+                            color="#E74C3C"
+                            underlayColor="transparent"
+                            onPress={this.Delete}
+                    />
+                    </View>
                 </DropDownMenu>
+
             </View>
         );
     }

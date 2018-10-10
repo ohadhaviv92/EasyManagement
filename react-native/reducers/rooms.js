@@ -3,15 +3,9 @@ export default (state = [] , action) => {
     switch (action.type) {
 
         case 'SET_ROOMS':
-            return(
-                {
-                    SiteID: action.SiteID,
-                    details: [...action.payload]
-          
-                }
-            )
+            return(action.payload)
         case 'ADD_ROOMS':
-            return( { SiteID: state.SiteID, details: [...state.details].concat([...action.payload]) })
+            return([...state].concat(action.payload))
         case "REMOVE_ROOM":
             return  state.filter(item => item.RoomId != action.payload.RoomId);
         default:

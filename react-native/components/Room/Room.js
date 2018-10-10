@@ -50,7 +50,7 @@ class Room extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Faults}
+          data={this.props.Faults.filter(fault=>fault.SiteId == this.props.SiteId && fault.RoomId == this.props.RoomId)}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
@@ -86,8 +86,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    Faults: state.faults.details,
-    RoomID: state.faults.RoomID
+    Faults: state.faults,
+    SiteId: state.curSite,
+    RoomId: state.curRoom
   }
 }
 

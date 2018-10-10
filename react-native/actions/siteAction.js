@@ -7,6 +7,13 @@ export const SetSites = (Sites) => (dispatch) => {
 
 }
 
+export const SetCurSite = (SiteId) => (dispatch) => {
+    dispatch({
+        type: 'SET_CUR_SITE',
+        payload: SiteId
+    })
+}
+
 export const addSites = (Sites) => (dispatch) => {
 
     dispatch({

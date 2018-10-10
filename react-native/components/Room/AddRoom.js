@@ -14,10 +14,15 @@ class AddRoom extends Component {
   };
 
   AddNewRoom = async () => {
-   
+    console.log(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor);
+      
     if(this.state.roomId){
+    
       const room = await SQL.AddRoom(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor)
-      this.props.AddRooms([room]);
+      console.log(room);
+      
+      if(room != null)
+        this.props.AddRooms([{SiteId: this.props.SiteID, ...room}]);
       this.props.Close();
     }
   };
@@ -31,6 +36,7 @@ class AddRoom extends Component {
 
       }
     }
+    this.setState({roomId: this.props.RoomsType[0].RoomTypeId})
   }
 
   render() {
@@ -133,7 +139,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = state => {
   return {
     RoomsType: state.roomsType,
-    SiteID: state.rooms.SiteID
+    SiteID: state.curSite
   }
 }
 

@@ -56,13 +56,14 @@ class Site extends Component {
         <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
           ItemSeparatorComponent={this._ItemSeparatorComponent}
+          ListFooterComponent={()=><View style={{padding: '11%'}}></View>}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Rooms.details}
+          data={this.props.Rooms.filter(room=>room.SiteId == this.props.SiteId)}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
@@ -93,7 +94,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     Sites: state.sites,
-    Rooms: state.rooms
+    Rooms: state.rooms,
+    SiteId: state.curSite
   }
 }
 

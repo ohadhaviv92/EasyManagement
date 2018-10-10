@@ -2,36 +2,59 @@ import React, { Component } from 'react'
 import { Animated, View } from 'react-native'
 
 export default class DropDownMenu extends Component {
-  state = {
-    sizeAnim: new Animated.Value(0),  // Initial value for opacity: 0
+  constructor(props){
+    super(props);
+    this.state = {
+      sizeAnim: new Animated.Value(0.1),
+      hidden: !this.props.isOpen
+    }
+    this.maxHeight;
   }
+  
   animate = (isOpen) => {
-    console.log(isOpen);
-    
-    const toValue = isOpen == true ? 100 : 0;
-    Animated.timing(                  // Animate over time
-      this.state.sizeAnim,            // The animated value to drive
+    const toValue = isOpen ? this.maxHeight : 0.1;
+    Animated.timing(
+      this.state.sizeAnim,
       {
-        toValue,                   // Animate to opacity: 1 (opaque)
-        duration: 1000,              // Make it take a while
+        toValue,
+        duration: 250,
       }
     ).start();
 
   }
 
-  componentDidUpdate(){
-    this.animate(this.props.isOpen)
+  componentDidUpdate(pervProps) {
+    if (pervProps.isOpen != this.props.isOpen)
+      this.animate(this.props.isOpen)
   }
 
+  componentDidMount(){
+    this.state.sizeAnim.addListener((event)=>{
+      if(event.value == 0.1)
+        this.setState({hidden: true})
+      else if(event.value == this.maxHeight)
+        this.setState({hidden: false})
+    })
+  }
+
+
   render() {
-    const {sizeAnim} = this.state
+    const { sizeAnim } = this.state
+  
     return (
-      <Animated.View                 // Special animatable View
+      <Animated.View
+
         style={{
-          height: sizeAnim,         // Bind opacity to animated value
+          backgroundColor: '#2980B9',
+          overflow: 'hidden',
+          height: sizeAnim
         }}
       >
-        {this.props.children}
+        
+          <View  onLayout={(event) => {this.maxHeight = event.nativeEvent.layout.height} }> 
+            {this.props.children}
+          </View>
+        
       </Animated.View>
     )
   }

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import {SetFaults} from '../../actions/faultAction';
+import {SetCurRoom} from '../../actions/roomAction';
 import {connect} from 'react-redux';
 class PreviewRoom extends Component {
 
 
   onSiteClick = async() => {
+    this.props.SetCurRoom(this.props.room.RoomId)
     this.props.navigation.navigate('Room');
-    this.props.SetFaults(this.props.room.Faults , this.props.room.RoomId)
   }
 
   render() {    
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = (dispatch) => ({
-  SetFaults: (Faults,RoomID) => dispatch(SetFaults(Faults, RoomID))
+  SetCurRoom: (RoomId) => dispatch(SetCurRoom(RoomId))
 })
 
 export default connect(null, mapDispatchToProps)(PreviewRoom);

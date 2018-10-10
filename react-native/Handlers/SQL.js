@@ -88,7 +88,7 @@ export default class SQL {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'content-type': 'application/json',
         },
         body: JSON.stringify({
           Email,
@@ -136,7 +136,7 @@ export default class SQL {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({ UserId: userId }),
         });
@@ -165,7 +165,7 @@ export default class SQL {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({ UserId: userId }),
         });
@@ -192,7 +192,7 @@ export default class SQL {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({
             SiteId,
@@ -231,7 +231,7 @@ export default class SQL {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({
             SiteId: siteId,
@@ -258,7 +258,7 @@ export default class SQL {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({
             SiteId: siteId,
@@ -314,7 +314,7 @@ export default class SQL {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({
             SiteId: siteId,
@@ -393,7 +393,7 @@ export default class SQL {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({
             SiteId: siteID,
@@ -416,7 +416,7 @@ export default class SQL {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({
             base64: data.base64,
@@ -433,14 +433,15 @@ export default class SQL {
   }
 
 
-  static async AddRoom(siteId, roomTypeId, roomName, floorNumber, base64image = null) {
+  static async AddRoom(siteId, roomTypeId, roomName, floorNumber, base64image = "") {
+
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/AddRoom`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({
             SiteId: siteId,
@@ -452,7 +453,7 @@ export default class SQL {
         });
 
         const data = await res.json();
-
+        
         if (data.d === null)
           reject("couldnt add room");
         resolve(data.d)
