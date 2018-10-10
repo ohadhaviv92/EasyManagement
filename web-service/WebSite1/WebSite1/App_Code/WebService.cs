@@ -143,7 +143,7 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public Fault AddFault(int OwnerID, int WorkerID,int RoomID, int FaultType,string Info)
+    public Fault AddFault(int OwnerID, int WorkerID,int RoomID, int FaultType,string Info, string base64 = "")
     {
         return Bal.Instance.AddFault(OwnerID, WorkerID, RoomID, FaultType, Info);
     }

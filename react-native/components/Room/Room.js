@@ -45,6 +45,7 @@ class Room extends Component {
         <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
           ItemSeparatorComponent={this._ItemSeparatorComponent}
+          ListFooterComponent={()=><View style={{padding: '11%'}}></View>}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}

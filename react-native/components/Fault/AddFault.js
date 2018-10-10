@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Empty from '../General/Empty';
 import Modal from '../General/Modal';
 import SQL from '../../Handlers/SQL';
-import { SetFaultTypes } from '../../actions/faultAction';
+import { SetFaultTypes, AddFaults } from '../../actions/faultAction';
 
 class AddFault extends Component {
   state = {
@@ -22,8 +22,10 @@ class AddFault extends Component {
   Close = () => { this.setState({ modalVisible: false }) }
 
 
-
   AddNewFault = async () => {
+    const fault = await SQL.AddFault(this.props.User.UserId, this.state.user.UserId, this.props.roomId ,this.state.faultId, this.state.faultInfo);
+    if(fault != null)
+      this.props.AddFaults([{SiteId: this.props.siteId, RoomId: this.props.roomId, ...fault}])
     this.props.Close()
   };
 
@@ -73,7 +75,7 @@ class AddFault extends Component {
           onValueChange={(val, index) => this.setState({ faultId: val })}
           style={styles.picker}>
 
-          {this.props.FaultTypes.map(type => <Picker.Item key={type.FaultTypeId} label={type.FaultTypeName} value={type.FaultTypeId} />)}
+          {this.props.FaultTypes.map(type => <Picker.Item key={type.FaultTypeId} label={type.FaultName} value={type.FaultTypeId} />)}
 
         </Picker>
 
@@ -198,7 +200,8 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = (dispatch) => ({
-
+  SetFaultTypes: (FaultTypes) => dispatch(SetFaultTypes(FaultTypes)),
+  AddFaults: (Faults) => dispatch(AddFaults(Faults))
 })
 
 const mapStateToProps = state => {

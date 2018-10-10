@@ -521,4 +521,41 @@ export default class SQL {
     });
   }
 
+
+
+  
+  static async AddFault(OwnerID, WorkerID, RoomID, FaultType, Info, base64 = "") {
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/AddFault`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            OwnerID, 
+            WorkerID, 
+            RoomID, 
+            FaultType, 
+            Info,
+            base64
+          }),
+        });
+
+        const data = await res.json();
+  
+        if (data.d === null)
+          reject("couldnt add room");
+        resolve(data.d)
+      } catch (error) {
+        reject(error);
+      }
+
+    });
+
+  }
+
+
 }

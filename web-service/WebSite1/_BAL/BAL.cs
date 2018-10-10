@@ -624,12 +624,12 @@ namespace _BAL
 
         public Fault AddFault(int OwnerID, int WorkerID, int RoomID, int FaultType, string Info)
         {
-            var fault1 = new Fault();
+            Fault fault = null;
             var faultsResults = Dal.AddFault(OwnerID, WorkerID, RoomID, FaultType, Info);
             if (faultsResults != null)
             {
                
-                    var fault = new Fault
+                    fault = new Fault
                     {
                         Owner = new User
                         {
@@ -647,10 +647,10 @@ namespace _BAL
                     };
                     if (faultsResults.Rows[0]["closeDate"].ToString() != "")
                         fault.CloseDate = DateTime.Parse(faultsResults.Rows[0]["closeDate"].ToString());
-                fault1 = fault;
+              
                 }
             
-            return fault1;
+            return fault;
         }
 
     public List<FaultType> GetFaultTypes()
