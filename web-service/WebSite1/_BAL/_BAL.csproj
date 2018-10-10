@@ -69,6 +69,7 @@
     <Compile Include="Bal.cs" />
     <Compile Include="BuildingSite.cs" />
     <Compile Include="Fault.cs" />
+    <Compile Include="FaultType.cs" />
     <Compile Include="InviteDetails.cs" />
     <Compile Include="JobDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

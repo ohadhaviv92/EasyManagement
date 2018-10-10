@@ -744,5 +744,70 @@ namespace _DAL
             return null;
 
         }
+
+
+        public static DataTable AddFault(int OwnerID, int WorkerID, int RoomID, int FaultType, string Info)
+        {
+
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"AddFault", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@OwnerID", OwnerID));
+                _cmd.Parameters.Add(new SqlParameter("@WorkerID", WorkerID));
+                _cmd.Parameters.Add(new SqlParameter("@RoomID", RoomID));
+                _cmd.Parameters.Add(new SqlParameter("@FaultType", FaultType));
+                _cmd.Parameters.Add(new SqlParameter("@Info", Info));
+
+
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "user");
+
+                if (ds.Tables["user"].Rows.Count != 0)
+                    return ds.Tables["user"];
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+
+        }
+
+        public static DataTable GetFaultTypes()
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"Select * from TbFaultType ", Con);
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "FaultType");
+
+                if (ds.Tables["FaultType"].Rows.Count != 0)
+                    return ds.Tables["FaultType"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+
+        }
     }
 }
