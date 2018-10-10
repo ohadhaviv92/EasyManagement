@@ -588,5 +588,38 @@ namespace _BAL
 
             return room;
         }
+
+        public List<User> GetAllUserInSite(int SiteId)
+        {
+            var results = Dal.GetAllUserInSite(SiteId);
+            if (results == null)
+                return null;
+            List<User> Users = new List<User>();
+
+            for (int i = 0; i < results.Rows.Count; i++)
+            {
+
+                var user = new User
+                {
+                    UserId = int.Parse(results.Rows[i]["userID"].ToString()),
+                    UserName = results.Rows[i]["userName"].ToString(),
+                    FirstName = results.Rows[i]["firstName"].ToString(),
+                    LastName = results.Rows[i]["lastName"].ToString(),
+                    Email = results.Rows[i]["email"].ToString(),
+                    Tel= results.Rows[i]["tel"].ToString(),
+                    Img = results.Rows[i]["img"].ToString(),
+                    JobId= int.Parse(results.Rows[i]["userTypeID"].ToString()),
+                    JobName = results.Rows[i]["userTypName"].ToString(),
+                    Token= results.Rows[i]["Token"].ToString()
+
+                };
+
+              
+                
+                Users.Add(user);
+            }
+            return Users;
+
+        }
     }
 }

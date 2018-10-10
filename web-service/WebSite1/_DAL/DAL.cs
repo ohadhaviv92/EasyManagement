@@ -710,5 +710,39 @@ namespace _DAL
                     Con.Close();
             }
         }
+
+
+        public static DataTable GetAllUserInSite(int SiteID)
+        {
+
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"GetAllUserInSite", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", SiteID));
+               
+
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "user");
+
+                if (ds.Tables["user"].Rows.Count != 0)
+                    return ds.Tables["user"];
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+
+        }
     }
 }

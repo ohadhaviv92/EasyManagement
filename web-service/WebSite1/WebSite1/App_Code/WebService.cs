@@ -134,4 +134,10 @@ public class WebService : System.Web.Services.WebService
     {
         return Bal.Instance.AddRoom(SiteId, RoomTypeId, RoomName, FloorNumber, base64image);
     }
+    [WebMethod]
+    public List<User> GetAllUserInSite(int SiteId)
+    {
+        return Bal.Instance.GetAllUserInSite(SiteId);
+    }
+
 }
