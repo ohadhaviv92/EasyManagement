@@ -12,9 +12,9 @@ export default (state = [], action) => {
             return ([...state].map((site) => {
                 let tempSite = site;
                 if(site.SiteId == action.payload.SiteID) 
-                tempSite.SiteStatus = action.payload.Status;
+                    tempSite.SiteStatus = action.payload.Status;
                 return tempSite;
-            }))
+            })) 
             
         case 'ADD_SITES':
             return ([...state].concat(action.payload))
