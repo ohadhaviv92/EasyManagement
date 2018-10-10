@@ -18,6 +18,7 @@ import { onLogin, UpdateToken, Logout } from '../../actions/userAction';
 import { SetSites } from '../../actions/siteAction';
 
 
+
  class Login extends Component {
   state = {
     userName: "",
@@ -41,6 +42,7 @@ import { SetSites } from '../../actions/siteAction';
   };
 
   async componentDidMount() {
+    
     if (Object.keys(this.props.User).length != 0) {
       this.props.navigation.navigate("HomeNav");
     }

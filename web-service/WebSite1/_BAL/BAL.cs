@@ -1,7 +1,7 @@
 ﻿using _DAL;
 using Newtonsoft.Json;
 using System;
-
+using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
@@ -317,7 +317,8 @@ namespace _BAL
                     SiteId = int.Parse(results.Rows[i]["siteID"].ToString()),
                     SiteName = results.Rows[i]["siteName"].ToString(),
                     UserTypeName = results.Rows[i]["userTypName"].ToString(),
-                    UserTypeId = int.Parse(results.Rows[i]["userTypeID"].ToString())
+                    UserTypeId = int.Parse(results.Rows[i]["userTypeID"].ToString()),
+                    SiteImage = results.Rows[i]["img"].ToString()
                 };
                 InvitedUsers.Add(new UserInSite { user = user, Site = site });
             }
@@ -370,27 +371,60 @@ namespace _BAL
             Dal.RejectInvite(siteId, senderId, reciverId);
         }
 
-        public BuildingSite AddNewSite(int userID, string siteName, string siteAddress, string base64, string imgName)
+        public  BuildingSite AddNewSite(int userID, string siteName, string siteAddress, string base64)
         {
-            var result = Dal.AddNewSite(userID, siteName, siteAddress, base64, imgName);
-
-            if (result == null)
-                return null;
-
-
-            var site = new BuildingSite
+            string imgRef2="";
+            BuildingSite site=null;
+            try
             {
-                SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
-                SiteName = result.Rows[0]["siteName"].ToString(),
-                SiteAddress = result.Rows[0]["siteAddress"].ToString(),
-                SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
-                UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
-                UserTypeName = result.Rows[0]["userTypName"].ToString(),
-                Rooms = new List<Room>()
-            };
+
+                if (base64 != "")
+                {
+                    DateTime dt = DateTime.Now;
+                    string imgName = dt.ToString() + ".jpg";
+                    string imgRef = HttpContext.Current.Server.MapPath(@"~/Images/");
+                    string imgPath = Path.Combine(imgRef, imgName);
+                    byte[] imgBytes = Convert.FromBase64String(base64);
+
+                    using (Image img = Image.FromStream(new MemoryStream(imgBytes)))
+                    {
+
+                        img.Save(imgPath, ImageFormat.Jpeg);
+                    }
+
+                    imgRef2 =imgName;
+
+                    var result = Dal.AddNewSite(userID, siteName, siteAddress, imgRef2);
+
+                    if (result == null)
+                        return null;
 
 
-            return site;
+                     site = new BuildingSite
+                    {
+                        SiteId = int.Parse(result.Rows[0]["siteID"].ToString()),
+                        SiteName = result.Rows[0]["siteName"].ToString(),
+                        SiteAddress = result.Rows[0]["siteAddress"].ToString(),
+                        SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
+                        UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
+                        UserTypeName = result.Rows[0]["userTypName"].ToString(),
+                        SiteImage = imgRef2,
+                        Rooms = new List<Room>()
+                    };
+
+
+                    
+                }
+                    return site;
+            }
+
+
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+         
+            
         }
 
 

@@ -1,4 +1,4 @@
-const URL = "http://ruppinmobile.tempdomain.co.il/site04/webservice.asmx"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
+const URL = "http://ruppinmobile.tempdomain.co.il/site04/WebService.asmx"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
 export default class SQL {
   static Login(UserName, Pass) {
     return new Promise(async (resolve, reject) => {
@@ -275,7 +275,7 @@ export default class SQL {
     });
   }
 
-  static AddNewSite(userID, siteName, siteAddress, base64 = null) {
+  static async AddNewSite(userID, siteName, siteAddress, base64) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/AddNewSite`, {
@@ -283,7 +283,7 @@ export default class SQL {
             UserId: userID,
             SiteName: siteName,
             SiteAddress: siteAddress,
-            base64
+            base64:base64
 
           }),
           headers: {
@@ -291,11 +291,15 @@ export default class SQL {
           },
           method: "POST"
         });
-
+        
+        
+        
         const data = await res.json();
-
+        
         resolve(data.d);
       } catch (error) {
+        
+        
         reject(error);
       }
     });
