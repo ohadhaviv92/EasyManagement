@@ -6,6 +6,7 @@ import SQL from '../../Handlers/SQL';
 import { addSites } from '../../actions/siteAction';
 import Modal from '../General/Modal'
 import CameraPage from '../General/CameraPage'
+
 class AddSite extends Component {
   state = {
     siteName: "",
@@ -34,12 +35,16 @@ class AddSite extends Component {
 
   addNewSite = async () => {
     try {
-
+       
       if (this.state.siteName != "" && this.state.siteAddress) {
+        
+        
         const siteDetails = await SQL.AddNewSite(this.props.User.UserId, this.state.siteName, this.state.siteAddress,this.state.base64)
+        
         if(siteDetails != null)
           await this.props.addSites([siteDetails]);
         this.props.Toggle();
+
       }
       else {
         throw ("חובה למלא את כל השדות")
@@ -47,7 +52,7 @@ class AddSite extends Component {
 
     } catch (error) {
       console.log(error);
-      alert(error);
+
     }
   };
 

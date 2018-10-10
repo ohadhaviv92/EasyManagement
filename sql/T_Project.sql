@@ -207,15 +207,16 @@ go
 alter proc AddNewSite
 @userID int,
 @siteName nvarchar(100),
-@siteAddress nvarchar(100)
+@siteAddress nvarchar(100),
+@siteImage nvarchar(max)
 as
 
 declare @ID int
 
-insert into site04.[TbBuildingSite] (siteName, siteAddress,OwnerId,siteStatus) values (@siteName,@siteAddress, @userID,1)
+insert into site04.[TbBuildingSite] (siteName, siteAddress,OwnerId,siteStatus,img) values (@siteName,@siteAddress, @userID,1,@siteImage)
 
  set @ID = @@IDENTITY
-SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbBuildingSite.siteStatus, site04.TbUsersType.userTypeID, site04.TbUsersType.userTypName
+SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbBuildingSite.siteStatus, site04.TbUsersType.userTypeID, site04.TbUsersType.userTypName,site04.TbBuildingSite.img
 FROM            site04.TbBuildingSite CROSS JOIN
                          site04.TbUsersType
 WHERE        (site04.TbBuildingSite.siteID = @ID) AND (site04.TbUsersType.userTypeID = 1)
@@ -228,10 +229,10 @@ go
 
 
 
-create proc GetSitesForUser 
+alter proc GetSitesForUser 
 @userID int
 as
-SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbBuildingSite.siteStatus, site04.TbUsersType.userTypName, site04.TbUsersInSite.userID, site04.TbUsersType.userTypeID
+SELECT        site04.TbBuildingSite.siteID, site04.TbBuildingSite.siteName, site04.TbBuildingSite.siteAddress, site04.TbBuildingSite.siteStatus, site04.TbUsersType.userTypName, site04.TbUsersInSite.userID, site04.TbUsersType.userTypeID,site04.TbBuildingSite.img
 FROM            site04.TbBuildingSite INNER JOIN
                          site04.TbUsersInSite ON site04.TbBuildingSite.siteID = site04.TbUsersInSite.siteID INNER JOIN
                          site04.TbUsersType ON site04.TbUsersInSite.userTypeID = site04.TbUsersType.userTypeID
@@ -453,6 +454,8 @@ AS
 UPDATE   [site04].[TbBuildingSite] SET [siteStatus]=@statusID where [siteID]=@siteID;
 select * from [site04].[TbBuildingSite] where [siteID]=@siteID;
 GO
+
+
 
 
 

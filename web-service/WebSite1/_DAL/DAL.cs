@@ -485,19 +485,9 @@ namespace _DAL
             return null;
         }
 
-        public static DataTable AddNewSite(int userID, string siteName, string siteAddress, string base64, string imgName)
+        public static DataTable AddNewSite(int userID, string siteName, string siteAddress, string imgRef)
         {
-            string imgRef;
-            if (base64 != "")
-            {
-                File.WriteAllBytes(HttpContext.Current.Server.MapPath(@"~/images/" + imgName), Convert.FromBase64String(base64));
-                imgRef = @"http://ruppinmobile.tempdomain.co.il/site04/images" + imgName;
-            }
-            else
-            {
 
-                imgRef = "";
-            }
             try
             {
                 Con.Open();
