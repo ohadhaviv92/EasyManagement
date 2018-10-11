@@ -24,6 +24,7 @@ class Home extends Component {
   _onRefresh = () => {
 
   }
+  
   changeStatus = () => {
     Vibration.vibrate(500)
     this.setState((pervState) => ({ siteStatusToShow: !pervState.siteStatusToShow }))
