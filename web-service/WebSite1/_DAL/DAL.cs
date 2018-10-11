@@ -842,5 +842,28 @@ namespace _DAL
             return null;
 
         }
+
+        public static void changeFaultStatus(int faultID, int status, string info)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"changeFaultStatus", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@faultID", faultID));
+                _cmd.Parameters.Add(new SqlParameter("@status", status));
+                _cmd.Parameters.Add(new SqlParameter("@info", info));
+                _cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+        }
     }
 }

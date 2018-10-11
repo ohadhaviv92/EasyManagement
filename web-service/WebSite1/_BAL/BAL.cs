@@ -680,5 +680,10 @@ namespace _BAL
 
 
     }
-}
+
+        public void changeFaultStatus(int faultID, int status, string info)
+        {
+            Dal.changeFaultStatus(faultID, status, info);
+        }
+    }
 }
