@@ -3,11 +3,10 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Alert,
-  AsyncStorage,
   Button,
   TextInput,
-  Text
+  Text,
+  ActivityIndicator
 
 } from "react-native";
 import SQL from '../../Handlers/SQL';
@@ -24,13 +23,14 @@ import {SetRooms} from '../../actions/roomAction';
  class Login extends Component {
   state = {
     userName: "",
-    Password: ""
+    Password: "",
+    loading: false
   };
 
   onLogin = async () => {
     try {
       const userDetails = await SQL.Login(this.state.userName, this.state.Password);
-
+      this.setState({loading: true})
       await this.props.onLogin(userDetails.User);
   
       const sites = userDetails.Sites.map(site=>({
@@ -66,18 +66,17 @@ import {SetRooms} from '../../actions/roomAction';
             ...fault
           }))
 
-          
           this.props.SetFaults(faults)
-
         
         }
       }
       
       const Token  = await Notification.Register(userDetails.User.Email ,userDetails.User.Token )
       await this.props.UpdateToken(Token);
- 
+
       this.props.navigation.navigate("HomeNav");
     } catch (error) {
+      this.setState({loading: false})
       console.log(error);
       alert(error);
     }
@@ -109,7 +108,8 @@ import {SetRooms} from '../../actions/roomAction';
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ Password: text }) }}
         />
-        <Button title='התחבר' onPress={this.onLogin} color='#3498DB'/>
+        {this.state.loading ? <ActivityIndicator size="large" color="#3498DB" /> :  <Button title='התחבר' onPress={this.onLogin} color='#3498DB'/>}
+       
        
         <View style={styles.Arrow}>
           <Icon
