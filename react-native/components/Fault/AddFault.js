@@ -25,7 +25,7 @@ class AddFault extends Component {
   AddNewFault = async () => {
     const fault = await SQL.AddFault(this.props.User.UserId, this.state.user.UserId, this.props.roomId ,this.state.faultId, this.state.faultInfo);
     if(fault != null)
-      this.props.AddFaults([{SiteId: this.props.siteId, RoomId: this.props.roomId, ...fault}])
+      this.props.AddFaults([{SiteId: this.props.siteId, RoomId: this.props.roomId, ...fault, Worker: this.state.user, Owner: this.props.User}])
     this.props.Close()
   };
 
@@ -41,6 +41,8 @@ class AddFault extends Component {
     }
 
     const Users = await SQL.GetUsersInSite(this.props.siteId);
+    console.log(Users);
+    
     this.setState({ users: Users.filter(user => user.UserId != this.props.User.UserId) })
 
 
@@ -52,7 +54,7 @@ class AddFault extends Component {
 
 
   _ListEmptyComponent = () => <Empty />
-  _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
+  _ItemSeparatorComponent =() => <View style={{ overflow: 'hidden', paddingVertical: 7, backgroundColor: '#2C3E50'}}><View style={{paddingVertical: 1, backgroundColor: 'white'}}/></View>
   _keyExtractor = (item) => item.UserId.toString();
   _renderItem = ({item}) =>
   <View style={styles.userContainer}>

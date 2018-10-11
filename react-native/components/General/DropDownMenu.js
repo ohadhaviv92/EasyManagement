@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
-import { Animated, View } from 'react-native'
+import { Animated, View, Platform } from 'react-native'
 
 export default class DropDownMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sizeAnim: new Animated.Value(0.1),
-      hidden: !this.props.isOpen
+      sizeAnim: new Animated.Value(0.01),
+      hidden: !this.props.isOpen,
     }
     this.maxHeight;
   }
 
-  animate = (isOpen) => {
-    const toValue = isOpen ? this.maxHeight : 0.1;
+  animate = (isOpen) => {    
+    const toValue =  isOpen ? this.maxHeight : 0.01;
     Animated.timing(
       this.state.sizeAnim,
       {
@@ -30,7 +30,7 @@ export default class DropDownMenu extends Component {
 
   componentDidMount() {
     this.state.sizeAnim.addListener((event) => {
-      if (event.value == 0.1)
+      if (event.value == 0.01)
         this.setState({ hidden: true })
       else if (event.value == this.maxHeight)
         this.setState({ hidden: false })
@@ -50,9 +50,9 @@ export default class DropDownMenu extends Component {
         }}
       >
 
-          <View onLayout={(event) => { this.maxHeight = event.nativeEvent.layout.height }}>
-            {this.props.children}
-          </View>
+        <View onLayout={(event) => {this.maxHeight = event.nativeEvent.layout.height }}>
+          {this.props.children}
+         </View>
 
       </Animated.View>
     )

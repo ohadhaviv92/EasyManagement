@@ -22,7 +22,7 @@ class Room extends Component {
 
 
   _ListEmptyComponent = () => <Empty />
-  _ItemSeparatorComponent = () => <View style={{ width, height: 2, backgroundColor: '#E74C3C', marginVertical: 7 }}></View>
+  _ItemSeparatorComponent =() => <View style={{ overflow: 'hidden', paddingVertical: 7, backgroundColor: '#2C3E50'}}><View style={{paddingVertical: 1, backgroundColor: 'white'}}/></View>
   _keyExtractor = (fault) => fault.FaultId.toString();
   _renderItem = (fault) => <FaultPreview fault={fault.item} />
   render() {
