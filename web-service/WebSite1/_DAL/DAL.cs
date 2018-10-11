@@ -139,6 +139,39 @@ namespace _DAL
 
         }
 
+
+        public static DataTable GetStaticsOnSite(int siteId)
+        {
+
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"statics", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@siteID", siteId));
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "statics");
+
+                if (ds.Tables["statics"].Rows.Count != 0)
+                    return ds.Tables["statics"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+
+        }
+
+
+
         public static DataTable GetUserInSite(int userId, int siteId)
         {
 
@@ -808,6 +841,29 @@ namespace _DAL
             }
             return null;
 
+        }
+
+        public static void changeFaultStatus(int faultID, int status, string info)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"changeFaultStatus", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("@faultID", faultID));
+                _cmd.Parameters.Add(new SqlParameter("@status", status));
+                _cmd.Parameters.Add(new SqlParameter("@info", info));
+                _cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
         }
     }
 }

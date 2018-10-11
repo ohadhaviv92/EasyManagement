@@ -153,4 +153,10 @@ public class WebService : System.Web.Services.WebService
         return Bal.Instance.GetFaultTypes();
     }
 
+    [WebMethod]
+    public void changeFaultStatus(int faultID, int status, string info)
+    {
+         Bal.Instance.changeFaultStatus( faultID,  status,  info);
+    }
+
 }
