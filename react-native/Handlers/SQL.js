@@ -468,4 +468,94 @@ export default class SQL {
 
   }
 
+  
+  static GetFaultTypes() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/GetFaultTypes`,
+          {
+            headers: {
+              "content-type": "application/json"
+            },
+            method: "POST"
+          }
+        );
+
+
+        const data = await res.json();
+
+        if (data.d !== null) {
+          resolve(data.d);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+
+  static GetUsersInSite(SiteId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/GetAllUserInSite`,
+          {
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify({
+              SiteId
+            }),
+            method: "POST"
+          }
+        );
+
+
+        const data = await res.json();
+
+        if (data.d !== null) {
+          resolve(data.d);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+
+
+  
+  static async AddFault(OwnerID, WorkerID, RoomID, FaultType, Info, base64 = "") {
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/AddFault`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            OwnerID, 
+            WorkerID, 
+            RoomID, 
+            FaultType, 
+            Info,
+            base64
+          }),
+        });
+
+        const data = await res.json();
+  
+        if (data.d === null)
+          reject("couldnt add room");
+        resolve(data.d)
+      } catch (error) {
+        reject(error);
+      }
+
+    });
+
+  }
+
+
 }

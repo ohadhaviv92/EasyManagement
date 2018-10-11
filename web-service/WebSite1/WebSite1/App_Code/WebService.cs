@@ -1,7 +1,6 @@
 ﻿using _BAL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Services;
 
@@ -134,6 +133,8 @@ public class WebService : System.Web.Services.WebService
     {
         return Bal.Instance.AddRoom(SiteId, RoomTypeId, RoomName, FloorNumber, base64image);
     }
+
+    
     [WebMethod]
     public List<User> GetAllUserInSite(int SiteId)
     {
@@ -141,7 +142,7 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public Fault AddFault(int OwnerID, int WorkerID,int RoomID, int FaultType,string Info)
+    public Fault AddFault(int OwnerID, int WorkerID,int RoomID, int FaultType,string Info, string base64 = "")
     {
         return Bal.Instance.AddFault(OwnerID, WorkerID, RoomID, FaultType, Info);
     }
