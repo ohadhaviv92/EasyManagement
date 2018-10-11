@@ -96,17 +96,19 @@ namespace _BAL
             return userWithSites;
 
         }
+    
 
         public List<BuildingSite> GetUserSites(int userId)
         {
             var results = Dal.GetUserSites(userId);
+           
             var sites = new List<BuildingSite>();
             if (results == null)
                 return sites;
 
             for (var i = 0; i < results.Rows.Count; i++)
             {
-
+                var staticsSite = Dal.GetStaticsOnSite(int.Parse(results.Rows[i]["siteID"].ToString()));
                 var site = new BuildingSite
                 {
                     SiteId = int.Parse(results.Rows[i]["siteID"].ToString()),
@@ -115,9 +117,12 @@ namespace _BAL
                     SiteStatus = bool.Parse(results.Rows[i]["siteStatus"].ToString()),
                     UserTypeId = int.Parse(results.Rows[i]["userTypeID"].ToString()),
                     UserTypeName = results.Rows[i]["userTypName"].ToString(),
-                    SiteImage = results.Rows[i]["img"].ToString()
-                    
-    };
+                    SiteImage = results.Rows[i]["img"].ToString(),
+                    SumUserInSite = int.Parse(staticsSite.Rows[0]["sumOfUser"].ToString()),
+                    SumFaultInSite = int.Parse(staticsSite.Rows[0]["sumOfFault"].ToString()),
+
+
+                };
                 sites.Add(site);
             }
             return sites;
@@ -185,7 +190,7 @@ namespace _BAL
                         FaultId = int.Parse(faultsResults.Rows[k]["faultID"].ToString()),
                         FaultTypeId = int.Parse(faultsResults.Rows[k]["faultType"].ToString()),
                         FaultName = faultsResults.Rows[k]["faultName"].ToString(),
-                        FaultStatus = bool.Parse(faultsResults.Rows[k]["faultStatus"].ToString()),
+                        FaultStatus = int.Parse(faultsResults.Rows[k]["faultStatus"].ToString()),
                         Info = faultsResults.Rows[k]["info"].ToString(),
                         OpenDate = DateTime.Parse(faultsResults.Rows[k]["openDate"].ToString()),
                     };
@@ -641,7 +646,8 @@ namespace _BAL
                         },
                         FaultId = int.Parse(faultsResults.Rows[0]["faultID"].ToString()),
                         FaultTypeId = int.Parse(faultsResults.Rows[0]["faultType"].ToString()),
-                        FaultStatus = bool.Parse(faultsResults.Rows[0]["faultStatus"].ToString()),
+                        FaultName = faultsResults.Rows[0]["faultName"].ToString(),
+                        FaultStatus = int.Parse(faultsResults.Rows[0]["faultStatus"].ToString()),
                         Info = faultsResults.Rows[0]["info"].ToString(),
                         OpenDate = DateTime.Parse(faultsResults.Rows[0]["openDate"].ToString()),
                     };
