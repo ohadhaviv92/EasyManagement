@@ -96,12 +96,12 @@ namespace _BAL
             return userWithSites;
 
         }
-    
+
 
         public List<BuildingSite> GetUserSites(int userId)
         {
             var results = Dal.GetUserSites(userId);
-           
+
             var sites = new List<BuildingSite>();
             if (results == null)
                 return sites;
@@ -376,10 +376,10 @@ namespace _BAL
             Dal.RejectInvite(siteId, senderId, reciverId);
         }
 
-        public  BuildingSite AddNewSite(int userID, string siteName, string siteAddress, string base64)
+        public BuildingSite AddNewSite(int userID, string siteName, string siteAddress, string base64)
         {
-            string imgRef2="";
-            BuildingSite site=null;
+            string imgRef2 = "";
+            BuildingSite site = null;
             try
             {
 
@@ -397,7 +397,7 @@ namespace _BAL
 
                         img.Save(imgPath, ImageFormat.Jpeg);
                     }
-                    imgRef2 =imgName; 
+                    imgRef2 = imgName;
                 }
                 var result = Dal.AddNewSite(userID, siteName, siteAddress, imgRef2);
 
@@ -424,8 +424,8 @@ namespace _BAL
             {
                 throw new Exception(e.Message);
             }
-         
-            
+
+
         }
 
 
@@ -584,12 +584,12 @@ namespace _BAL
                 FloorNumber = int.Parse(result.Rows[0]["floorNumber"].ToString()),
                 Faults = new List<Fault>()
             };
-            if(base64image != null)
+            if (base64image != null)
             {
                 room.RoomPicture = $"/{siteId}/{room.RoomId}.jpg";
                 Dal.UpdateRoomPicture(room.RoomId, room.RoomPicture);
             }
-           
+
 
             return room;
         }
@@ -611,16 +611,16 @@ namespace _BAL
                     FirstName = results.Rows[i]["firstName"].ToString(),
                     LastName = results.Rows[i]["lastName"].ToString(),
                     Email = results.Rows[i]["email"].ToString(),
-                    Tel= results.Rows[i]["tel"].ToString(),
+                    Tel = results.Rows[i]["tel"].ToString(),
                     Img = results.Rows[i]["img"].ToString(),
-                    JobId= int.Parse(results.Rows[i]["userTypeID"].ToString()),
+                    JobId = int.Parse(results.Rows[i]["userTypeID"].ToString()),
                     JobName = results.Rows[i]["userTypName"].ToString(),
-                    Token= results.Rows[i]["Token"].ToString()
+                    Token = results.Rows[i]["Token"].ToString()
 
                 };
 
-              
-                
+
+
                 Users.Add(user);
             }
             return Users;
@@ -633,57 +633,84 @@ namespace _BAL
             var faultsResults = Dal.AddFault(OwnerID, WorkerID, RoomID, FaultType, Info);
             if (faultsResults != null)
             {
-               
-                    fault = new Fault
+
+                fault = new Fault
+                {
+                    Owner = new User
                     {
-                        Owner = new User
-                        {
-                            UserId = int.Parse(faultsResults.Rows[0]["ownerID"].ToString())
-                        },
-                        Worker = new User
-                        {
-                            UserId = int.Parse(faultsResults.Rows[0]["workerID"].ToString())
-                        },
-                        FaultId = int.Parse(faultsResults.Rows[0]["faultID"].ToString()),
-                        FaultTypeId = int.Parse(faultsResults.Rows[0]["faultType"].ToString()),
-                        FaultName = faultsResults.Rows[0]["faultName"].ToString(),
-                        FaultStatus = int.Parse(faultsResults.Rows[0]["faultStatus"].ToString()),
-                        Info = faultsResults.Rows[0]["info"].ToString(),
-                        OpenDate = DateTime.Parse(faultsResults.Rows[0]["openDate"].ToString()),
-                    };
-                    if (faultsResults.Rows[0]["closeDate"].ToString() != "")
-                        fault.CloseDate = DateTime.Parse(faultsResults.Rows[0]["closeDate"].ToString());
-              
-                }
-            
+                        UserId = int.Parse(faultsResults.Rows[0]["ownerID"].ToString())
+                    },
+                    Worker = new User
+                    {
+                        UserId = int.Parse(faultsResults.Rows[0]["workerID"].ToString())
+                    },
+                    FaultId = int.Parse(faultsResults.Rows[0]["faultID"].ToString()),
+                    FaultTypeId = int.Parse(faultsResults.Rows[0]["faultType"].ToString()),
+                    FaultName = faultsResults.Rows[0]["faultName"].ToString(),
+                    FaultStatus = int.Parse(faultsResults.Rows[0]["faultStatus"].ToString()),
+                    Info = faultsResults.Rows[0]["info"].ToString(),
+                    OpenDate = DateTime.Parse(faultsResults.Rows[0]["openDate"].ToString()),
+                };
+                if (faultsResults.Rows[0]["closeDate"].ToString() != "")
+                    fault.CloseDate = DateTime.Parse(faultsResults.Rows[0]["closeDate"].ToString());
+
+            }
+
             return fault;
         }
 
-    public List<FaultType> GetFaultTypes()
-    {
-        var details = Dal.GetFaultTypes();
-        if (details == null)
-            return null;
-
-        List<FaultType> faultType = new List<FaultType>();
-        for (var i = 0; i < details.Rows.Count; i++)
+        public List<FaultType> GetFaultTypes()
         {
+            var details = Dal.GetFaultTypes();
+            if (details == null)
+                return null;
 
-            var faultType2 = new FaultType
+            List<FaultType> faultType = new List<FaultType>();
+            for (var i = 0; i < details.Rows.Count; i++)
             {
-                FaultTypeId = int.Parse(details.Rows[i]["faultID"].ToString()),
-                FaultName = details.Rows[i]["faultName"].ToString()
-            };
-            faultType.Add(faultType2);
+
+                var faultType2 = new FaultType
+                {
+                    FaultTypeId = int.Parse(details.Rows[i]["faultID"].ToString()),
+                    FaultName = details.Rows[i]["faultName"].ToString()
+                };
+                faultType.Add(faultType2);
+            }
+            return faultType;
+
+
         }
-        return faultType;
-
-
-    }
 
         public void changeFaultStatus(int faultID, int status, string info)
         {
             Dal.changeFaultStatus(faultID, status, info);
+        }
+
+
+        public object EditUserDetails(int UserID, string UserName, string FirstName, string LastName, string Email, string Tel, string Img)
+        {
+            DataTable results = Dal.EditUserDetails(UserID, UserName, FirstName, LastName, Email, Tel, Img);
+            if (results == null)
+                return null;
+
+            if (results.Columns.Count > 1)
+            {
+                User user = new User
+                {
+                    UserId = int.Parse(results.Rows[0]["userID"].ToString()),
+                    UserName = results.Rows[0]["userName"].ToString(),
+                    Pass = results.Rows[0]["pass"].ToString(),
+                    FirstName = results.Rows[0]["firstName"].ToString(),
+                    LastName = results.Rows[0]["lastName"].ToString(),
+                    Email = results.Rows[0]["email"].ToString(),
+                    Tel = results.Rows[0]["tel"].ToString()
+                };
+
+                return user;
+            }
+            var error = new { Error = results.Rows[0][0].ToString() };
+            return error;
+
         }
     }
 }

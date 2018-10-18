@@ -557,5 +557,39 @@ export default class SQL {
 
   }
 
+  static async EditUserDetails(UserID, UserName, FirstName, LastName, Email, Tel,Img) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${URL}/EditUserDetails`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            UserID: UserID,
+            UserName: UserName,
+            FirstName: FirstName,
+            LastName: LastName,
+            Email:Email,
+            Tel:Tel,
+            Img:Img
+          }),
+        });
+
+        const data = await res.json();
+
+
+        if (data.d.Error !== undefined) {
+          // if a JSON was not returned from SQL, its a custom error message
+          reject(data.d.Error);
+        }
+        resolve(data.d);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
 
 }
