@@ -456,8 +456,16 @@ select * from [site04].[TbBuildingSite] where [siteID]=@siteID;
 GO
 
 
-
-
+create proc statics
+@siteID int
+as
+SELECT        TOP (100) PERCENT site04.TbBuildingSite.siteID, COUNT(DISTINCT site04.TbFaultInSite.faultID) AS sumOfFault, COUNT(DISTINCT site04.TbUsersInSite.userID) AS sumOfUser
+FROM            site04.TbBuildingSite INNER JOIN
+                         site04.TbUsersInSite ON site04.TbBuildingSite.siteID = site04.TbUsersInSite.siteID CROSS JOIN
+                         site04.TbFaultInSite
+GROUP BY site04.TbBuildingSite.siteID
+HAVING        (site04.TbBuildingSite.siteID = @siteID)
+GO
 
 
 
