@@ -468,5 +468,13 @@ HAVING        (site04.TbBuildingSite.siteID = @siteID)
 GO
 
 
-
+create proc changeFaultStatus
+@faultID int ,
+@status int , 
+@info nvarchar(max)
+as
+UPDATE [site04].[TbFaultInSite] 
+SET [info] = @info , [faultStatus] = @status
+WHERE [faultID]=@faultID;
+GO
 
