@@ -29,17 +29,19 @@ import {SetRooms} from '../../actions/roomAction';
 
   onLogin = async () => {
     try {
-      const userDetails = await SQL.Login(this.state.userName, this.state.Password);
       this.setState({loading: true})
+      const userDetails = await SQL.Login(this.state.userName, this.state.Password);
       await this.props.onLogin(userDetails.User);
-  
+ 
       const sites = userDetails.Sites.map(site=>({
         SiteId: site.SiteId,
         SiteAddress: site.SiteAddress,
         SiteImage: site.SiteImage,
         SiteName: site.SiteName,
         SiteStatus: site.SiteStatus,
-        UserTypeId: site.UserTypeId
+        UserTypeId: site.UserTypeId,
+        TotalUsers: site.SumUserInSite,
+        TotalFaults: site.SumFaultInSite
       }))
       
       await this.props.SetSites(sites)

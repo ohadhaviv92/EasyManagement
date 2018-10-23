@@ -48,9 +48,8 @@ class PreviewSite extends Component {
 
   render() {
     const site = this.props.site;
-
     return (
-      <View style={{overflow: 'hidden',}}>
+      <View style={{ overflow: 'hidden', }}>
         <TouchableOpacity onPress={this.onSiteClick}>
           <View style={{
             flex: 1,
@@ -80,8 +79,10 @@ class PreviewSite extends Component {
 
           </Modal>
 
+          <View style={{flexDirection: 'column',}}>
             <Text style={styles.text}>{site.SiteName}</Text>
             <Text style={styles.text}>{site.SiteAddress}</Text>
+            </View>
             <Icon
               type="ionicon"
               name={this.state.open ? 'ios-arrow-up' : 'ios-arrow-down'}
@@ -96,17 +97,25 @@ class PreviewSite extends Component {
         </TouchableOpacity>
 
         <DropDownMenu isOpen={this.state.open}>
-            <View>
-              <Icon
-                type="ionicon"
-                name='md-remove-circle'
-                size={40}
-                containerStyle={{ paddingBottom: 20 }}
-                color="#E74C3C"
-                underlayColor="transparent"
-                onPress={this.closeSite}
-              />
-            </View> 
+          <View>
+            <View style={{ flexDirection: 'row' }}>
+
+              <View style={{ flex: 1, alignItems: 'flex-start' }}>
+                <Text style={styles.text}>כמות בעלי מקצוע: {site.TotalUsers}</Text>
+                <Text style={styles.text}>כמות תקלות: {site.TotalFaults}</Text>
+              </View>
+            </View>
+
+            <Icon
+              type="ionicon"
+              name='md-remove-circle'
+              size={40}
+              containerStyle={{ paddingBottom: 20 }}
+              color="#E74C3C"
+              underlayColor="transparent"
+              onPress={this.closeSite}
+            />
+          </View>
         </DropDownMenu>
 
       </View>
@@ -117,7 +126,6 @@ class PreviewSite extends Component {
 
 const styles = StyleSheet.create({
   text: {
-    flex: 1,
     fontSize: 21,
     color: '#ECF0F1',
   },

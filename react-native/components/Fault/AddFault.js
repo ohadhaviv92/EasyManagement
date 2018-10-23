@@ -41,8 +41,7 @@ class AddFault extends Component {
     }
 
     const Users = await SQL.GetUsersInSite(this.props.siteId);
-    console.log(Users);
-    
+  
     this.setState({ users: Users.filter(user => user.UserId != this.props.User.UserId) })
 
 

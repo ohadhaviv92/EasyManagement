@@ -10,11 +10,16 @@ import Empty from '../General/Empty';
 class Room extends Component {
   state = {
     refreshing: false,
-    modalVisible: false
+    modalVisible: false,
+    ShowOpen: false
   }
 
   _onRefresh = () => {
 
+  }
+
+  changeStatus = () => {
+    this.setState((pervState) => ({ ShowOpen: !pervState.ShowOpen }))
   }
 
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
@@ -22,7 +27,7 @@ class Room extends Component {
 
 
   _ListEmptyComponent = () => <Empty />
-  _ItemSeparatorComponent =() => <View style={{ overflow: 'hidden', paddingVertical: 7, backgroundColor: '#2C3E50'}}><View style={{paddingVertical: 1, backgroundColor: 'white'}}/></View>
+  _ItemSeparatorComponent = () => <View style={{ overflow: 'hidden', paddingVertical: 7, backgroundColor: '#2C3E50' }}><View style={{ paddingVertical: 1, backgroundColor: 'white' }} /></View>
   _keyExtractor = (fault) => fault.FaultId.toString();
   _renderItem = (fault) => <FaultPreview fault={fault.item} />
   render() {
@@ -30,13 +35,22 @@ class Room extends Component {
       <View>
 
         <View style={{ flexDirection: 'row' }}>
-        {this.props.TypeId == 1 ?    
-           <Icon
-            type="ionicon"
-            name="ios-add-circle-outline"
+          {this.props.TypeId == 1 ?
+            <Icon
+              type="ionicon"
+              name="ios-add-circle-outline"
+              size={40}
+              color="#ECF0F1"
+              underlayColor="transparent"
+              onPress={this.openModal}
+            /> : null}
+
+          <Icon
+            name="filter-list"
             size={40}
-            color="#ECF0F1"
+            color={this.state.ShowOpen ? "#3498DB" : "#E74C3C"}
             underlayColor="transparent"
+<<<<<<< HEAD
             containerStyle={{flex:1,alignItems: 'flex-start', marginLeft: '1%'}}
             onPress={this.openModal}
           />: null}
@@ -49,19 +63,25 @@ class Room extends Component {
           onPress={null}
           containerStyle={{flex:1, alignItems: 'flex-end', marginRight: '1%'}}
         />
+=======
+            onPress={this.changeStatus}
+            containerStyle={{ flex: 1, alignItems: 'flex-end', marginRight: '1%' }}
+          />
+>>>>>>> ce21b5435c463be90f0568d22990271d2d3f2649
         </View>
 
         <FlatList
           ListEmptyComponent={this._ListEmptyComponent}
           ItemSeparatorComponent={this._ItemSeparatorComponent}
-          ListFooterComponent={()=><View style={{padding: '11%'}}></View>}
+          ListFooterComponent={() => <View style={{ padding: '11%' }}></View>}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Faults.filter(fault=>fault.SiteId == this.props.SiteId && fault.RoomId == this.props.RoomId)}
+          data={this.props.Faults.filter(fault => fault.SiteId == this.props.SiteId && fault.RoomId == this.props.RoomId)
+                .filter(fault => this.state.ShowOpen ?  fault.FaultStatus != 0 : fault.FaultStatus == 0 )}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
