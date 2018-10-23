@@ -9,16 +9,19 @@ export default class CameraPage extends React.Component {
   };
 
   async componentWillMount() {
+    
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
   snap = async () => {
-    if (this.camera) {
+    console.log(this.camera);
+    if (this.camera!=undefined) {
+      
       let picture = await this.camera.takePictureAsync();
-      //console.log(picture);
+      
       const smallpic = await ImageManipulator.manipulate( picture.uri , [ { resize: {width: 500 , height: 500 }, compress: 0.5 } ], { format: 'jpeg', base64: true });          
-      //console.log(smallpic);
+      
       this.props.Snap(smallpic);
     }
   };

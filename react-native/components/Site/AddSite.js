@@ -6,7 +6,7 @@ import SQL from '../../Handlers/SQL';
 import { addSites } from '../../actions/siteAction';
 import Modal from '../General/Modal'
 import CameraPage from '../General/CameraPage'
-
+import { ImagePicker } from 'expo';
 class AddSite extends Component {
   state = {
     siteName: "",
@@ -23,8 +23,21 @@ class AddSite extends Component {
     this.setState({ modalVisible: false, pic, tookPic: true, base64: pic.base64 })
   }
 
+  _pickImg = async () => {
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+      allowsEditing: false,
+      aspect: [4, 3],
+    });
+    
+    this.setState({
+      pic:pickerResult,
+      base64:pickerResult.base64
+});
+  };
+
   renderPic = () => {
-    if (this.state.tookPic) {
+    if (this.state.pic!="") {
       return <Image
         style={{ width: 350, height: 250,marginTop:20, borderRadius: 10 }}
         source={{ uri: this.state.pic.uri }} />
@@ -85,7 +98,7 @@ class AddSite extends Component {
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={this.addNewSite}
-            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
+            containerStyle={{ marginHorizontal: (width - 80) / 6 }}
           />
           <Modal
             animationType="slide"
@@ -99,12 +112,21 @@ class AddSite extends Component {
           </Modal>
           <Icon
             type="MaterialIcons"
+            name="photo-album"
+            size={50}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this._pickImg}
+            containerStyle={{ marginHorizontal: (width - 80) / 6 }}
+          />
+          <Icon
+            type="MaterialIcons"
             name="add-a-photo"
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={() => { this.setState({ modalVisible: true }) }}
-            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
+            containerStyle={{ marginHorizontal: (width - 80) / 6 }}
           />
 
         </View>

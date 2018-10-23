@@ -451,7 +451,7 @@ export default class SQL {
             RoomTypeId: roomTypeId,
             RoomName: roomName,
             FloorNumber: floorNumber,
-            base64image
+            base64image:base64image
           }),
         });
 
@@ -558,6 +558,8 @@ export default class SQL {
   }
 
   static async EditUserDetails(UserID, UserName, FirstName, LastName, Email, Tel,Img) {
+    
+    
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/EditUserDetails`, {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, RefreshControl, StyleSheet, Dimensions } from 'react-native'
+import { FlatList, View, RefreshControl, StyleSheet, Dimensions,Picker } from 'react-native'
 import { connect } from 'react-redux';
 import RoomPreview from '../Room/RoomPreview';
 import Empty from '../General/Empty';
@@ -7,23 +7,27 @@ import { Icon } from 'react-native-elements';
 import Modal from '../General/Modal';
 import AddRoom from '../Room/AddRoom';
 
+
 class Site extends Component {
   state = {
     refreshing: false,
     jobId: NaN,
     site: null,
-    modalVisible: false
+    modalVisible: false,
+    sortFloor:false,
   }
 
   componentDidMount() {
     const site = (this.props.Sites.filter(site => site.SiteId == this.props.Rooms.SiteID))[0];
     this.setState({ site });
-
+  
   }
 
   _onRefresh = () => {
 
   }
+
+  sortFloor = () => { this.setState({ sortFloor: !this.state.sortFloor }) }
 
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
@@ -47,9 +51,19 @@ class Site extends Component {
             size={40}
             color="#ECF0F1"
             underlayColor="transparent"
+            containerStyle={{flex:1,alignItems: 'flex-start', marginLeft: '1%'}}
             onPress={this.openModal}
           />: null}
-      
+
+          <Icon
+          name="filter-list"
+          size={40}
+          color={ !this.state.sortFloor ? "#3498DB": "#E74C3C"}
+          underlayColor="transparent"
+          onPress={this.sortFloor}
+          containerStyle={{flex:1, alignItems: 'flex-end', marginRight: '1%'}}
+        />
+
         </View>
 
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
@@ -66,7 +80,11 @@ class Site extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.props.Rooms.filter(room=>room.SiteId == this.props.SiteId)}
+          data={this.state.sortFloor ? this.props.Rooms.sort((a, b) => {
+            return b.FloorNumber - a.FloorNumber;
+          }).filter(room=>room.SiteId == this.props.SiteId): this.props.Rooms.sort((a, b) => {
+            return 1;
+          }).filter(room=>room.SiteId == this.props.SiteId)}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
@@ -89,7 +107,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 21,
     color: '#ECF0F1',
-  }
+  },
 
 })
 

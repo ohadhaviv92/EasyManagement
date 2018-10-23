@@ -37,9 +37,18 @@ class Room extends Component {
             size={40}
             color="#ECF0F1"
             underlayColor="transparent"
+            containerStyle={{flex:1,alignItems: 'flex-start', marginLeft: '1%'}}
             onPress={this.openModal}
           />: null}
-      
+
+              <Icon
+          name="filter-list"
+          size={40}
+          color={ "#3498DB"}
+          underlayColor="transparent"
+          onPress={null}
+          containerStyle={{flex:1, alignItems: 'flex-end', marginRight: '1%'}}
+        />
         </View>
 
         <FlatList

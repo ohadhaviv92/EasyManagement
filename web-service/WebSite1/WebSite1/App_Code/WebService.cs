@@ -111,12 +111,7 @@ public class WebService : System.Web.Services.WebService
 
 
 
-    [WebMethod]
-    public void UploadImg(string base64, string imgName, string imgRef)
-    {
 
-        Bal.Instance.uploadImg(base64, imgName, imgRef);
-    }
 
 
     [WebMethod]

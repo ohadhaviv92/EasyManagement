@@ -5,12 +5,18 @@ import {
   Dimensions,
   TextInput,
   Button,
-  AsyncStorage
+  Image,
+  ScrollView
+  
 } from "react-native";
+import { ImagePicker } from 'expo';
+
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
 import { onLogin } from '../../actions/userAction';
 import {connect} from 'react-redux';
+import CameraPage from '../General/CameraPage'
+import Modal from '../General/Modal'
 
 const regexEmail = /^(([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}))$/;
 const regexAZ = /^[A-Z0-9]*$/;
@@ -25,9 +31,41 @@ class EditUserDetails extends Component {
     firstName: this.props.User.FirstName,
     lastName: this.props.User.LastName,
     tel: this.props.User.Tel,
-    img:""
+    img:"",
+    tookPic: false,
+    modalVisible: false,
+    base64: this.props.User.Img,
+    pic: "",
+    
   }
 
+  _pickImg = async () => {
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+      allowsEditing: false,
+      aspect: [4, 3],
+    });
+    
+    this.setState({
+      pic:pickerResult,
+      base64:pickerResult.base64
+});
+  };
+
+  TakePicture = (pic) => {
+    this.setState({ modalVisible: false, pic, tookPic: true, base64: pic.base64 })
+  }
+
+  renderPic = () => {
+    
+    if (this.state.pic!="") {
+      return <Image
+        style={{ width: 350, height: 250,marginTop:20, borderRadius: 10 }}
+        source={{ uri: this.state.pic.uri }} />
+    }
+  }
+  openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
+  
   onRegister = async () => {
     if (!((regexAZ.test(this.state.userName.toUpperCase()) && this.state.userName != '') &&
       (regexEmail.test(this.state.email.toUpperCase()) && this.state.email != '') &&
@@ -41,8 +79,10 @@ class EditUserDetails extends Component {
 
       try {
         const { userName, firstName, lastName, email, tel } = this.state;
+        console.log(this.state.base64);
         
-        const user = await SQL.EditUserDetails(this.props.User.UserId ,userName, firstName, lastName, email, tel,this.state.img)
+        const user = await SQL.EditUserDetails(this.props.User.UserId ,userName, firstName, lastName, email, tel,this.state.base64)
+        
         
         await this.props.onLogin(user);
         
@@ -54,6 +94,8 @@ class EditUserDetails extends Component {
       }
 
   };
+
+
 
   render() {
     return (
@@ -101,9 +143,40 @@ class EditUserDetails extends Component {
           value={this.state.tel}
           onChangeText={(text) => { this.setState({ tel: text }) }}
         />
+                  <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => null}
+            Toggle={this.openModal}
+          >
+            <CameraPage Snap={this.TakePicture}   />
 
-        <Button title='ערוך' onPress={this.onRegister} color='#3498DB' />
-
+          </Modal>
+          <View style={styles.container2}>
+                  <Icon
+            type="MaterialIcons"
+            name="add-a-photo"
+            size={50}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={() => { this.setState({ modalVisible: true }) }}
+            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
+          />
+          
+                            <Icon
+            type="MaterialIcons"
+            name="photo-album"
+            size={50}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this._pickImg}
+            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
+          />
+          </View>
+        <Button title='שמור שינויים' onPress={this.onRegister} color='#3498DB' />
+        
+        {this.renderPic()}
 
       </View>
     );
@@ -114,7 +187,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    
     alignItems: 'center',
   },
   input: {
@@ -129,6 +202,12 @@ const styles = StyleSheet.create({
   Arrow: {
     position: "absolute",
     left: 10,
+  },
+  container2: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
 

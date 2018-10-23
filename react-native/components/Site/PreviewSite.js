@@ -6,11 +6,12 @@ import { SetSiteStatus, RemoveUserFromSite, SetCurSite, SetCurType } from '../..
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
 import DropDownMenu from '../General/DropDownMenu';
-
+import Modal from '../General/Modal'
 class PreviewSite extends Component {
 
   state = {
-    open: false
+    open: false,
+    modalVisible: false,
   }
 
   onSiteClick = async () => {
@@ -19,7 +20,7 @@ class PreviewSite extends Component {
     this.props.navigation.navigate("Site");
   }
 
-
+  openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
 
   closeSite = async () => {
     try {
@@ -59,12 +60,25 @@ class PreviewSite extends Component {
             backgroundColor: site.SiteStatus ? "#3498DB" : "#E74C3C"
           }}>
 
-
+           <TouchableOpacity onPress={this.openModal} style={{flex:1}}>
             <Image
               source={(site.SiteImage == null || site.SiteImage == '') ? require('../../assets/House.png') : { uri: site.SiteImage }}
               style={styles.img}
             />
+           </TouchableOpacity>
+           <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => null}
+            Toggle={this.openModal}
+          >
+                        <Image
+              source={(site.SiteImage == null || site.SiteImage == '') ? require('../../assets/House.png') : { uri: site.SiteImage }}
+              style={styles.img2}
+            />
 
+          </Modal>
 
             <Text style={styles.text}>{site.SiteName}</Text>
             <Text style={styles.text}>{site.SiteAddress}</Text>
@@ -108,10 +122,20 @@ const styles = StyleSheet.create({
     color: '#ECF0F1',
   },
   img: {
+    marginLeft: 3,
+    marginTop:3,
+    marginBottom: 3,
     flex: 1,
+    
+    width: 90,
+    height: 90,
 
-    width: 30,
-    height: 100,
+  },
+  img2: {
+    
+
+    width: '99%',
+    height: '99%',
 
   }
 

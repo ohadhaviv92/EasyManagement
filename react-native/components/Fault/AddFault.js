@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     width: width - 80,
     height: 40,
     marginVertical: 5,
+    
   },
   text: {
     fontSize: 21,

@@ -491,3 +491,6 @@ as
 UPDATE [site04].[TbUsers] set [userName]=@userName ,[firstName]=@firstName,[lastName]=@lastName,[email]=@email,[tel]=@tel ,[img]=@img where  [userID]=@userID
 select * from [site04].[TbUsers] where [userID]=@userID
 go
+
+
+

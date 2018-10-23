@@ -66,7 +66,8 @@ namespace _BAL
                 FirstName = results.Rows[0]["firstName"].ToString(),
                 LastName = results.Rows[0]["lastName"].ToString(),
                 Email = results.Rows[0]["email"].ToString(),
-                Tel = results.Rows[0]["tel"].ToString()
+                Tel = results.Rows[0]["tel"].ToString(),
+                Img= results.Rows[0]["img"].ToString(),
             };
 
             userWithSites.User = user;
@@ -376,30 +377,15 @@ namespace _BAL
             Dal.RejectInvite(siteId, senderId, reciverId);
         }
 
-        public BuildingSite AddNewSite(int userID, string siteName, string siteAddress, string base64)
+        public BuildingSite AddNewSite(int userID, string siteName, string siteAddress, string image64)
         {
-            string imgRef2 = "";
+            
             BuildingSite site = null;
+            string imgRef = uploadImg(image64);
+            
             try
             {
-
-                if (base64 != "")
-                {
-                    DateTime dt = DateTime.Now;
-                    string imgName = dt.ToString() + ".jpg";
-                    string imgRef = HttpContext.Current.Server.MapPath($"~/Images/");
-                    string imgPath = Path.Combine(imgRef, imgName);
-                    byte[] imgBytes = Convert.FromBase64String(base64);
-
-
-                    using (Image img = Image.FromStream(new MemoryStream(imgBytes)))//נופל כאן
-                    {
-
-                        img.Save(imgPath, ImageFormat.Jpeg);
-                    }
-                    imgRef2 = imgName;
-                }
-                var result = Dal.AddNewSite(userID, siteName, siteAddress, imgRef2);
+                var result = Dal.AddNewSite(userID, siteName, siteAddress, imgRef);
 
                 if (result == null)
                     return null;
@@ -413,10 +399,11 @@ namespace _BAL
                     SiteStatus = bool.Parse(result.Rows[0]["siteStatus"].ToString()),
                     UserTypeId = int.Parse(result.Rows[0]["userTypeID"].ToString()),
                     UserTypeName = result.Rows[0]["userTypName"].ToString(),
-                    SiteImage = imgRef2,
+                    SiteImage = imgRef,
                     Rooms = new List<Room>()
                 };
                 return site;
+            
             }
 
 
@@ -537,26 +524,31 @@ namespace _BAL
 
         }
 
-        public void uploadImg(string base64, string imgName, string imgRef)
+        public string uploadImg(string image64)
         {
-            string ImgName = $"Images/{new DateTime()}.jpg";
-            String path = HttpContext.Current.Server.MapPath($"~/"); //Path
-
-
-            //set the image path
-            string imgPath = Path.Combine(path, ImgName);
-            byte[] imageBytes = Convert.FromBase64String(base64);
-
-
-            using (Image image = Image.FromStream(new MemoryStream(imageBytes)))
+            string returnPath = image64;
+            if (image64 != "" && image64 != null && image64.Length > 100)
             {
-                image.Save(imgPath, ImageFormat.Jpeg);
+                try
+                {
+                    string temp = DateTime.Now.ToString("hh:mm:ssdd/MM/yy") + ".jpg";
+                    string ImgName = $"{temp.Replace("/", "a").Replace(":", "a")}";
+
+
+                    File.WriteAllBytes(HttpContext.Current.Server.MapPath(@"~/Images/" + ImgName), Convert.FromBase64String(image64));
+
+
+                    returnPath = $"http://ruppinmobile.tempdomain.co.il/site04/Images/" + ImgName;
+                }
+                catch (Exception e)
+                {
+
+
+                }
+
             }
+            return returnPath;
 
-            string returnPath = $"http://ruppinmobile.tempdomain.co.il/site04/Images/" + ImgName;
-
-
-            Dal.uploadImg(returnPath);
         }
 
 
@@ -569,10 +561,14 @@ namespace _BAL
 
         public Room AddRoom(int siteId, int roomTypeId, string roomName, int floorNumber, string base64image)
         {
-            var result = Dal.AddRoom(siteId, roomTypeId, roomName, floorNumber, base64image);
+
+            string imgRef = uploadImg(base64image);
+
+            var result = Dal.AddRoom(siteId, roomTypeId, roomName, floorNumber, imgRef);
 
             if (result == null)
                 return null;
+           
 
 
             var room = new Room
@@ -582,13 +578,10 @@ namespace _BAL
                 RoomTypeName = result.Rows[0]["roomTypeName"].ToString(),
                 RoomName = result.Rows[0]["roomName"].ToString(),
                 FloorNumber = int.Parse(result.Rows[0]["floorNumber"].ToString()),
+                RoomPicture = result.Rows[0]["roomPicture"].ToString(),
                 Faults = new List<Fault>()
             };
-            if (base64image != null)
-            {
-                room.RoomPicture = $"/{siteId}/{room.RoomId}.jpg";
-                Dal.UpdateRoomPicture(room.RoomId, room.RoomPicture);
-            }
+
 
 
             return room;
@@ -687,9 +680,31 @@ namespace _BAL
         }
 
 
-        public object EditUserDetails(int UserID, string UserName, string FirstName, string LastName, string Email, string Tel, string Img)
+        public object EditUserDetails(int UserID, string UserName, string FirstName, string LastName, string Email, string Tel, string image64)
         {
-            DataTable results = Dal.EditUserDetails(UserID, UserName, FirstName, LastName, Email, Tel, Img);
+            string returnPath = image64;
+            if (image64 != "" && image64 != null && image64.Length>100)
+            {
+                try
+                {
+                    string temp = DateTime.Now.ToString("hh:mm:ssdd/MM/yy")+ ".jpg";
+                    string ImgName = $"{temp.Replace("/","a").Replace(":","a")}";
+                  
+           
+                    File.WriteAllBytes(HttpContext.Current.Server.MapPath(@"~/Images/" + ImgName), Convert.FromBase64String(image64));
+
+
+                    returnPath = $"http://ruppinmobile.tempdomain.co.il/site04/Images/" + ImgName;
+                }
+                catch (Exception e)
+                {
+
+                    
+                }
+
+            }
+
+            DataTable results = Dal.EditUserDetails(UserID, UserName, FirstName, LastName, Email, Tel, returnPath);
             if (results == null)
                 return null;
 
@@ -703,7 +718,8 @@ namespace _BAL
                     FirstName = results.Rows[0]["firstName"].ToString(),
                     LastName = results.Rows[0]["lastName"].ToString(),
                     Email = results.Rows[0]["email"].ToString(),
-                    Tel = results.Rows[0]["tel"].ToString()
+                    Tel = results.Rows[0]["tel"].ToString(),
+                    Img= results.Rows[0]["img"].ToString(),
                 };
 
                 return user;
@@ -712,5 +728,10 @@ namespace _BAL
             return error;
 
         }
+
+
+
+
+
     }
 }

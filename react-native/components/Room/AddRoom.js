@@ -1,24 +1,57 @@
 import React, { Component } from 'react'
-import { TextInput, View, Dimensions, StyleSheet, Picker } from 'react-native'
+import { TextInput, View, Dimensions, StyleSheet, Picker,Image } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import SQL from '../../Handlers/SQL';
 import { SetRoomsType, AddRooms } from '../../actions/roomAction';
-
+import Modal from '../General/Modal'
+import CameraPage from '../General/CameraPage'
+import { ImagePicker } from 'expo';
 class AddRoom extends Component {
   state = {
     roomTypes: null,
     roomName: '',
     roomId: NaN,
-    floor: 0
+    floor: 0,
+    pic: "",
+    tookPic: false,
+    modalVisible: false,
+    base64:  "",
   };
+
+  TakePicture = (pic) => {
+    this.setState({ modalVisible: false, pic, tookPic: true, base64: pic.base64 })
+  }
+
+  _pickImg = async () => {
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+      allowsEditing: false,
+      aspect: [4, 3],
+    });
+    
+    this.setState({
+      pic:pickerResult,
+      base64:pickerResult.base64
+});
+  };
+
+  renderPic = () => {
+    if (this.state.pic!="") {
+      return <Image
+        style={{ width: 350, height: 250,marginTop:20, borderRadius: 10 }}
+        source={{ uri: this.state.pic.uri }} />
+    }
+  }
+  openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
+
 
   AddNewRoom = async () => {
     console.log(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor);
       
     if(this.state.roomId){
     
-      const room = await SQL.AddRoom(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor)
+      const room = await SQL.AddRoom(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor ,this.state.base64)
       console.log(room);
       
       if(room != null)
@@ -79,7 +112,16 @@ class AddRoom extends Component {
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={this.AddNewRoom}
-            containerStyle={{marginHorizontal: (width - 80)/4}}
+            containerStyle={{marginHorizontal: (width - 80)/6}}
+          />
+                    <Icon
+            type="MaterialIcons"
+            name="photo-album"
+            size={50}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this._pickImg}
+            containerStyle={{ marginHorizontal: (width - 80) / 6 }}
           />
           <Icon
             type="MaterialIcons"
@@ -87,10 +129,24 @@ class AddRoom extends Component {
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
-            containerStyle={{marginHorizontal: (width - 80)/4}}
-          />
-        </View>
+            containerStyle={{marginHorizontal: (width - 80)/6}}
+            onPress={() => { this.setState({ modalVisible: true }) }}
 
+
+          />
+         
+        </View>
+        <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => null}
+            Toggle={this.openModal}
+          >
+            <CameraPage Snap={this.TakePicture}  />
+
+          </Modal>
+          {this.renderPic()}
       </View>
     )
   }
@@ -125,6 +181,7 @@ const styles = StyleSheet.create({
     width: width - 80,
     height: 40,
     marginVertical: 5,
+    
   }
 
 });

@@ -18,8 +18,9 @@ const DrawerWithLogoutButton = (props) => (
       <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
       <TouchableOpacity onPress={()=>{ props.navigation.navigate('EditUserDetails');}}>
       <View style={styles.user}>
+      
       <Image
-           source={require('./assets/default_user_pic.png')}
+           source={props.User.Img=="" || props.User.Img==null ?  require('./assets/user.png') : {uri:props.User.Img}}
            style={styles.img}
         />
         <Text style={styles.label}>שלום {props.User.FirstName +" "+ props.User.LastName}</Text>
@@ -51,6 +52,7 @@ const DrawerWithLogoutButton = (props) => (
       alignItems: 'center',
     },
     label: {
+      alignSelf: 'center',
       marginBottom: 48,
       marginLeft: 10,
       fontWeight: 'bold',
@@ -66,10 +68,10 @@ const DrawerWithLogoutButton = (props) => (
       height: 24,
     },
     img: {
-      
-      width: 80,
-       height: 80,
-       borderRadius:40,
+      alignSelf: 'center',
+      width: 120,
+       height: 120,
+       borderRadius:60,
     }
   });
 
