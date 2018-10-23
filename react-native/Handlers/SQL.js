@@ -558,4 +558,28 @@ export default class SQL {
   }
 
 
+  static async ChangeFaultData(FaultId, FaultStatus, FaultInfo) {
+
+      try {
+        await fetch(`${URL}/changeFaultStatus`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            faultID: FaultId,
+            status: FaultStatus,
+            info: FaultInfo
+          }),
+        });
+
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+
+
+  }
+
 }
