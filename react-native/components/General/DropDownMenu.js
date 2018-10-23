@@ -50,7 +50,7 @@ export default class DropDownMenu extends Component {
         }}
       >
 
-        <View onLayout={(event) => {this.maxHeight = event.nativeEvent.layout.height }}>
+        <View onLayout={(event) => {this.maxHeight = Platform.OS === 'ios' ? Math.pow(event.nativeEvent.layout.height,1.55)  :event.nativeEvent.layout.height }}>
           {this.props.children}
          </View>
 

@@ -45,14 +45,7 @@ class Room extends Component {
               onPress={this.openModal}
             /> : null}
 
-          <Icon
-            name="filter-list"
-            size={40}
-            color={this.state.ShowOpen ? "#3498DB" : "#E74C3C"}
-            underlayColor="transparent"
-            containerStyle={{flex:1,alignItems: 'flex-start', marginLeft: '1%'}}
-            onPress={this.openModal}
-          />: null}
+
 
               <Icon
           name="filter-list"
