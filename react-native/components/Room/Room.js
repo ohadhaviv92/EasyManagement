@@ -50,7 +50,6 @@ class Room extends Component {
             size={40}
             color={this.state.ShowOpen ? "#3498DB" : "#E74C3C"}
             underlayColor="transparent"
-<<<<<<< HEAD
             containerStyle={{flex:1,alignItems: 'flex-start', marginLeft: '1%'}}
             onPress={this.openModal}
           />: null}
@@ -63,11 +62,6 @@ class Room extends Component {
           onPress={null}
           containerStyle={{flex:1, alignItems: 'flex-end', marginRight: '1%'}}
         />
-=======
-            onPress={this.changeStatus}
-            containerStyle={{ flex: 1, alignItems: 'flex-end', marginRight: '1%' }}
-          />
->>>>>>> ce21b5435c463be90f0568d22990271d2d3f2649
         </View>
 
         <FlatList

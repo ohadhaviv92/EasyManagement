@@ -26,10 +26,7 @@ class FaultPreivew extends Component {
 
   componentDidMount() {
     const openDate = new Date(parseInt(this.props.fault.OpenDate.substr(6), 10)).toLocaleDateString();
-<<<<<<< HEAD
     
-=======
->>>>>>> ce21b5435c463be90f0568d22990271d2d3f2649
     this.setState({ openDate })
 
   }
