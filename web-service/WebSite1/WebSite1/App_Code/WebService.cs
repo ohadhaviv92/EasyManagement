@@ -159,4 +159,11 @@ public class WebService : System.Web.Services.WebService
          Bal.Instance.changeFaultStatus( faultID,  status,  info);
     }
 
+    [WebMethod]
+    public object EditUserDetails(int UserID , string UserName, string FirstName, string LastName, string Email, string Tel ,string Img)
+    {
+        var res = Bal.Instance.EditUserDetails(UserID, UserName, FirstName, LastName, Email, Tel, Img);
+        return res;
+    }
+
 }

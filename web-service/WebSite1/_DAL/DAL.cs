@@ -865,5 +865,40 @@ namespace _DAL
                     Con.Close();
             }
         }
+
+        public static DataTable EditUserDetails(int UserID, string UserName, string FirstName, string LastName, string Email, string Tel, string Img)
+        {
+            try
+            {
+                Con.Open();
+                _cmd = new SqlCommand($"EditUserDetails", Con);
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.Parameters.Add(new SqlParameter("userID", UserID));
+                _cmd.Parameters.Add(new SqlParameter("userName", UserName));
+                _cmd.Parameters.Add(new SqlParameter("firstName", FirstName));
+                _cmd.Parameters.Add(new SqlParameter("lastName", LastName));
+                _cmd.Parameters.Add(new SqlParameter("email", Email));
+                _cmd.Parameters.Add(new SqlParameter("tel", Tel));
+                _cmd.Parameters.Add(new SqlParameter("img", Img));
+
+                _adtr = new SqlDataAdapter(_cmd);
+
+                DataSet ds = new DataSet();
+                _adtr.Fill(ds, "User");
+
+                if (ds.Tables["User"] != null)
+                    return ds.Tables["User"];
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                if (Con != null && Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
+            return null;
+        }
     }
 }

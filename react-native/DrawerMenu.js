@@ -16,10 +16,15 @@ const DrawerWithLogoutButton = (props) => (
 
     <ScrollView contentContainerStyle={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
       <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+      <TouchableOpacity onPress={()=>{ props.navigation.navigate('EditUserDetails');}}>
+      <View style={styles.user}>
       <Image
            source={require('./assets/default_user_pic.png')}
            style={styles.img}
         />
+        <Text style={styles.label}>שלום {props.User.FirstName +" "+ props.User.LastName}</Text>
+        </View>
+        </TouchableOpacity>
         <DrawerItems {...props} />
       </SafeAreaView>
       <TouchableOpacity onPress={async()=> {await props.Logout(); props.navigation.navigate('AuthNav')}}>
@@ -73,7 +78,9 @@ const DrawerWithLogoutButton = (props) => (
     Logout: () => dispatch(Logout())
   })
   
-
+  const mapStateToProps = (state) => ({
+    User: state.user,
+  });
   
-  export default connect(null, mapDispatchToProps)(DrawerWithLogoutButton);
+  export default connect(mapStateToProps, mapDispatchToProps)(DrawerWithLogoutButton);
   

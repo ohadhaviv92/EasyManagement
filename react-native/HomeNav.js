@@ -6,6 +6,7 @@ import {
 import Home from './components/Home/Home';
 import Settings from './components/General/Settings';
 import Site from './components/Site/Site';
+import EditUserDetails from './components/Edit/EditUserDetails';
 import Invite from './components/Invite/Invite';
 import { createDrawerNavigator } from 'react-navigation';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -44,6 +45,14 @@ const HomeNav = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: () => null,
       }
+      
+    },
+    EditUserDetails: {
+      screen: EditUserDetails,
+      navigationOptions: {
+        drawerLabel: () => null,
+      }
+      
     },
   }, {
     drawerPosition: 'right',

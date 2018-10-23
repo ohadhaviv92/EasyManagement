@@ -456,9 +456,38 @@ select * from [site04].[TbBuildingSite] where [siteID]=@siteID;
 GO
 
 
+create proc statics
+@siteID int
+as
+SELECT        TOP (100) PERCENT site04.TbBuildingSite.siteID, COUNT(DISTINCT site04.TbFaultInSite.faultID) AS sumOfFault, COUNT(DISTINCT site04.TbUsersInSite.userID) AS sumOfUser
+FROM            site04.TbBuildingSite INNER JOIN
+                         site04.TbUsersInSite ON site04.TbBuildingSite.siteID = site04.TbUsersInSite.siteID CROSS JOIN
+                         site04.TbFaultInSite
+GROUP BY site04.TbBuildingSite.siteID
+HAVING        (site04.TbBuildingSite.siteID = @siteID)
+GO
 
 
+create proc changeFaultStatus
+@faultID int ,
+@status int , 
+@info nvarchar(max)
+as
+UPDATE [site04].[TbFaultInSite] 
+SET [info] = @info , [faultStatus] = @status
+WHERE [faultID]=@faultID;
+GO
 
 
-
-
+create proc EditUserDetails
+@userID int ,
+@userName varchar(30),
+@firstName nvarchar(50),
+@lastName nvarchar(50),
+@email varchar(50),
+@tel  varchar(10),
+@img nvarchar (max)
+as
+UPDATE [site04].[TbUsers] set [userName]=@userName ,[firstName]=@firstName,[lastName]=@lastName,[email]=@email,[tel]=@tel ,[img]=@img where  [userID]=@userID
+select * from [site04].[TbUsers] where [userID]=@userID
+go
