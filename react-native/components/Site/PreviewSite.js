@@ -102,7 +102,7 @@ class PreviewSite extends Component {
 
               <View style={{ flex: 1, alignItems: 'flex-start' }}>
                 <Text style={styles.text}>כמות בעלי מקצוע: {site.TotalUsers}</Text>
-                <Text style={styles.text}>כמות תקלות: {site.TotalFaults}</Text>
+                <Text style={styles.text}>כמות חדרים: {site.TotalRooms}</Text>
               </View>
             </View>
 

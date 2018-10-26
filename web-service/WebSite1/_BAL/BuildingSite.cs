@@ -13,7 +13,7 @@ namespace _BAL
         public string UserTypeName { get; set; }
         public string SiteImage { get; set; }
         public int SumUserInSite { get; set; }
-        public int SumFaultInSite { get; set; }
+        public int SumRoomInSite { get; set; }
         public List<Room> Rooms { get; set; }
     }
 }

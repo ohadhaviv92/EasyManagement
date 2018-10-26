@@ -41,7 +41,7 @@ import {SetRooms} from '../../actions/roomAction';
         SiteStatus: site.SiteStatus,
         UserTypeId: site.UserTypeId,
         TotalUsers: site.SumUserInSite,
-        TotalFaults: site.SumFaultInSite
+        TotalRooms: site.SumRoomInSite
       }))
       
       await this.props.SetSites(sites)

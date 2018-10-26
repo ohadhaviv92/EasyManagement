@@ -120,7 +120,7 @@ namespace _BAL
                     UserTypeName = results.Rows[i]["userTypName"].ToString(),
                     SiteImage = results.Rows[i]["img"].ToString(),
                     SumUserInSite = int.Parse(staticsSite.Rows[0]["sumOfUser"].ToString()),
-                    SumFaultInSite = int.Parse(staticsSite.Rows[0]["sumOfFault"].ToString()),
+                    SumRoomInSite = int.Parse(staticsSite.Rows[0]["sumOfRooms"].ToString()),
 
 
                 };
