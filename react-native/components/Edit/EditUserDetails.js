@@ -88,6 +88,8 @@ class EditUserDetails extends Component {
         
         alert("הפרטים שונו בהצלחה");
         
+        this.props.navigation.navigate('Home')
+        
       } catch (error) {
         console.log(error);
         alert(error);

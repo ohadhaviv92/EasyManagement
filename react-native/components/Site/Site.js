@@ -12,17 +12,12 @@ class Site extends Component {
   state = {
     refreshing: false,
     jobId: NaN,
-    site: null,
+    rooms: this.props.Rooms.filter(room=>room.SiteId == this.props.SiteId),
     modalVisible: false,
     sortFloor:false,
   }
 
-  componentDidMount() {
-    const site = (this.props.Sites.filter(site => site.SiteId == this.props.Rooms.SiteID))[0];
-    this.setState({ site });
-  
-  }
-
+ 
   _onRefresh = () => {
 
   }
@@ -80,11 +75,8 @@ class Site extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.state.sortFloor ? this.props.Rooms.sort((a, b) => {
-            return b.FloorNumber - a.FloorNumber;
-          }).filter(room=>room.SiteId == this.props.SiteId): this.props.Rooms.sort((a, b) => {
-            return 1;
-          }).filter(room=>room.SiteId == this.props.SiteId)}
+          data={this.state.sortFloor ? this.state.rooms.sort((a ,b) => a.FloorNumber - b.FloorNumber) : this.state.rooms}
+
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
