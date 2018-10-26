@@ -6,7 +6,7 @@ import SQL from '../../Handlers/SQL';
 import { addSites } from '../../actions/siteAction';
 import Modal from '../General/Modal'
 import CameraPage from '../General/CameraPage'
-import { ImagePicker } from 'expo';
+import { ImagePicker, ImageManipulator } from 'expo';
 class AddSite extends Component {
   state = {
     siteName: "",
@@ -19,8 +19,12 @@ class AddSite extends Component {
   };
 
 
-  TakePicture = (pic) => {
-    this.setState({ modalVisible: false, pic, tookPic: true, base64: pic.base64 })
+  TakePicture = async(picture) => {
+    await this.setState({ modalVisible: false } );
+    
+    const pic = await ImageManipulator.manipulate( picture.uri , [ { resize: {width: 500 , height: 500 } } ], { format: 'jpeg', base64: true })
+        
+    this.setState({ pic, tookPic: true, base64: pic.base64 })
   }
 
   _pickImg = async () => {

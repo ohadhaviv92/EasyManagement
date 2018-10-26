@@ -6,7 +6,7 @@ import SQL from '../../Handlers/SQL';
 import { SetRoomsType, AddRooms } from '../../actions/roomAction';
 import Modal from '../General/Modal'
 import CameraPage from '../General/CameraPage'
-import { ImagePicker } from 'expo';
+import { ImagePicker,ImageManipulator } from 'expo';
 class AddRoom extends Component {
   state = {
     roomTypes: null,
@@ -19,8 +19,12 @@ class AddRoom extends Component {
     base64:  "",
   };
 
-  TakePicture = (pic) => {
-    this.setState({ modalVisible: false, pic, tookPic: true, base64: pic.base64 })
+  TakePicture = async(picture) => {
+    this.setState({ modalVisible: false } );
+    
+    const pic = await ImageManipulator.manipulate( picture.uri , [ { resize: {width: 500 , height: 500 } } ], { format: 'jpeg', base64: true })
+        
+    this.setState({ pic, tookPic: true, base64: pic.base64 })
   }
 
   _pickImg = async () => {

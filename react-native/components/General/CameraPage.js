@@ -20,10 +20,9 @@ export default class CameraPage extends React.Component {
 
     if (this.camera != undefined) {
 
-      this.camera.takePictureAsync()
+      this.camera.takePictureAsync({skipProcessing: true})
       .then((picture => {
-        ImageManipulator.manipulate( picture.uri , [ { resize: {width: 500 , height: 500 }, compress: 0.5 } ], { format: 'jpeg', base64: true })
-        .then(smallpic => this.props.Snap(smallpic))   
+        this.props.Snap(picture)
       }));
 
 
