@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { TextInput,Text, View, Dimensions, StyleSheet, Picker, FlatList, TouchableOpacity } from 'react-native'
+import { TextInput,Text, View, Dimensions,Image, StyleSheet, Picker, FlatList, TouchableOpacity } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import Empty from '../General/Empty';
 import Modal from '../General/Modal';
 import SQL from '../../Handlers/SQL';
 import { SetFaultTypes, AddFaults } from '../../actions/faultAction';
+import CameraPage from '../General/CameraPage'
+import { ImagePicker } from 'expo';
 
 class AddFault extends Component {
   state = {
@@ -14,16 +16,46 @@ class AddFault extends Component {
     faultId: NaN,
     modalVisible: false,
     user: null,
-    users: []
+    users: [],
+    pic: "",
+    tookPic: false,
+    modalVisible: false,
+    modalVisible2: false,
+    base64:  "",
   };
 
+  TakePicture = (pic) => {
+    this.setState({ modalVisible2: false, pic, tookPic: true, base64: pic.base64 })
+  }
 
+  _pickImg = async () => {
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+      allowsEditing: false,
+      aspect: [4, 3],
+    });
+    
+    this.setState({
+      pic:pickerResult,
+      base64:pickerResult.base64
+});
+  };
+
+  renderPic = () => {
+    if (this.state.pic!="") {
+      return <Image
+        style={{ width: 350, height: 250,marginTop:20, borderRadius: 10 }}
+        source={{ uri: this.state.pic.uri }} />
+    }
+  }
   openModal = () => this.setState((pervState) => ({ modalVisible: !pervState.modalVisible }))
+  openModal2 = () => this.setState((pervState) => ({ modalVisible2: !pervState.modalVisible2 }))
+
   Close = () => { this.setState({ modalVisible: false }) }
 
 
   AddNewFault = async () => {
-    const fault = await SQL.AddFault(this.props.User.UserId, this.state.user.UserId, this.props.roomId ,this.state.faultId, this.state.faultInfo);
+    const fault = await SQL.AddFault(this.props.User.UserId, this.state.user.UserId, this.props.roomId ,this.state.faultId, this.state.faultInfo,this.state.base64);
     if(fault != null)
       this.props.AddFaults([{SiteId: this.props.siteId, RoomId: this.props.roomId, ...fault, Worker: this.state.user, Owner: this.props.User}])
     this.props.Close()
@@ -105,7 +137,17 @@ class AddFault extends Component {
             size={50}
             color="#ECF0F1"
             underlayColor="transparent"
-            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
+            containerStyle={{marginHorizontal: (width - 80)/6}}
+            onPress={() => { this.setState({ modalVisible2: true }) }}
+          />
+                           <Icon
+            type="MaterialIcons"
+            name="photo-album"
+            size={50}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this._pickImg}
+            containerStyle={{ marginHorizontal: (width - 80) / 6 }}
           />
         </View>
 
@@ -135,7 +177,8 @@ class AddFault extends Component {
           onPress={this.AddNewFault}
         />
 
-       
+
+
 
         <Modal Toggle={this.openModal} visible={this.state.modalVisible}>
           <View style={{width, height}}>
@@ -149,7 +192,17 @@ class AddFault extends Component {
           </View>
 
         </Modal>
+        <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible2}
+            onRequestClose={() => null}
+            Toggle={this.openModal2}
+          >
+            <CameraPage Snap={this.TakePicture}  />
 
+          </Modal>
+        {this.renderPic()}
       </View>
     )
   }

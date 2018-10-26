@@ -779,7 +779,7 @@ namespace _DAL
         }
 
 
-        public static DataTable AddFault(int OwnerID, int WorkerID, int RoomID, int FaultType, string Info)
+        public static DataTable AddFault(int OwnerID, int WorkerID, int RoomID, int FaultType, string Info, string imgRef)
         {
 
             try
@@ -792,7 +792,7 @@ namespace _DAL
                 _cmd.Parameters.Add(new SqlParameter("@RoomID", RoomID));
                 _cmd.Parameters.Add(new SqlParameter("@FaultType", FaultType));
                 _cmd.Parameters.Add(new SqlParameter("@Info", Info));
-
+                _cmd.Parameters.Add(new SqlParameter("@faultPicture", imgRef));
 
                 _adtr = new SqlDataAdapter(_cmd);
 

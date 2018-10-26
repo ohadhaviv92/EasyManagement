@@ -620,10 +620,14 @@ namespace _BAL
 
         }
 
-        public Fault AddFault(int OwnerID, int WorkerID, int RoomID, int FaultType, string Info)
+        public Fault AddFault(int OwnerID, int WorkerID, int RoomID, int FaultType, string Info, string base64)
         {
+            string imgRef = uploadImg(base64);
             Fault fault = null;
-            var faultsResults = Dal.AddFault(OwnerID, WorkerID, RoomID, FaultType, Info);
+            List<string> temp = new List<string>();
+            if (imgRef != "")
+                temp.Add(imgRef);
+            var faultsResults = Dal.AddFault(OwnerID, WorkerID, RoomID, FaultType, Info, imgRef);
             if (faultsResults != null)
             {
 
@@ -643,10 +647,11 @@ namespace _BAL
                     FaultStatus = int.Parse(faultsResults.Rows[0]["faultStatus"].ToString()),
                     Info = faultsResults.Rows[0]["info"].ToString(),
                     OpenDate = DateTime.Parse(faultsResults.Rows[0]["openDate"].ToString()),
+                    FaultPictures = temp,
                 };
                 if (faultsResults.Rows[0]["closeDate"].ToString() != "")
                     fault.CloseDate = DateTime.Parse(faultsResults.Rows[0]["closeDate"].ToString());
-
+                
             }
 
             return fault;
