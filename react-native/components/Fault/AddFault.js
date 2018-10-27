@@ -98,6 +98,7 @@ class AddFault extends Component {
     <TouchableOpacity onPress={() => { this.setState({ user: item }); this.Close() }}>
       <Text style={styles.text}>{item.UserName} , {item.JobName}</Text>
     </TouchableOpacity>
+    
   </View>
   
   
