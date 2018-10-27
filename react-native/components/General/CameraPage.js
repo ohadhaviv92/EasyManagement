@@ -8,21 +8,24 @@ export default class CameraPage extends React.Component {
     type: Camera.Constants.Type.back,
   };
 
-  async componentWillMount() {
+  async componentDidMount() {
     
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    console.log(status);
+    
+    await this.setState({ hasCameraPermission: status === 'granted' });
   }
 
   snap = async () => {
-    console.log(this.camera);
-    if (this.camera!=undefined) {
-      
-      let picture = await this.camera.takePictureAsync();
-      
-      const smallpic = await ImageManipulator.manipulate( picture.uri , [ { resize: {width: 500 , height: 500 }, compress: 0.5 } ], { format: 'jpeg', base64: true });          
-      
-      this.props.Snap(smallpic);
+
+    if (this.camera != undefined) {
+
+      this.camera.takePictureAsync({skipProcessing: true})
+      .then((picture => {
+        this.props.Snap(picture)
+      }));
+
+
     }
   };
 
@@ -70,7 +73,7 @@ export default class CameraPage extends React.Component {
                 }}
                 onPress={this.snap}>
                 <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+                  style={{ fontSize: 18, marginBottom: 50, color: 'white' }}>
                   {' '}pic{' '}
                 </Text>
               </TouchableOpacity>

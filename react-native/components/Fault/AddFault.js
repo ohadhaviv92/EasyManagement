@@ -7,7 +7,7 @@ import Modal from '../General/Modal';
 import SQL from '../../Handlers/SQL';
 import { SetFaultTypes, AddFaults } from '../../actions/faultAction';
 import CameraPage from '../General/CameraPage'
-import { ImagePicker } from 'expo';
+import { ImagePicker, ImageManipulator } from 'expo';
 
 class AddFault extends Component {
   state = {
@@ -24,8 +24,12 @@ class AddFault extends Component {
     base64:  "",
   };
 
-  TakePicture = (pic) => {
-    this.setState({ modalVisible2: false, pic, tookPic: true, base64: pic.base64 })
+  TakePicture = async(picture) => {
+    this.setState({ modalVisible2: false } );
+    
+    const pic = await ImageManipulator.manipulate( picture.uri , [ { resize: {width: 500 , height: 500 } } ], { format: 'jpeg', base64: true })
+        
+    this.setState({ pic, tookPic: true, base64: pic.base64 })
   }
 
   _pickImg = async () => {
@@ -56,6 +60,8 @@ class AddFault extends Component {
 
   AddNewFault = async () => {
     const fault = await SQL.AddFault(this.props.User.UserId, this.state.user.UserId, this.props.roomId ,this.state.faultId, this.state.faultInfo,this.state.base64);
+    console.log(fault);
+    
     if(fault != null)
       this.props.AddFaults([{SiteId: this.props.siteId, RoomId: this.props.roomId, ...fault, Worker: this.state.user, Owner: this.props.User}])
     this.props.Close()

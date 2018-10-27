@@ -45,11 +45,13 @@ import {SetRooms} from '../../actions/roomAction';
       }))
       
       await this.props.SetSites(sites)
-
+      let rooms = [];
+      let faults = []
       const sitesWithRooms = userDetails.Sites.filter(site=> site.Rooms.length != 0)
+
       for(let site of sitesWithRooms) {
 
-        const rooms = site.Rooms.map(room=>({
+         const tempRooms = site.Rooms.map(room=>({
           FloorNumber: room.FloorNumber,
           RoomId: room.RoomId,
           RoomName: room.RoomName,
@@ -57,21 +59,30 @@ import {SetRooms} from '../../actions/roomAction';
           RoomTypeId: room.RoomTypeId,
           RoomTypeName: room.RoomTypeName,
           SiteId: site.SiteId
-        }))
-        this.props.SetRooms(rooms)
+        })) 
+ 
+        
+        rooms = rooms.concat(tempRooms)
+
 
         const roomsWithFaults = site.Rooms.filter(room => room.Faults.length != 0 )
         for (const room of roomsWithFaults) {
-          const faults = room.Faults.map(fault=>({
+           const tempFaults =  room.Faults.map(fault=>({
             SiteId: site.SiteId,
             RoomId: room.RoomId,
             ...fault
-          }))
-
-          this.props.SetFaults(faults)
+          })) 
+         
+          
+          faults = faults.concat(tempFaults)
+          
         
         }
       }
+
+      
+      this.props.SetRooms(rooms)
+      this.props.SetFaults(faults)
       
       const Token  = await Notification.Register(userDetails.User.Email ,userDetails.User.Token )
       await this.props.UpdateToken(Token);

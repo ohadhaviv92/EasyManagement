@@ -9,7 +9,7 @@ import {
   ScrollView
   
 } from "react-native";
-import { ImagePicker } from 'expo';
+import { ImagePicker, ImageManipulator } from 'expo';
 
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
@@ -52,8 +52,15 @@ class EditUserDetails extends Component {
 });
   };
 
-  TakePicture = (pic) => {
-    this.setState({ modalVisible: false, pic, tookPic: true, base64: pic.base64 })
+  TakePicture = async(picture) => {
+
+
+    this.setState({ modalVisible: false } );
+    
+    const pic = await ImageManipulator.manipulate( picture.uri , [ { resize: {width: 500 , height: 500 } } ], { format: 'jpeg', base64: true })
+        
+    this.setState({ pic, tookPic: true, base64: pic.base64 })
+
   }
 
   renderPic = () => {
