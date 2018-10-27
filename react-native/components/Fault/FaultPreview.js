@@ -26,6 +26,7 @@ class FaultPreivew extends Component {
 
   componentDidMount() {
     const openDate = new Date(parseInt(this.props.fault.OpenDate.substr(6), 10)).toLocaleDateString();
+    console.log(this.props.fault.FaultPictures);
     
     this.setState({ openDate })
 
@@ -197,7 +198,16 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: '#3498DB',
     color: '#ECF0F1'
-  }
+  },
+  img: {
+    marginLeft: 3,
+    marginTop:3,
+    marginBottom: 3,
+    flex: 1,
+    width: 90,
+    height: 100,
+
+  },
 
 })
 

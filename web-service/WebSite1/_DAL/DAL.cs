@@ -787,11 +787,11 @@ namespace _DAL
                 Con.Open();
                 _cmd = new SqlCommand($"AddFault", Con);
                 _cmd.CommandType = CommandType.StoredProcedure;
-                _cmd.Parameters.Add(new SqlParameter("@OwnerID", OwnerID));
-                _cmd.Parameters.Add(new SqlParameter("@WorkerID", WorkerID));
-                _cmd.Parameters.Add(new SqlParameter("@RoomID", RoomID));
-                _cmd.Parameters.Add(new SqlParameter("@FaultType", FaultType));
-                _cmd.Parameters.Add(new SqlParameter("@Info", Info));
+                _cmd.Parameters.Add(new SqlParameter("@ownerID", OwnerID));
+                _cmd.Parameters.Add(new SqlParameter("@workerID", WorkerID));
+                _cmd.Parameters.Add(new SqlParameter("@roomID", RoomID));
+                _cmd.Parameters.Add(new SqlParameter("@faultType", FaultType));
+                _cmd.Parameters.Add(new SqlParameter("@info", Info));
                 _cmd.Parameters.Add(new SqlParameter("@faultPicture", imgRef));
 
                 _adtr = new SqlDataAdapter(_cmd);

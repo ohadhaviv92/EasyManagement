@@ -52,7 +52,7 @@ class Room extends Component {
           size={40}
           color={ "#3498DB"}
           underlayColor="transparent"
-          onPress={null}
+          onPress={this.changeStatus}
           containerStyle={{flex:1, alignItems: 'flex-end', marginRight: '1%'}}
         />
         </View>

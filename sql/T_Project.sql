@@ -278,17 +278,24 @@ else begin
 	update [site04].[TbUsersInSite] set [userTypeID] = @workerType where [siteID] = @siteID and [userID] = @workerID
 end
 
-create proc AddFault
+alter proc AddFault
 @ownerID int,
 @workerID int,
 @roomID int ,
 @faultType int,
-@info nvarchar(max)
+@info nvarchar(max),
+@faultPicture nvarchar(max)
 as
 if exists (select [userID] from [site04].[TbUsersInSite] where [userID] = @workerID and [siteID] = (select [siteID] from [site04].[TbRoomsInSite] where [roomID] = @roomID)) 
 begin
 	insert into [site04].[TbFaultInSite] (ownerID,workerID, roomID, faultType, info, faultStatus, openDate) values (@ownerID,@workerID,@roomID,@faultType,@info,1,GETDATE())
-	select * from [site04].[TbFaultInSite] where faultID = @@IDENTITY
+	declare @id int = @@IDENTITY;
+	insert [site04].[TbFaultPicture] (faultID, faultPicture) values (@id,@faultPicture)
+	SELECT        TbFaultType.faultName, TbFaultInSite.faultID, TbFaultInSite.ownerID, TbFaultInSite.workerID, TbFaultInSite.roomID, TbFaultInSite.faultType, TbFaultInSite.info, TbFaultInSite.faultStatus, TbFaultInSite.openDate, 
+                         TbFaultInSite.closeDate
+FROM            TbFaultType INNER JOIN
+                         TbFaultInSite ON TbFaultType.faultID = TbFaultInSite.faultType
+WHERE        (TbFaultInSite.faultID = @id)
 end
 go
 
@@ -456,15 +463,15 @@ select * from [site04].[TbBuildingSite] where [siteID]=@siteID;
 GO
 
 
-create proc statics
+ALTER proc statics
 @siteID int
 as
-SELECT        TOP (100) PERCENT site04.TbBuildingSite.siteID, COUNT(DISTINCT site04.TbFaultInSite.faultID) AS sumOfFault, COUNT(DISTINCT site04.TbUsersInSite.userID) AS sumOfUser
-FROM            site04.TbBuildingSite INNER JOIN
-                         site04.TbUsersInSite ON site04.TbBuildingSite.siteID = site04.TbUsersInSite.siteID CROSS JOIN
-                         site04.TbFaultInSite
-GROUP BY site04.TbBuildingSite.siteID
-HAVING        (site04.TbBuildingSite.siteID = @siteID)
+SELECT        TbBuildingSite.siteID, COUNT(DISTINCT TbRoomsInSite.roomID) AS sumOfRooms, COUNT(DISTINCT TbUsersInSite.userID) AS sumOfUser
+FROM            TbBuildingSite INNER JOIN
+                         TbRoomsInSite ON TbBuildingSite.siteID = TbRoomsInSite.siteID INNER JOIN
+                         TbUsersInSite ON TbBuildingSite.siteID = TbUsersInSite.siteID
+GROUP BY TbBuildingSite.siteID
+HAVING        (TbBuildingSite.siteID = @siteID)
 GO
 
 
