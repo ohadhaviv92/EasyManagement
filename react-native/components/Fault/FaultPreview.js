@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Image, Linking, TextInput, Sw
 import DropDownMenu from '../General/DropDownMenu';
 import { connect } from 'react-redux';
 import { UpdateFaults } from '../../actions/faultAction';
+import SQL from '../../Handlers/SQL';
 class FaultPreivew extends Component {
 
   state = {
@@ -17,6 +18,7 @@ class FaultPreivew extends Component {
 
   Save = () => {
     this.setState({ isEditing: false })
+    //SQL.ChangeFaultData(this.props.fault.FaultId,this.state.isOpen,)
     this.props.UpdateFaults([this.state.curFault])
   }
 
@@ -93,7 +95,8 @@ class FaultPreivew extends Component {
             <View style={{ flexDirection: 'row' }}>
 
               <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Text style={styles.text}>{fault.Worker.UserName}</Text>
+                <Text style={styles.text}>בטיפול של:{fault.Worker.UserName}</Text>
+                <Text style={styles.text}>מידע: {fault.Info}</Text>
               </View>
 
               <View style={{ flex: 1, alignItems: 'flex-end' }}>
@@ -163,7 +166,6 @@ class FaultPreivew extends Component {
 
               :
               <View style={{paddingBottom: 50}}>
-                <Text style={styles.text}>{fault.Info}</Text>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={styles.text}>סטטוס תקלה: {fault.FaultStatus == 0 ? 'פתוח' : 'סגור'}</Text>
                 </View>
