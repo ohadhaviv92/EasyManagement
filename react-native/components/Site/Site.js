@@ -34,6 +34,7 @@ class Site extends Component {
   _ItemSeparatorComponent =() => <View style={{ overflow: 'hidden', paddingVertical: 7, backgroundColor: '#2C3E50'}}><View style={{paddingVertical: 1, backgroundColor: 'white'}}/></View>
 
   render() {
+    const rooms = this.props.Rooms.filter(room=>room.SiteId == this.props.SiteId);
     return (
       <View>
 
@@ -75,7 +76,7 @@ class Site extends Component {
               onRefresh={this._onRefresh}
             />
           }
-          data={this.state.sortFloor ? this.state.rooms.sort((a ,b) => a.FloorNumber - b.FloorNumber) : this.state.rooms}
+          data={this.state.sortFloor ? rooms.sort((a ,b) => a.FloorNumber - b.FloorNumber) : rooms}
 
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}

@@ -1,6 +1,8 @@
-const URL = "http://ruppinmobile.tempdomain.co.il/site04/WebService.asmx"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
+const URL = "http://ruppinmobile.tempdomain.co.il/site04/WebService.asmx"; // http://ruppinmobile.tempdomain.co.il/site04/api/service   http://ruppinmobile.tempdomain.co.il/site04/WebService.asmx
 export default class SQL {
   static Login(UserName, Pass) {
+    console.log(UserName , Pass);
+    
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/Login`, {
@@ -13,12 +15,13 @@ export default class SQL {
           },
           method: "POST"
         });
+        console.log(`${URL}/Login`,res);
+        
+        // const data = await res.json();
 
-        const data = await res.json();
+        // if (data.d === null) reject("invalid email or password");
 
-        if (data.d === null) reject("invalid email or password");
-
-        resolve(data.d);
+        // resolve(data.d);
       } catch (error) {
         reject(error);
       }

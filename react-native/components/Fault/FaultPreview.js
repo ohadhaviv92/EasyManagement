@@ -28,7 +28,6 @@ class FaultPreivew extends Component {
 
   componentDidMount() {
     const openDate = new Date(parseInt(this.props.fault.OpenDate.substr(6), 10)).toLocaleDateString();
-    console.log(this.props.fault.FaultPictures);
     
     this.setState({ openDate })
 

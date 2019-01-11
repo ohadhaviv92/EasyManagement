@@ -4,7 +4,6 @@ import {
   Dimensions
 } from "react-native";
 import Home from './components/Home/Home';
-import Settings from './components/General/Settings';
 import Site from './components/Site/Site';
 import EditUserDetails from './components/Edit/EditUserDetails';
 import Invite from './components/Invite/Invite';
@@ -27,12 +26,6 @@ const HomeNav = createDrawerNavigator(
         drawerLabel: 'הזמנות',
       },
       screen: Invite
-    },
-    Settings: {
-      navigationOptions: {
-        drawerLabel: 'הגדרות',
-      },
-      screen: Settings
     },
     Site: {
       screen: Site,

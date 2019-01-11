@@ -247,6 +247,7 @@ namespace _DAL
                 _cmd.Parameters.Add(new SqlParameter("lastName", lastName));
                 _cmd.Parameters.Add(new SqlParameter("email", email));
                 _cmd.Parameters.Add(new SqlParameter("tel", tel));
+                _cmd.Parameters.Add(new SqlParameter("img", ""));
 
                 _adtr = new SqlDataAdapter(_cmd);
 

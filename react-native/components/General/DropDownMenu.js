@@ -8,49 +8,42 @@ export default class DropDownMenu extends Component {
       sizeAnim: new Animated.Value(0.01),
       hidden: !this.props.isOpen,
     }
-    this.maxHeight;
+
   }
 
   animate = (isOpen) => {    
-    const toValue =  isOpen ? this.maxHeight : 0.01;
+    const toValue =  isOpen ? 99999 : 0.01;
+
+    
     Animated.timing(
       this.state.sizeAnim,
       {
         toValue,
-        duration: 250,
+        duration: 250
       }
     ).start();
 
   }
 
-  componentDidUpdate(pervProps) {
-    if (pervProps.isOpen != this.props.isOpen)
-      this.animate(this.props.isOpen)
+  componentDidUpdate(pervProps) {    
+    if(pervProps.isOpen != this.props.isOpen)
+        this.animate(this.props.isOpen);
   }
 
-  componentDidMount() {
-    this.state.sizeAnim.addListener((event) => {
-      if (event.value == 0.01)
-        this.setState({ hidden: true })
-      else if (event.value == this.maxHeight)
-        this.setState({ hidden: false })
-    })
-  }
 
 
   render() {
-    const { sizeAnim } = this.state
 
+    const { sizeAnim } = this.state
     return (
       <Animated.View
 
         style={{
-          overflow: 'hidden',
-          height: sizeAnim
+          maxHeight: sizeAnim
         }}
       >
 
-        <View onLayout={(event) => {this.maxHeight = Platform.OS === 'ios' ? Math.pow(event.nativeEvent.layout.height,1.55)  :event.nativeEvent.layout.height }}>
+        <View >
           {this.props.children}
          </View>
 
