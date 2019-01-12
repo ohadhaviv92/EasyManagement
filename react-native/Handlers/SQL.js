@@ -1,6 +1,8 @@
-const URL = "http://ruppinmobile.tempdomain.co.il/site04/WebService.asmx"; // http://ruppinmobile.tempdomain.co.il/site04/api/service
+const URL = "http://ruppinmobile.tempdomain.co.il/site04/WebService.asmx"; // http://ruppinmobile.tempdomain.co.il/site04/api/service   http://ruppinmobile.tempdomain.co.il/site04/WebService.asmx
 export default class SQL {
   static Login(UserName, Pass) {
+    console.log(UserName , Pass);
+    
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${URL}/Login`, {
@@ -13,9 +15,14 @@ export default class SQL {
           },
           method: "POST"
         });
-
+        console.log(`${URL}/Login`,res);
+        
         const data = await res.json();
+<<<<<<< HEAD
+      
+=======
 
+>>>>>>> c0f52d2a825342b5e0286c03c8f4be87af517278
         if (data.d === null) reject("invalid email or password");
 
         resolve(data.d);
@@ -44,7 +51,8 @@ export default class SQL {
         });
 
         const data = await res.json();
-
+        console.log(data);
+        
         if (data.d.Error !== undefined) {
           // if a JSON was not returned from SQL, its a custom error message
           reject(data.d.Error);

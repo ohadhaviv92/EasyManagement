@@ -59,6 +59,8 @@ class AddFault extends Component {
 
 
   AddNewFault = async () => {
+    console.log(1);
+    console.log(this.props.User.UserId, this.state.user.UserId, this.props.roomId ,this.state.faultId, this.state.faultInfo,this.state.base64)
     const fault = await SQL.AddFault(this.props.User.UserId, this.state.user.UserId, this.props.roomId ,this.state.faultId, this.state.faultInfo,this.state.base64);
     console.log(fault);
     
@@ -81,7 +83,7 @@ class AddFault extends Component {
     const Users = await SQL.GetUsersInSite(this.props.siteId);
   
     this.setState({ users: Users.filter(user => user.UserId != this.props.User.UserId) })
-
+    
 
   }
 

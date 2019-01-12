@@ -7,6 +7,7 @@ import { addSites } from '../../actions/siteAction';
 import Modal from '../General/Modal'
 import CameraPage from '../General/CameraPage'
 import { ImagePicker, ImageManipulator } from 'expo';
+import { Permissions } from 'expo';
 class AddSite extends Component {
   state = {
     siteName: "",
@@ -28,6 +29,7 @@ class AddSite extends Component {
   }
 
   _pickImg = async () => {
+
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       base64: true,
       allowsEditing: false,
@@ -38,6 +40,7 @@ class AddSite extends Component {
       pic:pickerResult,
       base64:pickerResult.base64
 });
+      
   };
 
   renderPic = () => {

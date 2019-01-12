@@ -31,6 +31,8 @@ import {SetRooms} from '../../actions/roomAction';
     try {
       this.setState({loading: true})
       const userDetails = await SQL.Login(this.state.userName, this.state.Password);
+      console.log(userDetails);
+      
       await this.props.onLogin(userDetails.User);
  
       const sites = userDetails.Sites.map(site=>({

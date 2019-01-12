@@ -28,7 +28,7 @@ class Register extends Component {
 
   onRegister = async () => {
     if (!((regexAZ.test(this.state.userName.toUpperCase()) && this.state.userName != '') &&
-      (this.state.password.length > 3 ) &&
+      (this.state.password.length >= 3 ) &&
       (regexEmail.test(this.state.email.toUpperCase()) && this.state.email != '') &&
       (regexAZ.test(this.state.firstName.toUpperCase()) && this.state.firstName != '') &&
       (regexAZ.test(this.state.lastName.toUpperCase()) && this.state.lastName != '') &&
@@ -41,7 +41,7 @@ class Register extends Component {
       try {
         const { userName, password, firstName, lastName, email, tel } = this.state;
         const user = await SQL.Register(userName, password, firstName, lastName, email, tel)
-        await this.props.onLogin(user.User);
+        await this.props.onLogin(user);
 
         this.props.navigation.navigate('HomeNav');
 
@@ -65,7 +65,7 @@ class Register extends Component {
           onChangeText={(text) => { this.setState({ userName: text }) }}
         />
         <TextInput
-          style={[styles.input, { borderWidth: 1, borderColor: this.state.password.length > 3 || this.state.password == '' ? 'transparent' : '#E74C3C' }]}
+          style={[styles.input, { borderWidth: 1, borderColor: this.state.password.length >= 3 || this.state.password == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="סיסמא"
           secureTextEntry={true}
           placeholderTextColor="#ECF0F1"

@@ -51,8 +51,7 @@ class AddRoom extends Component {
 
 
   AddNewRoom = async () => {
-    console.log(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor);
-      
+
     if(this.state.roomId){
     
       const room = await SQL.AddRoom(this.props.SiteID, this.state.roomId, this.state.roomName, this.state.floor ,this.state.base64)

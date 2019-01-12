@@ -105,16 +105,19 @@ class PreviewSite extends Component {
                 <Text style={styles.text}>כמות חדרים: {site.TotalRooms}</Text>
               </View>
             </View>
+          {this.props.site.UserTypeId == 1 ? 
+                        <Icon
+                        type="ionicon"
+                        name='md-remove-circle'
+                        size={40}
+                        containerStyle={{ paddingBottom: 20 }}
+                        color="#E74C3C"
+                        underlayColor="transparent"
+                        onPress={this.closeSite}
+                      />
+            
+            : null}
 
-            <Icon
-              type="ionicon"
-              name='md-remove-circle'
-              size={40}
-              containerStyle={{ paddingBottom: 20 }}
-              color="#E74C3C"
-              underlayColor="transparent"
-              onPress={this.closeSite}
-            />
           </View>
         </DropDownMenu>
 
