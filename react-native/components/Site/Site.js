@@ -6,6 +6,9 @@ import Empty from '../General/Empty';
 import { Icon } from 'react-native-elements';
 import Modal from '../General/Modal';
 import AddRoom from '../Room/AddRoom';
+import SQL from '../../Handlers/SQL';
+import {SetFaults} from '../../actions/faultAction';
+import {SetRooms} from '../../actions/roomAction';
 
 
 class Site extends Component {
@@ -18,8 +21,52 @@ class Site extends Component {
   }
 
  
-  _onRefresh = () => {
+  _onRefresh = async() => {
+    this.setState({refreshing: true});
 
+
+    const userDetails = await SQL.Login(this.props.User.UserName, this.props.User.Pass);
+  
+
+    let rooms = [];
+    let faults = []
+    const sitesWithRooms = userDetails.Sites.filter(site=> site.Rooms.length != 0)
+
+    for(let site of sitesWithRooms) {
+
+       const tempRooms = site.Rooms.map(room=>({
+        FloorNumber: room.FloorNumber,
+        RoomId: room.RoomId,
+        RoomName: room.RoomName,
+        RoomPicture: room.RoomPicture,
+        RoomTypeId: room.RoomTypeId,
+        RoomTypeName: room.RoomTypeName,
+        SiteId: site.SiteId
+      })) 
+
+      
+      rooms = rooms.concat(tempRooms)
+
+
+      const roomsWithFaults = site.Rooms.filter(room => room.Faults.length != 0 )
+      for (const room of roomsWithFaults) {
+         const tempFaults =  room.Faults.map(fault=>({
+          SiteId: site.SiteId,
+          RoomId: room.RoomId,
+          ...fault
+        })) 
+       
+        
+        faults = faults.concat(tempFaults)
+        
+      
+      }
+    }
+
+    
+    this.props.SetRooms(rooms)
+    this.props.SetFaults(faults)
+    this.setState({refreshing: false})
   }
 
   sortFloor = () => { this.setState({ sortFloor: !this.state.sortFloor }) }
@@ -107,6 +154,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    User: state.user,
     Sites: state.sites,
     Rooms: state.rooms,
     SiteId: state.curSite,
@@ -114,4 +162,11 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Site);
+
+const mapDispatchToProps = (dispatch) => ({
+  SetFaults: (Faults) => dispatch(SetFaults(Faults)),
+  SetRooms: (Rooms) => dispatch(SetRooms(Rooms)),
+
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Site);

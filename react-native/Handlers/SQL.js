@@ -17,11 +17,11 @@ export default class SQL {
         });
         console.log(`${URL}/Login`,res);
         
-        // const data = await res.json();
+        const data = await res.json();
 
-        // if (data.d === null) reject("invalid email or password");
+        if (data.d === null) reject("invalid email or password");
 
-        // resolve(data.d);
+        resolve(data.d);
       } catch (error) {
         reject(error);
       }
