@@ -132,6 +132,7 @@ C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.c
 C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.dll
 C:\Users\Orhay\Desktop\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.pdb
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\EsayManagment\EasyManagement\web-service\WebSite1\_BAL\bin\Debug\_BAL.dll
 C:\EsayManagment\EasyManagement\web-service\WebSite1\_BAL\bin\Debug\_BAL.pdb
 C:\EsayManagment\EasyManagement\web-service\WebSite1\_BAL\bin\Debug\BouncyCastle.Crypto.dll
@@ -152,6 +153,8 @@ C:\EsayManagment\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.csproj.
 C:\EsayManagment\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.dll
 C:\EsayManagment\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.pdb
 =======
+=======
+>>>>>>> c0f52d2a825342b5e0286c03c8f4be87af517278
 E:\Projects\EasyManagement\web-service\WebSite1\_BAL\bin\Debug\_BAL.dll
 E:\Projects\EasyManagement\web-service\WebSite1\_BAL\bin\Debug\_BAL.pdb
 E:\Projects\EasyManagement\web-service\WebSite1\_BAL\bin\Debug\BouncyCastle.Crypto.dll
@@ -171,4 +174,7 @@ E:\Projects\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.csproj.CoreC
 E:\Projects\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.csproj.CopyComplete
 E:\Projects\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.dll
 E:\Projects\EasyManagement\web-service\WebSite1\_BAL\obj\Debug\_BAL.pdb
+<<<<<<< HEAD
 >>>>>>> 00066a1a2e8d9132f8e352bc54cac30f086f7c8c
+=======
+>>>>>>> c0f52d2a825342b5e0286c03c8f4be87af517278
