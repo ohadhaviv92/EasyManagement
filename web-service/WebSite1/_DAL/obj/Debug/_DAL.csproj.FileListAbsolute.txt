@@ -39,3 +39,8 @@ E:\Projects\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.csprojAssemb
 E:\Projects\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.csproj.CoreCompileInputs.cache
 E:\Projects\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.dll
 E:\Projects\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.pdb
+C:\EsayManagment\EasyManagement\web-service\WebSite1\_DAL\bin\Debug\_DAL.dll
+C:\EsayManagment\EasyManagement\web-service\WebSite1\_DAL\bin\Debug\_DAL.pdb
+C:\EsayManagment\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.csproj.CoreCompileInputs.cache
+C:\EsayManagment\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.dll
+C:\EsayManagment\EasyManagement\web-service\WebSite1\_DAL\obj\Debug\_DAL.pdb

@@ -23,6 +23,7 @@ export default class SQL {
 
         resolve(data.d);
       } catch (error) {
+        debugger;
         reject(error);
       }
     });
