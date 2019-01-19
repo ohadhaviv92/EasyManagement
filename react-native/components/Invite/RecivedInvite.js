@@ -78,11 +78,12 @@ class RecivedInvite extends Component {
                         underlayColor="transparent"
                         onPress={this.Confirm}
                     /> 
+                    
                     <Icon
                         type="ionicon"
                         name='ios-close-circle-outline'
                         size={40}
-                        containerStyle={{ paddingBottom: 20 }}
+                        containerStyle={{ paddingBottom: 20,paddingLeft:50 }}
                         color="#E74C3C"
                         underlayColor="transparent"
                         onPress={this.Reject}

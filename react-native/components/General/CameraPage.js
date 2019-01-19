@@ -61,8 +61,8 @@ export default class CameraPage extends React.Component {
                   });
                 }}>
                 <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                  {' '}סבב{' '}
+                  style={{ fontSize: 18, marginBottom: 20, color: 'white' }}>
+                  {'  '}סבב{'  '}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -73,8 +73,8 @@ export default class CameraPage extends React.Component {
                 }}
                 onPress={this.snap}>
                 <Text
-                  style={{ fontSize: 18, marginBottom: 50, color: 'white' }}>
-                  {' '}pic{' '}
+                  style={{ fontSize: 18, marginBottom: 20, color: 'white' }}>
+                  {'  '}צלם{'  '}
                 </Text>
               </TouchableOpacity>
             </View>

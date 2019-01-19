@@ -5,7 +5,7 @@ import {
   Dimensions,
   TextInput,
   Button,
-  AsyncStorage
+  AsyncStorage,Text
 } from "react-native";
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
@@ -41,7 +41,7 @@ class Register extends Component {
       try {
         const { userName, password, firstName, lastName, email, tel } = this.state;
         const user = await SQL.Register(userName, password, firstName, lastName, email, tel)
-        await this.props.onLogin(user.User);
+        await this.props.onLogin(user);
 
         this.props.navigation.navigate('HomeNav');
 
@@ -55,16 +55,18 @@ class Register extends Component {
   render() {
     return (
       <View style={styles.container}>
-
+<Text  style={styles.logo} >  הרשמה </Text>
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.userName.toUpperCase()) || this.state.userName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="שם משתמש"
           placeholderTextColor="#ECF0F1"
+          returnKeyType="done"
           underlineColorAndroid="transparent"
           value={this.state.userName}
           onChangeText={(text) => { this.setState({ userName: text }) }}
         />
         <TextInput
+        returnKeyType="done"
           style={[styles.input, { borderWidth: 1, borderColor: this.state.password.length >= 3 || this.state.password == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="סיסמא"
           secureTextEntry={true}
@@ -74,6 +76,7 @@ class Register extends Component {
           onChangeText={(text) => { this.setState({ password: text }) }}
         />
         <TextInput
+        returnKeyType="done"
           style={[styles.input, { borderWidth: 1, borderColor: regexEmail.test(this.state.email.toUpperCase()) || this.state.email == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="כתובת דואר אלקטרוני"
           keyboardType="email-address"
@@ -83,6 +86,7 @@ class Register extends Component {
           onChangeText={(text) => { this.setState({ email: text }) }}
         />
         <TextInput
+        returnKeyType="done"
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.firstName.toUpperCase()) || this.state.firstName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="שם פרטי"
           placeholderTextColor="#ECF0F1"
@@ -91,6 +95,7 @@ class Register extends Component {
           onChangeText={(text) => { this.setState({ firstName: text }) }}
         />
         <TextInput
+        returnKeyType="done"
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.lastName.toUpperCase()) || this.state.lastName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="שם משפחה"
           placeholderTextColor="#ECF0F1"
@@ -99,6 +104,7 @@ class Register extends Component {
           onChangeText={(text) => { this.setState({ lastName: text }) }}
         />
         <TextInput
+        returnKeyType="done"
           style={[styles.input, { borderWidth: 1, borderColor: regexNum.test(this.state.tel) || this.state.tel == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="מספר טלפון"
           keyboardType="phone-pad"
@@ -145,6 +151,10 @@ const styles = StyleSheet.create({
   Arrow: {
     position: "absolute",
     left: 10,
+  },
+  logo: {
+    color: 'white',
+    fontSize: 30,
   }
 });
 

@@ -84,6 +84,7 @@ class Invite extends Component {
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <TextInput
+                                
                                     style={styles.input}
                                     placeholder="אימייל / שם משתמש"
                                     placeholderTextColor="#ECF0F1"

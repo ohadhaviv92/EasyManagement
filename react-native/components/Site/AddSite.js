@@ -6,7 +6,7 @@ import SQL from '../../Handlers/SQL';
 import { addSites } from '../../actions/siteAction';
 import Modal from '../General/Modal'
 import CameraPage from '../General/CameraPage'
-import { ImagePicker, ImageManipulator } from 'expo';
+import { ImagePicker, ImageManipulator,Permissions } from 'expo';
 class AddSite extends Component {
   state = {
     siteName: "",
@@ -28,6 +28,8 @@ class AddSite extends Component {
   }
 
   _pickImg = async () => {
+    const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       base64: true,
       allowsEditing: false,
@@ -79,6 +81,7 @@ class AddSite extends Component {
       <View style={styles.container}>
         <Text style={styles.logo} > הוספת אתר חדש </Text>
         <TextInput
+        returnKeyType="done"
           style={styles.input}
           placeholder="שם האתר"
           placeholderTextColor="#ECF0F1"
@@ -86,6 +89,7 @@ class AddSite extends Component {
           onChangeText={(text) => { this.setState({ siteName: text }) }}
         />
         <TextInput
+        returnKeyType="done"
           style={styles.input}
           placeholder="כתובת האתר"
           placeholderTextColor="#ECF0F1"

@@ -101,8 +101,8 @@ class PreviewSite extends Component {
             <View style={{ flexDirection: 'row' }}>
 
               <View style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Text style={styles.text}>כמות בעלי מקצוע: {site.TotalUsers}</Text>
-                <Text style={styles.text}>כמות חדרים: {site.TotalRooms}</Text>
+                <Text style={styles.text}>כמות בעלי מקצוע: {site.TotalUsers?site.TotalUsers:1}</Text>
+                <Text style={styles.text}>כמות חדרים: {site.TotalUsers?site.TotalRooms:0}</Text>
               </View>
             </View>
           {this.props.site.UserTypeId == 1 ? 

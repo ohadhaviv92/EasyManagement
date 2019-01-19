@@ -125,6 +125,7 @@ class FaultPreivew extends Component {
             {this.state.isEditing ?
               <View style={{ flexDirection: 'column' }}>
                 <TextInput
+                returnKeyType="done"
                   value={this.state.curFault.Info}
                   editable={true}
                   onChangeText={(txt) => this.setState({ curFault: { ...this.state.curFault, Info: txt } })}

@@ -6,10 +6,10 @@ import {
   TextInput,
   Button,
   Image,
-  ScrollView
+  ScrollView,Text
   
 } from "react-native";
-import { ImagePicker, ImageManipulator } from 'expo';
+import { ImagePicker, ImageManipulator,Permissions } from 'expo';
 
 import { Icon } from "react-native-elements";
 import SQL from '../../Handlers/SQL';
@@ -40,6 +40,8 @@ class EditUserDetails extends Component {
   }
 
   _pickImg = async () => {
+    const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       base64: true,
       allowsEditing: false,
@@ -86,7 +88,7 @@ class EditUserDetails extends Component {
 
       try {
         const { userName, firstName, lastName, email, tel } = this.state;
-        console.log(this.state.base64);
+        
         
         const user = await SQL.EditUserDetails(this.props.User.UserId ,userName, firstName, lastName, email, tel,this.state.base64)
         
@@ -109,12 +111,13 @@ class EditUserDetails extends Component {
   render() {
     return (
       <View style={styles.container}>
-
+<Text style={styles.logo} > הוספת אתר חדש </Text>
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.userName.toUpperCase()) || this.state.userName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="שם משתמש"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
+          returnKeyType="done"
           value={this.state.userName}
           onChangeText={(text) => { this.setState({ userName: text }) }}
         />
@@ -123,6 +126,7 @@ class EditUserDetails extends Component {
           placeholder="כתובת דואר אלקטרוני"
           keyboardType="email-address"
           placeholderTextColor="#ECF0F1"
+          returnKeyType="done"
           underlineColorAndroid="transparent"
           value={this.state.email}
           onChangeText={(text) => { this.setState({ email: text }) }}
@@ -130,6 +134,7 @@ class EditUserDetails extends Component {
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.firstName.toUpperCase()) || this.state.firstName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="שם פרטי"
+          returnKeyType="done"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           value={this.state.firstName}
@@ -138,6 +143,7 @@ class EditUserDetails extends Component {
         <TextInput
           style={[styles.input, { borderWidth: 1, borderColor: regexAZ.test(this.state.lastName.toUpperCase()) || this.state.lastName == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="שם משפחה"
+          returnKeyType="done"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           value={this.state.lastName}
@@ -147,6 +153,7 @@ class EditUserDetails extends Component {
           style={[styles.input, { borderWidth: 1, borderColor: regexNum.test(this.state.tel) || this.state.tel == '' ? 'transparent' : '#E74C3C' }]}
           placeholder="מספר טלפון"
           keyboardType="phone-pad"
+          returnKeyType="done"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           value={this.state.tel}
@@ -163,6 +170,15 @@ class EditUserDetails extends Component {
 
           </Modal>
           <View style={styles.container2}>
+          <Icon
+            type="MaterialIcons"
+            name="photo-album"
+            size={50}
+            color="#ECF0F1"
+            underlayColor="transparent"
+            onPress={this._pickImg}
+            containerStyle={{ marginHorizontal: (width - 80) / 6 }}
+          />
                   <Icon
             type="MaterialIcons"
             name="add-a-photo"
@@ -170,20 +186,12 @@ class EditUserDetails extends Component {
             color="#ECF0F1"
             underlayColor="transparent"
             onPress={() => { this.setState({ modalVisible: true }) }}
-            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
+            containerStyle={{ marginHorizontal: (width - 80) / 10 }}
           />
-          
-                            <Icon
-            type="MaterialIcons"
-            name="photo-album"
-            size={50}
-            color="#ECF0F1"
-            underlayColor="transparent"
-            onPress={this._pickImg}
-            containerStyle={{ marginHorizontal: (width - 80) / 4 }}
-          />
+          <Button title='שמור שינויים' onPress={this.onRegister} color='#E74C3C' />
+
           </View>
-        <Button title='שמור שינויים' onPress={this.onRegister} color='#3498DB' />
+        
         
         {this.renderPic()}
 
@@ -217,6 +225,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logo: {
+    color: 'white',
+    fontSize: 30,
   }
 });
 

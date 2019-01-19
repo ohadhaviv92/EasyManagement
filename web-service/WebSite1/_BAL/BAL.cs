@@ -110,6 +110,19 @@ namespace _BAL
             for (var i = 0; i < results.Rows.Count; i++)
             {
                 var staticsSite = Dal.GetStaticsOnSite(int.Parse(results.Rows[i]["siteID"].ToString()));
+                int x;
+                int y;
+
+                if(staticsSite==null)
+                {
+                    x = 1;
+                    y = 0;
+                }
+                else
+                {
+                    x = int.Parse(staticsSite.Rows[0]["sumOfUser"].ToString());
+                    y = int.Parse(staticsSite.Rows[0]["sumOfRooms"].ToString());
+                }
                 var site = new BuildingSite
                 {
                     SiteId = int.Parse(results.Rows[i]["siteID"].ToString()),
@@ -119,8 +132,8 @@ namespace _BAL
                     UserTypeId = int.Parse(results.Rows[i]["userTypeID"].ToString()),
                     UserTypeName = results.Rows[i]["userTypName"].ToString(),
                     SiteImage = results.Rows[i]["img"].ToString(),
-                    SumUserInSite = int.Parse(staticsSite.Rows[0]["sumOfUser"].ToString()),
-                    SumRoomInSite = int.Parse(staticsSite.Rows[0]["sumOfRooms"].ToString()),
+                    SumUserInSite = x,
+                    SumRoomInSite = y,
 
 
                 };

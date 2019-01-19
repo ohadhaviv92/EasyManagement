@@ -110,12 +110,14 @@ import {SetRooms} from '../../actions/roomAction';
         <Text  style={styles.logo} > EasyManagement </Text>
         <TextInput
           style={styles.input}
+          returnKeyType="done"
           placeholder="שם משתמש"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ userName: text }) }}
         />
         <TextInput
+        returnKeyType="done"
           style={styles.input}
           placeholder="סיסמא"
           secureTextEntry={true}

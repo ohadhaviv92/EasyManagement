@@ -7,7 +7,7 @@ import Modal from '../General/Modal';
 import SQL from '../../Handlers/SQL';
 import { SetFaultTypes, AddFaults } from '../../actions/faultAction';
 import CameraPage from '../General/CameraPage'
-import { ImagePicker, ImageManipulator } from 'expo';
+import { ImagePicker, ImageManipulator,Permissions } from 'expo';
 
 class AddFault extends Component {
   state = {
@@ -33,11 +33,14 @@ class AddFault extends Component {
   }
 
   _pickImg = async () => {
+    const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       base64: true,
       allowsEditing: false,
       aspect: [4, 3],
     });
+    
     
     this.setState({
       pic:pickerResult,
@@ -59,15 +62,25 @@ class AddFault extends Component {
 
 
   AddNewFault = async () => {
+    if (this.state.user==null)
+    {
+      alert("יש להוסיף משתמש להמשך טיפול");
+    }
+    else{
+
+    
     const fault = await SQL.AddFault(this.props.User.UserId, this.state.user.UserId, this.props.roomId ,this.state.faultId, this.state.faultInfo,this.state.base64);
     console.log(fault);
     
     if(fault != null)
       this.props.AddFaults([{SiteId: this.props.siteId, RoomId: this.props.roomId, ...fault, Worker: this.state.user, Owner: this.props.User}])
     this.props.Close()
+  }
   };
 
   async componentDidMount() {
+    
+
     if (this.props.FaultTypes.length == 0) {
       try {
         const FaultTypes = await SQL.GetFaultTypes();
@@ -108,7 +121,7 @@ class AddFault extends Component {
     return (
       <View style={styles.container}>
 
-
+<Text  style={styles.logo} > הוספת תקלה </Text>
         <Picker
           selectedValue={this.state.faultId}
           itemStyle={{ height: 40, color: "#ffffff" }}
@@ -122,6 +135,7 @@ class AddFault extends Component {
         <TextInput
           style={styles.input}
           placeholder="תיאור התקלה"
+          returnKeyType="done"
           placeholderTextColor="#ECF0F1"
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ faultInfo: text }) }}
@@ -256,6 +270,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 21,
     color: '#ECF0F1',
+  },
+  logo:{
+    color:'white',
+    fontSize: 30,
   }
 
 });

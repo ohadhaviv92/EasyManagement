@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { TextInput, View, Dimensions, StyleSheet, Picker,Image } from 'react-native'
+import { TextInput, View, Dimensions, StyleSheet, Picker,Image,Text } from 'react-native'
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 import SQL from '../../Handlers/SQL';
 import { SetRoomsType, AddRooms } from '../../actions/roomAction';
 import Modal from '../General/Modal'
 import CameraPage from '../General/CameraPage'
-import { ImagePicker,ImageManipulator } from 'expo';
+import { ImagePicker,ImageManipulator,Permissions } from 'expo';
 class AddRoom extends Component {
   state = {
     roomTypes: null,
@@ -28,6 +28,8 @@ class AddRoom extends Component {
   }
 
   _pickImg = async () => {
+    const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+    const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       base64: true,
       allowsEditing: false,
@@ -79,7 +81,7 @@ class AddRoom extends Component {
     return (
       <View style={styles.container}>
 
-
+        <Text  style={styles.logo} > הוספת חדר </Text>
         <Picker
           selectedValue={this.state.roomId}
           itemStyle={{ height: 40, color: "#ffffff" }}
@@ -94,6 +96,7 @@ class AddRoom extends Component {
           style={styles.input}
           placeholder="שם החדר"
           placeholderTextColor="#ECF0F1"
+          returnKeyType="done"
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ roomName: text }) }}
         />
@@ -102,6 +105,7 @@ class AddRoom extends Component {
           placeholder="קומה"
           placeholderTextColor="#ECF0F1"
           keyboardType="numeric"
+          returnKeyType="done"
           underlineColorAndroid="transparent"
           onChangeText={(text) => { this.setState({ floor: text }) }}
         />
@@ -185,6 +189,10 @@ const styles = StyleSheet.create({
     height: 40,
     marginVertical: 5,
     
+  },
+  logo:{
+    color:'white',
+    fontSize: 30,
   }
 
 });

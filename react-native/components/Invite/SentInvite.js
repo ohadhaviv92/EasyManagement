@@ -53,7 +53,7 @@ class SentInvite extends Component {
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}>
-                        <Text style={styles.text}> שם משתמש: {this.props.invite.user.UserName} </Text>
+                        <Text style={styles.text}> משתמש: {this.props.invite.user.UserName} </Text>
                         <Text style={styles.text}> אתר: {this.props.invite.Site.SiteName} </Text>
                         <Icon
                             type="ionicon"
